@@ -17,6 +17,12 @@ export default function RootLayout() {
 
 const theme = createTheme({
   components:{
+    Text:{
+      style:{
+        fontFamily:'SpaceMono',
+        
+      }
+    },
     Button:{
       color:'primary',
     },
@@ -30,6 +36,7 @@ const theme = createTheme({
     primary: '#1ef',
     secondary: '#f1e',
   },
+  
   mode:'light',
 });
 
@@ -40,7 +47,7 @@ function RootLayoutNav() {
     <>
       <ThemeProvider theme={theme} >
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(menu)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
       </ThemeProvider>
