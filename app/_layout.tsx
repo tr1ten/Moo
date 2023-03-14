@@ -2,6 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { ThemeProvider, createTheme } from '@rneui/themed';
+import { Provider } from '../services/auth/provider';
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -19,7 +20,7 @@ const theme = createTheme({
   components:{
     Text:{
       style:{
-        fontFamily:'SpaceMono',
+        fontFamily:'System',
         
       }
     },
@@ -46,10 +47,13 @@ function RootLayoutNav() {
   return (
     <>
       <ThemeProvider theme={theme} >
+        <Provider>
         <Stack>
+          <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
           <Stack.Screen name="(menu)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
+        </Provider>
       </ThemeProvider>
     </>
   );

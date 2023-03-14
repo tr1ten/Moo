@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "599369550483",
+    "project_id": "mooo-c2ad5",
+    "storage_bucket": "mooo-c2ad5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599369550483:android:be2d2ae249f017af82db66",
+        "android_client_info": {
+          "package_name": "com.moo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599369550483-3naa6ikic60pl0tli33r6ru3u3hedi5o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL-SAYa0OTsbW4CyFgE7-elgQUVYscZDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599369550483-3naa6ikic60pl0tli33r6ru3u3hedi5o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
