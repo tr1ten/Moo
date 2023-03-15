@@ -29,12 +29,12 @@ const theme = createTheme({
     },
   },
   lightColors:{
-    primary: '#f0f',
+    primary: 'blue',
     secondary: '#0ff',
     background: '#fff',
   },
   darkColors:{
-    primary: '#1ef',
+    primary: 'blue',
     secondary: '#f1e',
   },
   
