@@ -43,6 +43,7 @@ export default function Signin() {
     event.preventDefault();
     await signInWithEmailAndPassword(mail, password);
     console.log(signUser);
+    signIn();
   };
   return (
     <View style={styles.wrapper}>
