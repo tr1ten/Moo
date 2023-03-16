@@ -9,7 +9,8 @@ import { useFCM } from '../../../services/push_notification';
 export default function TabTwoScreen() {
   return (
     <View>
-      <Text>Hey</Text>
+      <Text
+      >Hey</Text>
     </View>
   );
 }

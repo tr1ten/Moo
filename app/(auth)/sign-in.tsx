@@ -32,16 +32,13 @@ export default function Signin() {
     }
     await createUserWithEmailAndPassword(mail, password);
     setIsRegister(false);
-    // console.log(
-    //   createUserWithEmailAndPassword(
-    //     signupform.email,
-    //     signupform.password
-    //   ).then(process)
-    //   );
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await signInWithEmailAndPassword(mail, password);
+    if(SignError){
+      signIn(signUser);
+    }
     console.log(signUser);
     signIn();
   };

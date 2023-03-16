@@ -18,11 +18,11 @@ const translations = {
  hi,
 };
 
-
 i18next.init({
   lng: getLocales()[0].languageCode, // if you're using a language detector, do not define the lng option
-  debug: true,
   resources: translations,
+  compatibilityJSON: 'v3', //Add this line
+
 });
 
 export function getLanguage() {
