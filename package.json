@@ -34,6 +34,7 @@
     "i18next": "^22.4.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-native": "0.71.3",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.9.0",
