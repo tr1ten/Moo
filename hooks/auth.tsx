@@ -1,15 +1,10 @@
 import { useRouter, useSegments } from "expo-router";
-import React from "react";
-
-const AuthContext = React.createContext(null);
-
-// This hook can be used to access the user info.
-export function useAuth() {
-  return React.useContext(AuthContext);
-}
+import { User, UserProfile } from "firebase/auth";
+import React, { useEffect } from "react";
+import { auth } from "../firebase/firebaseConfig";
 
 // This hook will protect the route access based on user authentication.
-function useProtectedRoute(user) {
+export function useProtectedRoute(user:any) {
   const segments = useSegments();
   const router = useRouter();
 
@@ -28,22 +23,4 @@ function useProtectedRoute(user) {
       router.replace("/");
     }
   }, [user, segments]);
-}
-
-export function Provider(props) {
-  const [user, setAuth] = React.useState(null);
-
-  // useProtectedRoute(user);
-
-  return (
-    <AuthContext.Provider
-      value={{
-        signIn: (user) => setAuth(user),
-        signOut: () => setAuth(null),
-        user,
-      }}
-    >
-      {props.children}
-    </AuthContext.Provider>
-  );
 }

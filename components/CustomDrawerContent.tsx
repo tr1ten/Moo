@@ -5,19 +5,24 @@ import {
   DrawerItem,
 } from "@react-navigation/drawer";
 import { View } from "react-native";
-import { useAuth } from "../services/auth/provider";
+import Profile from "./Profile";
+import { auth } from "../firebase/firebaseConfig";
 
-export default function CustomDrawerContent(props: any) {
-  const { signOut } = useAuth();
+export default function CustomDrawerConternt(props: any) {
   const navigation = props.navigation;
   return (
     <DrawerContentScrollView
+    contentContainerStyle={{
+      justifyContent: "space-between",
+      flex: 1,
 
-    style={{
-      flexDirection: "column-reverse",
     }}
+
     {...props}>
+        <Profile />
         <DrawerItemList {...props} />
+        <View 
+        >
         <DrawerItem
             label="Setting"
             icon={() => (
@@ -30,8 +35,9 @@ export default function CustomDrawerContent(props: any) {
           icon={() => (
             <FontAwesome5 name="sign-out-alt" size={24} color="black" />
           )}
-          onPress={() => signOut()}
+          onPress={() => auth.signOut()}
         />
+        </View>
     </DrawerContentScrollView>
   );
 }

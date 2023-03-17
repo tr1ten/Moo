@@ -4,7 +4,6 @@ import React from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
-import { useAuth } from "../../services/auth/provider";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { color } from "react-native-reanimated";
@@ -15,7 +14,6 @@ export default function Signin() {
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
 
-  const { signIn } = useAuth();
   const [error, setError] = React.useState("");
   const [signInWithEmailAndPassword, signUser, SignLoading, SignError] =
     useSignInWithEmailAndPassword(auth);
@@ -26,7 +24,6 @@ export default function Signin() {
     event.preventDefault();
     if (error) setError("");
     if (password != confirm) {
-      //set an error
       setError("passwords do not match");
       return;
     }
@@ -35,25 +32,34 @@ export default function Signin() {
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signInWithEmailAndPassword(mail, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        setError("password not matched");
-        // console.log(error);
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-    if (signUser) {
-      signIn(signUser);
-      // console.log(signUser);
-    }
+    // signInWithEmailAndPassword(mail, password)
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     const user = userCredential.user;
+    //     // console.log(user);
+    //     // ...
+    //   })
+    //   .catch((error) => {
+    //     setError("password not matched");
+    //     // console.log(error);
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //   });
+    // if (signUser) {
+    //   signIn(signUser);
+    //   // console.log(signUser);
+    // }
     // console.log(signUser);
+    // improve 
+    try{
+
+      await signInWithEmailAndPassword(mail, password);
+    }
+    catch(e){
+      setError("Credentials not matched");
+    }
   };
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.welcomeText}>Welcome To Moo!</Text>
@@ -74,6 +80,7 @@ export default function Signin() {
           )}
           <Text>{error}</Text>
           <Button
+          disabled={loading || SignLoading}
             onPress={isRegiser ? onRegister : onSignIn}
             title={isRegiser ? "Register" : "Sign In"}
           />
