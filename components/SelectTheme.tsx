@@ -19,10 +19,8 @@ const SelectTheme = () => {
   const {t} = useTranslation();
   return (
     <View
-      className="flex flex-row items-center w-2/3 gap-2"
      >
       <Text
-      className=""
       > {t("common:themeSelector")} </Text>
       <DropDownPicker
         open={open}

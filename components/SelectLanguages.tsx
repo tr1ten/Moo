@@ -14,7 +14,7 @@ const SelectLanguages = () => {
   const {t} = useTranslation();
   const [value, setValue] = useState(language);
   return (
-    <View className="z-10 w-2/3 flex-row items-center gap-2">
+    <View >
       <Text > {t("common:languageSelector")} </Text>
       <DropDownPicker
         open={open}
