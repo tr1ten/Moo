@@ -33,7 +33,7 @@ function useProtectedRoute(user) {
 export function Provider(props) {
   const [user, setAuth] = React.useState(null);
 
-  useProtectedRoute(user);
+  // useProtectedRoute(user);
 
   return (
     <AuthContext.Provider

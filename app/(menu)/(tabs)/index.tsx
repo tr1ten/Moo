@@ -8,7 +8,8 @@ import { Text } from '@rneui/themed';
 import { useFCM } from '../../../services/push_notification';
 export default function TabTwoScreen() {
   return (
-    <View>
+    <View
+    >
       <Text
       >Hey</Text>
     </View>
