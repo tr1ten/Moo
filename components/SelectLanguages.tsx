@@ -14,9 +14,13 @@ const SelectLanguages = () => {
   const {t} = useTranslation();
   const [value, setValue] = useState(language);
   return (
-    <View >
+    <View 
+    style={styles.container}
+    >
       <Text > {t("common:languageSelector")} </Text>
       <DropDownPicker
+       closeAfterSelecting
+       closeOnBackPressed
         open={open}
         value={value}
         items={LANGUAGES}
@@ -30,3 +34,12 @@ const SelectLanguages = () => {
 
 
 export default SelectLanguages;
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    zIndex: 100,
+    width: "60%",
+
+    justifyContent: "space-between",
+  }
+})

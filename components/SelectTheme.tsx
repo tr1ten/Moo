@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { View, Text } from "react-native";
 import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
 import { translate } from "../constants/DCSLocalize";
+import { StyleSheet } from "react-native";
 const THEMES = [
   { label: "Light", value: "light" },
   { label: "Dark", value: "dark" },
@@ -19,6 +20,7 @@ const SelectTheme = () => {
   const {t} = useTranslation();
   return (
     <View
+    style={styles.container}
      >
       <Text
       > {t("common:themeSelector")} </Text>
@@ -36,3 +38,11 @@ const SelectTheme = () => {
 };
 
 export default SelectTheme;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    width: "60%",
+    justifyContent: "space-between",
+  }
+})
