@@ -35,12 +35,24 @@ export default function Signin() {
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await signInWithEmailAndPassword(mail, password);
-    if(SignError){
+    signInWithEmailAndPassword(mail, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        setError("password not matched");
+        // console.log(error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+    if (signUser) {
       signIn(signUser);
+      // console.log(signUser);
     }
-    console.log(signUser);
-    signIn();
+    // console.log(signUser);
   };
   return (
     <View style={styles.wrapper}>
@@ -60,7 +72,7 @@ export default function Signin() {
               onChangeText={setConfirm}
             />
           )}
-          <Text style={styles.welcomeText}>{error}</Text>
+          <Text>{error}</Text>
           <Button
             onPress={isRegiser ? onRegister : onSignIn}
             title={isRegiser ? "Register" : "Sign In"}
