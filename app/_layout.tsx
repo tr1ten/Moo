@@ -48,7 +48,7 @@ const theme = createTheme({
 
 function RootLayoutNav() {
   const [user] = useAuthState(auth);
-  // useProtectedRoute(user);
+  useProtectedRoute(user);
   return (
     <>
       <ThemeProvider theme={theme} >
