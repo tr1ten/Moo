@@ -1,7 +1,7 @@
 import {StyleSheet, Text,FlatList, TouchableOpacity, View,Image} from 'react-native';
 import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
-import Customer from '../../../../components/Customer'
+import Customer from '../../../components/Customer'
 import { Link, useRouter,Navigator } from 'expo-router';
 function MyCustomer(){
   const router=useRouter();
@@ -41,8 +41,8 @@ function MyCustomer(){
         renderItem={({item}) =>
           <TouchableOpacity onPress={()=>{
 
-            router.push("/customers/data")
-            router.setParams({name:item.name,area:item.area,dues:`${item.dues}`});
+            router.push("/customer")
+            router.setParams(item as any);
           }
           }>
             <Customer data={item}/>
@@ -52,9 +52,7 @@ function MyCustomer(){
         keyExtractor={(item,i) =>`${i}`}
       />
   )
-  function opendata(){
-    alert("ok")
-  }
+  
 }
 
 export default MyCustomer

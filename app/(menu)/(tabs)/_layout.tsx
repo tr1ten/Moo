@@ -20,7 +20,7 @@ export default function TabLayout() {
       } />,
     }}>
       <Tabs.Screen name="index" options={{title:"Home", tabBarIcon: ({color})=><Entypo name="home" size={24} color={color} /> }}/>
-      <Tabs.Screen name="customers" options={{title:"My Customers", tabBarIcon: ({color})=><Ionicons name="people" size={24} color={color} /> }}/>
+      <Tabs.Screen name="mycustomer" options={{title:"My Customers", tabBarIcon: ({color})=><Ionicons name="people" size={24} color={color} /> }}/>
       <Tabs.Screen name="chat" options={{title:"Chat", tabBarIcon: ({color})=><Entypo name="chat" size={24} color={color} /> }}/>
 
     </Tabs>
