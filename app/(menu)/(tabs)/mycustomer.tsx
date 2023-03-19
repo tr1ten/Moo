@@ -9,29 +9,29 @@ function MyCustomer(){
   [
     {
       image:'https://cdn-icons-png.flaticon.com/512/4128/4128176.png',
-      name:"pratham",
+      name:"Pratham Singh",
       dues:122,
-      area:'faridabad'
+      area:'Faridabad , Haryana'
     },
     {
       image:'https://cdn-icons-png.flaticon.com/512/9763/9763805.png',
-      name:"sushmit",
+      name:"Sushmit Bhalotia",
       dues:100,
-      area:'jhunjunu'
+      area:'Jhunjunu ,Rajashan'
     }
     ,
     {
       image:'https://cdn-icons-png.flaticon.com/512/4128/4128176.png',
-      name:"ranjan",
+      name:"Ranjan Mangla",
       dues:12210,
-      area:'bhuna'
+      area:'bhuna , Hisar'
     }
     ,
     {
       image:'https://cdn-icons-png.flaticon.com/512/9763/9763805.png',
-      name:"anshu",
+      name:"Anshu",
       dues:12210,
-      area:'delhi'
+      area:'Delhi'
     }
     
   ]
