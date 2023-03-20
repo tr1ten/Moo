@@ -1,4 +1,4 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -21,6 +21,13 @@ export default function CustomDrawerConternt(props: any) {
     {...props}>
         <Profile />
         <DrawerItemList {...props} />
+        <DrawerItem 
+            label="My Catalogue"
+            icon={() => (
+              <Entypo name="shop" size={24} color="black" />
+            )}
+            onPress={() => navigation.navigate("MyCatalogue")}
+        />
         <View 
         >
         <DrawerItem
