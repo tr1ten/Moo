@@ -25,7 +25,7 @@ export default function CustomDrawerConternt(props: any) {
         <DrawerItem
           label="My Products"
           icon={() => <FontAwesome5 name="archive" size={24} color="black" />}
-          onPress={() => navigation.navigate("myproducts")}
+          onPress={() => navigation.navigate("MyCatalogue")}
         />
         <DrawerItem
           label="My Customers"
