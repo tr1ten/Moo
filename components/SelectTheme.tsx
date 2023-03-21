@@ -17,13 +17,10 @@ const SelectTheme = () => {
     updateTheme({ mode: value });
   }, [value]);
   const [items, setItems] = useState(THEMES);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-    <View
-    style={styles.container}
-     >
-      <Text
-      > {t("common:themeSelector")} </Text>
+    <View style={styles.container}>
+      <Text style={styles.txt}> {t("common:themeSelector")} </Text>
       <DropDownPicker
         open={open}
         value={value}
@@ -44,5 +41,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "60%",
     justifyContent: "space-between",
-  }
-})
+  },
+  txt: {
+    marginTop: 12,
+  },
+});
