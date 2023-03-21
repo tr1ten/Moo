@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Input, Text } from "@rneui/themed";
-import React from "react";
+import React, { useEffect } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
@@ -15,6 +15,7 @@ export default function Signin() {
   const [confirm, setConfirm] = React.useState("");
 
   const [error, setError] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
   const [signInWithEmailAndPassword, signUser, SignLoading, SignError] =
     useSignInWithEmailAndPassword(auth);
   const [createUserWithEmailAndPassword, user, loading, userError] =
@@ -24,41 +25,29 @@ export default function Signin() {
     event.preventDefault();
     if (error) setError("");
     if (password != confirm) {
-      setError("passwords do not match");
+      setError("Passwords do not match!");
       return;
     }
     await createUserWithEmailAndPassword(mail, password);
-    setIsRegister(false);
+    await signInWithEmailAndPassword(mail, password);
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // signInWithEmailAndPassword(mail, password)
-    //   .then((userCredential) => {
-    //     // Signed in
-    //     const user = userCredential.user;
-    //     // console.log(user);
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     setError("password not matched");
-    //     // console.log(error);
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //   });
-    // if (signUser) {
-    //   signIn(signUser);
-    //   // console.log(signUser);
-    // }
-    // console.log(signUser);
-    // improve 
-    try{
-
-      await signInWithEmailAndPassword(mail, password);
-    }
-    catch(e){
-      setError("Credentials not matched");
-    }
+    // improve
+    await signInWithEmailAndPassword(mail, password);
   };
+  useEffect(() => {
+    if (userError) {
+      setError(userError.message);
+    }
+    if (!userError && SignError) {
+      setError(SignError.message);
+    }
+  }, [SignError, userError]);
+
+  useEffect(() => {
+      setIsLoading( loading || SignLoading);
+  },[loading,SignLoading]);
 
   return (
     <View style={styles.wrapper}>
@@ -69,18 +58,18 @@ export default function Signin() {
         </Card.Title>
         <Card.Divider />
         <View>
-          <Input label="Email" value={mail} onChangeText={setMail} />
-          <Input label="Password" value={password} onChangeText={setPassword} />
+          <Input disabled={isLoading} label="Email" value={mail} onChangeText={setMail} />
+          <Input disabled={isLoading} label="Password" value={password} onChangeText={setPassword} />
           {isRegiser && (
-            <Input
+            <Input disabled={isLoading}
               label="Confirm Password"
               value={confirm}
               onChangeText={setConfirm}
             />
           )}
-          <Text>{error}</Text>
+          <Text style={styles.error}>{error}</Text>
           <Button
-          disabled={loading || SignLoading}
+            loading={isLoading}
             onPress={isRegiser ? onRegister : onSignIn}
             title={isRegiser ? "Register" : "Sign In"}
           />
@@ -100,13 +89,19 @@ export default function Signin() {
 }
 const styles = StyleSheet.create({
   welcomeText: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  error:{
+    color:"red",
+    textAlign:"center",
+    margin: 10
   },
   wrapper: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "lightblue",
   },
   textRegister: {
     color: "navy",

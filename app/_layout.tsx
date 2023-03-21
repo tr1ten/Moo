@@ -7,14 +7,15 @@ import { useProtectedRoute } from "../hooks/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebaseConfig";
 export default function RootLayout() {
+  const [user,loading] = useAuthState(auth);
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
   return (
     <>
-      {!loaded && <SplashScreen />}
-      {loaded && <RootLayoutNav />}
+      {(!loaded || loading) && <SplashScreen />}
+      {loaded && !loading && <RootLayoutNav />}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import {StyleSheet, Text,FlatList, TouchableOpacity, View,Image} from 'react-native';
 import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
-import Customer from '../../../../components/Customer'
+import Customer from '../../../components/Customer'
 import { Link, useRouter,Navigator } from 'expo-router';
 function MyCustomer(){
   const router=useRouter();
@@ -9,29 +9,29 @@ function MyCustomer(){
   [
     {
       image:'https://cdn-icons-png.flaticon.com/512/4128/4128176.png',
-      name:"pratham",
+      name:"Pratham Singh",
       dues:122,
-      area:'faridabad'
+      area:'Faridabad , Haryana'
     },
     {
       image:'https://cdn-icons-png.flaticon.com/512/9763/9763805.png',
-      name:"sushmit",
+      name:"Sushmit Bhalotia",
       dues:100,
-      area:'jhunjunu'
+      area:'Jhunjunu ,Rajashan'
     }
     ,
     {
       image:'https://cdn-icons-png.flaticon.com/512/4128/4128176.png',
-      name:"ranjan",
+      name:"Ranjan Mangla",
       dues:12210,
-      area:'bhuna'
+      area:'bhuna , Hisar'
     }
     ,
     {
       image:'https://cdn-icons-png.flaticon.com/512/9763/9763805.png',
-      name:"anshu",
+      name:"Anshu",
       dues:12210,
-      area:'delhi'
+      area:'Delhi'
     }
     
   ]
@@ -41,8 +41,8 @@ function MyCustomer(){
         renderItem={({item}) =>
           <TouchableOpacity onPress={()=>{
 
-            router.push("/customers/data")
-            router.setParams({name:item.name,area:item.area,dues:`${item.dues}`});
+            router.push("/customer")
+            router.setParams(item as any);
           }
           }>
             <Customer data={item}/>
@@ -52,9 +52,7 @@ function MyCustomer(){
         keyExtractor={(item,i) =>`${i}`}
       />
   )
-  function opendata(){
-    alert("ok")
-  }
+  
 }
 
 export default MyCustomer

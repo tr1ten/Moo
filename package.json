@@ -2,17 +2,18 @@
   "name": "moo",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "mocha */*.test.ts  --require ts-node/register"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
+    "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.0.2",
     "@rneui/base": "^4.0.0-rc.7",
@@ -38,7 +39,9 @@
     "react-firebase-hooks": "^5.1.1",
     "react-i18next": "^12.2.0",
     "react-native": "0.71.3",
+    "react-native-calendars": "^1.1294.0",
     "react-native-dropdown-picker": "^5.4.6",
+    "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-image-picker": "^5.3.1",
     "react-native-reanimated": "~2.14.4",
@@ -49,10 +52,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
     "@types/react": "~18.0.14",
+    "chai": "^4.3.7",
     "jest": "^29.2.1",
     "jest-expo": "~48.0.0",
+    "mocha": "^10.2.0",
     "react-test-renderer": "18.2.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
   "private": true
