@@ -1,17 +1,23 @@
 import {assert,expect} from "chai";
-import {registerUser} from "./user";
+import {fetchSellerCatalog, registerUser} from "./user";
+const fakeIdGenerator = () => Math.floor(Math.random() * 1000000).toString();
+
 describe('test services/user', function() {
-    it('test registerUser seller', async function(done) {
+    it('test registerUser seller', async function() {
         const res = await registerUser(
-            "1000"
+            fakeIdGenerator()
             ,false);
         expect(res).not.null;
-        done()
 
     });
-    it('test registerUser buyer', async function(done) {
-        const res = await registerUser("10001",true);
+    it('test registerUser buyer', async function() {
+        const res = await registerUser(fakeIdGenerator(),true);
         expect(res).not.null;
     });
-    
+    it('test user catalogue fetch', async function() {
+        const res = await registerUser(fakeIdGenerator(),true);
+        expect(res).not.null;
+        const catalog = await fetchSellerCatalog(res.id);
+        expect(catalog).not.null;
+    })
 })

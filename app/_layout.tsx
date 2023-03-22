@@ -1,11 +1,12 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { ThemeProvider, createTheme } from "@rneui/themed";
+import { ThemeProvider, createTheme,Text, Button } from "@rneui/themed";
 import { Provider as LanguageProvider } from "../providers/LanguageProvider";
 import { useProtectedRoute } from "../hooks/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebaseConfig";
+import { View } from "react-native";
 export default function RootLayout() {
   const [user,loading] = useAuthState(auth);
   const [loaded, error] = useFonts({
@@ -28,7 +29,9 @@ const theme = createTheme({
       },
     },
     Button: {
-      color: "primary",
+      style:{
+        backgroundColor: "primary",
+      }
     },
   },
   lightColors: {
@@ -43,6 +46,7 @@ const theme = createTheme({
 
   mode: "light",
 });
+// save button at right side of header
 
 function RootLayoutNav() {
   const [user] = useAuthState(auth);
@@ -58,6 +62,9 @@ function RootLayoutNav() {
             />
             <Stack.Screen name="(menu)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+            <Stack.Screen name="AddItemModal" options={{
+            }}
+            />
           </Stack>
         </LanguageProvider>
       </ThemeProvider>

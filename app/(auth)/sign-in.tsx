@@ -7,6 +7,7 @@ import { Button, Card } from "@rneui/base";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { color } from "react-native-reanimated";
+import { registerUser } from "../../services/user";
 
 export default function Signin() {
   const [isRegiser, setIsRegister] = React.useState(false);
@@ -28,8 +29,13 @@ export default function Signin() {
       setError("Passwords do not match!");
       return;
     }
-    await createUserWithEmailAndPassword(mail, password);
-    await signInWithEmailAndPassword(mail, password);
+    createUserWithEmailAndPassword(mail, password).then((user) => {
+      if(!user) return;
+      registerUser(mail,true); 
+      signInWithEmailAndPassword(mail, password);
+
+    });
+    
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

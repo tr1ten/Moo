@@ -15,3 +15,11 @@ export async function registerUser(id:string,isSeller:boolean){
     })
     return user;
 }
+
+export async function fetchSellerCatalog(id:string){
+    const catalog = await fetch(BASE_URL+`/user/catalogue?userId=${id}`).then((r)=>r.json()).catch((e)=>{
+        console.log("error during fetching catalog",e);
+        return null;
+    })
+    return catalog;
+}

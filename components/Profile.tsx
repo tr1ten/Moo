@@ -9,7 +9,6 @@ import { async } from "@firebase/util";
 const Profile = (props: any) => {
   const navigation = props.navigation;
   const router = useRouter();
-  console.log("here is user");
 
   return (
     <View style={styles.container}>
@@ -20,7 +19,7 @@ const Profile = (props: any) => {
           size="xlarge"
         />
         <Badge
-          status="black"
+          status="primary"
           value=" edit  "
           containerStyle={{ position: "absolute", top: 140, left: 100 }}
           onPress={() => {
