@@ -2,6 +2,7 @@ import {StyleSheet, Text,FlatList, TouchableOpacity, View,Image} from 'react-nat
 import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
 import Customer from '../../../components/Customer'
+import {Stack,Tabs} from 'expo-router';
 import { Link, useRouter,Navigator } from 'expo-router';
 function MyCustomer(){
   const router=useRouter();
@@ -36,21 +37,23 @@ function MyCustomer(){
     
   ]
   return (
-    <FlatList
-        data={arr}
-        renderItem={({item}) =>
-          <TouchableOpacity onPress={()=>{
+    <>
+      <FlatList
+      data={arr}
+          renderItem={({item}) =>
+            <TouchableOpacity onPress={()=>{
 
-            router.push("/customer")
-            router.setParams(item as any);
+              router.push("/customer")
+              router.setParams(item as any);
+            }
+            }>
+              <Customer data={item}/>
+            </TouchableOpacity>
+            
           }
-          }>
-            <Customer data={item}/>
-          </TouchableOpacity>
-          
-        }
-        keyExtractor={(item,i) =>`${i}`}
-      />
+          keyExtractor={(item,i) =>`${i}`}
+        />
+    </>
   )
   
 }
