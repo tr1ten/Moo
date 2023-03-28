@@ -28,7 +28,7 @@ export const CatalogItem = ({item,onDeleteItem}:Props) => {
       </ListItem.Content>
       <ListItem.Chevron 
         onPress={
-          ()=>onDeleteItem(item.id)
+          ()=>onDeleteItem(item.id!)
         }
         name="delete"
         type='ant'

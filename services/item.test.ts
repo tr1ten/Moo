@@ -8,7 +8,7 @@ describe('test services/item', function() {
             {
                 price: 100,
                 capacity: 100,
-                itemTypeId: 1
+                itemTypeId: 1,
             },
             DUMMY_USER
         );
@@ -19,7 +19,7 @@ describe('test services/item', function() {
             {
                 price: 100,
                 capacity: 100,
-                itemTypeId: 1
+                itemTypeId: 1,
             },
             DUMMY_USER
         );

@@ -2,7 +2,7 @@ import { BASE_URL } from "../constants/common";
 
 export type Item = {
     price: number;
-    id: string;
+    id?: string;
     capacity: number;
     itemTypeId : number;
     type?: {
