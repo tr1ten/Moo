@@ -18,14 +18,27 @@ const MyCatalogue = () => {
   }, [user]);
 
   return (
-    <View>
-      <ShowCatalogue items={catalogue ? catalogue.items as Item[] : []} />
+    <View
+    style={
+      {
+        height:"100%",
+        justifyContent:"space-between"
+      }
+    }
+    >
+      <ShowCatalogue ditems={catalogue ? catalogue.items as Item[] : []} />
 
+      <View style={{
+        padding:10
+      }}>
       <FAB
+        placement="right"
         icon={<FontAwesome5 name="plus" size={24} color="white" />}
         title="Add Item"
         onPress={() => navigate.push("/AddItemModal")}
+
       />
+      </View>
     </View>
   );
 };

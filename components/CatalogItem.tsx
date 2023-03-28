@@ -1,12 +1,14 @@
 import { View } from "react-native";
 import React from "react";
-import { Item } from "../services/item";
+import { deleteUserItem, Item } from "../services/item";
 import { Avatar, ListItem, Text } from "@rneui/themed";
 import { StyleSheet } from "react-native";
-
-export const CatalogItem = (item: Item) => {
-  console.log(" Catalogue Item ", item);
-  return (
+type Props = {
+  item:Item,
+  onDeleteItem: (id:string)=>void
+}
+export const CatalogItem = ({item,onDeleteItem}:Props) => {
+  return ( 
     <ListItem>
       <Avatar
         rounded
@@ -18,13 +20,16 @@ export const CatalogItem = (item: Item) => {
         </ListItem.Title>
         
         <ListItem.Subtitle>
-            <Text style={{fontWeight:"bold"}}> Capacity</Text> {item.capacity}
+            <Text style={{fontWeight:"bold"}}> Capacity</Text> {item.capacity}/day
         </ListItem.Subtitle>
         <ListItem.Subtitle>
-            <Text style={{fontWeight:"bold"}}> Price</Text> ₹ {item.price}
+            <Text style={{fontWeight:"bold"}}> Price</Text> ₹ {item.price}/item
         </ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron 
+        onPress={
+          ()=>onDeleteItem(item.id)
+        }
         name="delete"
         type='ant'
         size={25}

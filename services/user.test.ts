@@ -15,7 +15,7 @@ describe('test services/user', function() {
         const res = await registerUser(fakeIdGenerator(),true);
         expect(res).not.null;
     });
-    it.only('test user catalogue fetch', async function() {
+    it('test user catalogue fetch', async function() {
         const catalog = await fetchSellerCatalog(DUMMY_USER);
         expect(catalog).not.null;
     })
