@@ -6,8 +6,9 @@ import { StyleSheet } from "react-native";
 type Props = {
   item:Item,
   onDeleteItem: (id:string)=>void
+  onEditHandler: (id:string)=>void;
 }
-export const CatalogItem = ({item,onDeleteItem}:Props) => {
+export const CatalogItem = ({item,onDeleteItem,onEditHandler}:Props) => {
   return ( 
     <ListItem>
       <Avatar
@@ -27,6 +28,14 @@ export const CatalogItem = ({item,onDeleteItem}:Props) => {
         </ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron 
+        onPress={
+          ()=>onEditHandler(item.id!)
+        }
+        name="edit"
+        type='ant'
+        size={25}
+        color='blue' />
+        <ListItem.Chevron 
         onPress={
           ()=>onDeleteItem(item.id!)
         }

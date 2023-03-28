@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { BASE_URL } from "../constants/common";
 
 export type Item = {
@@ -46,4 +47,8 @@ export function deleteUserItem(itemId:string){
         console.log("error during deleting item",e);
         return null;
     })
+}
+
+export async function itemInfo(itemId:string):Promise<Item>{
+    return fetch(BASE_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
 }

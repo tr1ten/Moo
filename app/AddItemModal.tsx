@@ -2,15 +2,16 @@ import { View } from "react-native";
 import { Button, Card, Input, Text } from "@rneui/themed";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation, useRouter } from "expo-router";
+import { useNavigation, useRouter, useSearchParams } from "expo-router";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet } from "react-native";
 import { getItemTypes } from "../services/common";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebaseConfig";
-import { addUserItem, Catalog, Item } from "../services/item";
+import { addUserItem, Catalog, Item, itemInfo } from "../services/item";
 import { fetchSellerCatalog } from "../services/user";
 const AddItemForm = () => {
+  const {id} = useSearchParams();
   const [itemsType, setItemsType] = React.useState(1);
   const [price, setPrice] = React.useState("");
   const [catalogue, setCatalogue] = React.useState<Catalog>();
@@ -20,8 +21,7 @@ const AddItemForm = () => {
   const [user] = useAuthState(auth);
   const navigate = useRouter();
   const [loading, setLoading] = React.useState(false);
-  console.log('---->',ItemTypes,catalogue);
-  useEffect(() => {
+  useEffect( () => {
     getItemTypes()
       .then((res) =>
         setItemsTypes(
@@ -31,23 +31,33 @@ const AddItemForm = () => {
         )
       )
       .catch((err) => console.log(err));
-  }, []);
-  useEffect(() => {
-    fetchSellerCatalog(user?.email!).then((catalog) => setCatalogue(catalog));
+      fetchSellerCatalog(user?.email!).then((catalog) => setCatalogue(catalog));
   }, []);
   useEffect(() => {
     if (!catalogue) return;
     setItemsTypes(
       ItemTypes.filter((item: any) => {
-        return !catalogue.items.find((i: Item) => i.type?.id === item.value);
+        return !catalogue.items.find((i: Item) => i.id!=id && i.type?.id === item.value);
       })
     );
   }, [catalogue]);
+  useEffect(()=>{
+    if(id){
+      itemInfo(id.toString()).then((item)=>{
+          setPrice(item.price.toString());
+          setcapacity(item.capacity.toString());
+          setItemsType(item.type?.id!);
+
+      })
+
+    }
+  },[id])
   const onSubmit = async () => {
     setLoading(true);
     if (!user) return;
     if (!ItemTypes || !itemsType || !price || !capacity) return;
     const item: Item = {
+      id:id?.toString(),
       price: parseInt(price),
       capacity: parseInt(capacity),
       itemTypeId: itemsType,
@@ -67,6 +77,7 @@ const AddItemForm = () => {
           <Text>Item Type</Text>
           <View style={{ zIndex: 100 }}>
             <DropDownPicker
+            disabled={!!id}
               items={ItemTypes}
               value={itemsType}
               open={open}
@@ -90,7 +101,7 @@ const AddItemForm = () => {
           />
         </View>
         <Card.Divider />
-        <Button loading={loading} onPress={onSubmit} title="Add Item" />
+        <Button loading={loading} onPress={onSubmit} title={(!id ? "Add" : "Update") +  " Item"} />
       </Card>
     </SafeAreaView>
   );
