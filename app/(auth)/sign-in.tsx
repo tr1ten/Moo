@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Input, Text } from "@rneui/themed";
+import { CheckBox, Input, Text } from "@rneui/themed";
 import React, { useEffect } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
@@ -22,6 +22,7 @@ export default function Signin() {
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
+  const [isSeller, setIsSeller] = React.useState(0);
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
@@ -30,12 +31,10 @@ export default function Signin() {
       return;
     }
     createUserWithEmailAndPassword(mail, password).then((user) => {
-      if(!user) return;
-      registerUser(mail,true); 
+      if (!user) return;
+      registerUser(mail, isSeller==1);
       signInWithEmailAndPassword(mail, password);
-
     });
-    
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,8 +51,8 @@ export default function Signin() {
   }, [SignError, userError]);
 
   useEffect(() => {
-      setIsLoading( loading || SignLoading);
-  },[loading,SignLoading]);
+    setIsLoading(loading || SignLoading);
+  }, [loading, SignLoading]);
 
   return (
     <View style={styles.wrapper}>
@@ -64,14 +63,49 @@ export default function Signin() {
         </Card.Title>
         <Card.Divider />
         <View>
-          <Input disabled={isLoading} label="Email" value={mail} onChangeText={setMail} />
-          <Input disabled={isLoading} label="Password" value={password} onChangeText={setPassword} />
+          <Input
+            disabled={isLoading}
+            label="Email"
+            value={mail}
+            onChangeText={setMail}
+          />
+          <Input
+            disabled={isLoading}
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+          />
           {isRegiser && (
-            <Input disabled={isLoading}
-              label="Confirm Password"
-              value={confirm}
-              onChangeText={setConfirm}
-            />
+            <View>
+              <Input
+                disabled={isLoading}
+                label="Confirm Password"
+                value={confirm}
+                onChangeText={setConfirm}
+              />
+              <View
+                style={styles.utype}
+              >
+                <Text 
+                  style={styles.utext}
+                >You are</Text>
+                <CheckBox
+                  checked={isSeller === 0}
+                  onPress={() => setIsSeller(0)}
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle-o"
+                  title={"Seller"}
+                />
+                <CheckBox
+                  checked={isSeller === 1}
+                  onPress={() => setIsSeller(1)}
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle-o"
+                  title={"Buyer"}
+                />
+              </View>
+              
+            </View>
           )}
           <Text style={styles.error}>{error}</Text>
           <Button
@@ -99,10 +133,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  error:{
-    color:"red",
-    textAlign:"center",
-    margin: 10
+  error: {
+    color: "red",
+    textAlign: "center",
+    margin: 10,
   },
   wrapper: {
     flex: 1,
@@ -117,4 +151,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
+  utype: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  utext:{
+    fontSize: 17,
+    fontWeight: "bold",
+  }
 });
