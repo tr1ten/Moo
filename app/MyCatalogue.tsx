@@ -12,9 +12,15 @@ const MyCatalogue = () => {
   const [user] = useAuthState(auth);
   const [catalogue, setCatalogue] = React.useState<Catalog>();
   const navigate = useRouter();
-  React.useEffect(() => {
+  const [refresh, setRefresh] = React.useState(false);
+  const onRefresh = () => {
+    setRefresh(true);
     if (!user) return;
     fetchSellerCatalog(user.email!).then((catalog) => setCatalogue(catalog));
+    setRefresh(false);
+  }
+  React.useEffect(() => {
+    onRefresh();
   }, [user]);
 
   return (
@@ -26,7 +32,10 @@ const MyCatalogue = () => {
       }
     }
     >
-      <ShowCatalogue ditems={catalogue ? catalogue.items as Item[] : []} />
+      <ShowCatalogue 
+      refreshing={refresh}
+      onRefresh={onRefresh}
+      ditems={catalogue ? catalogue.items as Item[] : []} />
 
       <View style={{
         padding:10

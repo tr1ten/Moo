@@ -62,9 +62,8 @@ const AddItemForm = () => {
       capacity: parseInt(capacity),
       itemTypeId: itemsType,
     };
-    console.log("Submitting item", item, user.email);
     addUserItem(item, user.email!)
-      .then(() => navigate.replace("/MyCatalogue"))
+      .then(() => navigate.back())
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };

@@ -28,7 +28,6 @@ export default function CustomerLayout(){
     }
     const[popup,vis]=useState(true)
     const[markedates,changemdates]=useState(marked)
-    console.log(markedates)
     const {name,area,dues,image}=useSearchParams()
     return (
         <>
