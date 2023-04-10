@@ -60,7 +60,14 @@ function RootLayoutNav() {
             <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
             <Stack.Screen name="(menu)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-            <Stack.Screen name="AddItemModal" options={{ }} />
+            <Stack.Screen name="AddItemModal" options={{
+              headerTitle: "Add Item",
+            }}
+            />
+            <Stack.Screen name="MyCatalogue" options={{
+              headerTitle: "My Catalogue",
+            }}
+            />
           </Stack>
         </LanguageProvider>
       </ThemeProvider>
