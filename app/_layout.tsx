@@ -57,7 +57,6 @@ function RootLayoutNav() {
       <ThemeProvider theme={theme}>
         <LanguageProvider>
           <Stack>
-            <Stack.Screen name="(auth)/home" options={{headerShown:false}} />
             <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
             <Stack.Screen name="(menu)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: "modal" }} />
