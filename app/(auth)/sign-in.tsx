@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ImageBackground, TextInput, View } from "react-native";
 import { Input, Text } from "@rneui/themed";
 import React, { useEffect } from "react";
 import { auth } from "../../firebase/firebaseConfig";
@@ -8,9 +8,10 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { color } from "react-native-reanimated";
 import { registerUser } from "../../services/user";
+import Background from "./Background";
 
 export default function Signin() {
-  const [isRegiser, setIsRegister] = React.useState(false);
+  const [isRegiser, setIsRegister] = React.useState(true);
   const [mail, setMail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
@@ -56,48 +57,52 @@ export default function Signin() {
   },[loading,SignLoading]);
 
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.welcomeText}>Welcome To Moo!</Text>
-      <Card>
-        <Card.Title>
-          {isRegiser ? <Text>Register</Text> : <Text>Sign In</Text>}
-        </Card.Title>
-        <Card.Divider />
-        <View>
-          <Input disabled={isLoading} label="Email" value={mail} onChangeText={setMail} />
-          <Input disabled={isLoading} label="Password" value={password} onChangeText={setPassword} />
-          {isRegiser && (
-            <Input disabled={isLoading}
-              label="Confirm Password"
-              value={confirm}
-              onChangeText={setConfirm}
+    <Background>
+      <Text style={styles.welcomeText}>Welcome To</Text>
+      <Text style={styles.Moo}>Moo!</Text>
+      <View style={styles.InBack}>
+        
+        {isRegiser ? <Text style={styles.TopText}>Create a{"\n"}new account</Text> : <Text style={styles.TopText}>Login To Your{"\n"}Account</Text>}  
+
+        <TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Email" value={mail} onChangeText={setMail} placeholderTextColor='#101626' />
+        <TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Password" value={password} onChangeText={setPassword} placeholderTextColor='#101626' />
+        {isRegiser && (<TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Confirm Password" value={confirm} onChangeText={setConfirm} placeholderTextColor='#101626' />)}
+        <Text style={styles.error}>{error}</Text>
+            <Button
+              loading={isLoading}
+              onPress={isRegiser ? onRegister : onSignIn}
+              title={isRegiser ? "Register" : "Sign In"}
             />
-          )}
-          <Text style={styles.error}>{error}</Text>
-          <Button
-            loading={isLoading}
-            onPress={isRegiser ? onRegister : onSignIn}
-            title={isRegiser ? "Register" : "Sign In"}
-          />
-          <Text style={styles.btnText}>
-            Not a member?{" "}
-            <Text
-              style={styles.textRegister}
-              onPress={() => setIsRegister(!isRegiser)}
-            >
-              {isRegiser ? "Sign In" : "Register"}{" "}
+            <Text style={styles.btnText}>
+              {isRegiser?"Already a member ?":"Not a member ?"}{" "}
+            <Text style={styles.textRegister} onPress={() => setIsRegister(!isRegiser)}>
+                {isRegiser ? "Sign In" : "Register"}{" "}
             </Text>
-          </Text>
-        </View>
-      </Card>
-    </View>
+        </Text>
+      </View>
+    </Background>
   );
 }
 const styles = StyleSheet.create({
+  InBack:{
+    backgroundColor:"#DCFFFF",
+    height:750,
+    width:460,
+    borderTopLeftRadius:130,
+    paddingTop:100,
+    alignItems:'center',
+    paddingRight:30,
+  },
   welcomeText: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
-    textAlign: "center",
+    paddingLeft:30,
+    paddingTop:60
+  },
+  Moo:{
+    fontSize: 60,
+    fontWeight: "bold",
+    paddingLeft:30,
   },
   error:{
     color:"red",
@@ -117,4 +122,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
+  TopText:{
+    fontSize:40,
+    color:"#3A4F8A",
+    fontWeight:"bold",
+    paddingBottom:50,
+    textAlign:'center',
+  },
+  FieldStyle:{
+    borderRadius:100,
+    color:'#101626',
+    paddingHorizontal:20,
+    width:"78%",
+    backgroundColor:'rgb(220,220,220)',
+    height:40,
+    marginVertical:20,
+  }
 });
