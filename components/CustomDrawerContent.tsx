@@ -8,6 +8,7 @@ import {
 import { View } from "react-native";
 import Profile from "./Profile";
 import { auth } from "../firebase/firebaseConfig";
+import React from "react";
 
 export default function CustomDrawerConternt(props: any) {
   const navigation = props.navigation;

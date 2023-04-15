@@ -7,6 +7,7 @@ import { useProtectedRoute } from "../hooks/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { View } from "react-native";
+import React from "react";
 export default function RootLayout() {
   const [user,loading] = useAuthState(auth);
   const [loaded, error] = useFonts({
@@ -56,10 +57,7 @@ function RootLayoutNav() {
       <ThemeProvider theme={theme}>
         <LanguageProvider>
           <Stack>
-            <Stack.Screen
-              name="(auth)/sign-in"
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
             <Stack.Screen name="(menu)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: "modal" }} />
             <Stack.Screen name="AddItemModal" options={{

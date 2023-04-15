@@ -1,16 +1,23 @@
-import { View } from "react-native";
 import { CheckBox, Input, Text } from "@rneui/themed";
+import {
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useEffect } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
+
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { color } from "react-native-reanimated";
 import { registerUser } from "../../services/user";
 
 export default function Signin() {
-  const [isRegiser, setIsRegister] = React.useState(false);
+  const [isRegiser, setIsRegister] = React.useState(true);
   const [mail, setMail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
@@ -32,7 +39,7 @@ export default function Signin() {
     }
     createUserWithEmailAndPassword(mail, password).then((user) => {
       if (!user) return;
-      registerUser(mail, isSeller==1);
+      registerUser(mail, isSeller == 1);
       signInWithEmailAndPassword(mail, password);
     });
   };
@@ -83,12 +90,8 @@ export default function Signin() {
                 value={confirm}
                 onChangeText={setConfirm}
               />
-              <View
-                style={styles.utype}
-              >
-                <Text 
-                  style={styles.utext}
-                >You are</Text>
+              <View style={styles.utype}>
+                <Text style={styles.utext}>You are</Text>
                 <CheckBox
                   checked={isSeller === 0}
                   onPress={() => setIsSeller(0)}
@@ -104,7 +107,6 @@ export default function Signin() {
                   title={"Buyer"}
                 />
               </View>
-              
             </View>
           )}
           <Text style={styles.error}>{error}</Text>
@@ -113,25 +115,43 @@ export default function Signin() {
             onPress={isRegiser ? onRegister : onSignIn}
             title={isRegiser ? "Register" : "Sign In"}
           />
-          <Text style={styles.btnText}>
-            Not a member?{" "}
-            <Text
-              style={styles.textRegister}
-              onPress={() => setIsRegister(!isRegiser)}
-            >
-              {isRegiser ? "Sign In" : "Register"}{" "}
-            </Text>
-          </Text>
         </View>
+
+        <Text style={styles.btnText}>
+          {isRegiser ? "Already a member ?" : "Not a member ?"}{" "}
+          <Text
+            style={styles.textRegister}
+            onPress={() => setIsRegister(!isRegiser)}
+          >
+            {isRegiser ? "Sign In" : "Register"}{" "}
+          </Text>
+        </Text>
       </Card>
     </View>
+
+    // </ScrollView>
   );
 }
 const styles = StyleSheet.create({
+  InBack: {
+    backgroundColor: "#DCFFFF",
+    height: 750,
+    width: 460,
+    borderTopLeftRadius: 130,
+    paddingTop: 100,
+    alignItems: "center",
+    paddingRight: 30,
+  },
   welcomeText: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
-    textAlign: "center",
+    paddingLeft: 30,
+    paddingTop: 60,
+  },
+  Moo: {
+    fontSize: 60,
+    fontWeight: "bold",
+    paddingLeft: 30,
   },
   error: {
     color: "red",
@@ -151,13 +171,30 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
+  TopText: {
+    fontSize: 40,
+    color: "#3A4F8A",
+    fontWeight: "bold",
+    paddingBottom: 50,
+    textAlign: "center",
+  },
+  FieldStyle: {
+    borderRadius: 100,
+    color: "#101626",
+    paddingHorizontal: 20,
+    width: "78%",
+    backgroundColor: "rgb(220,220,220)",
+    height: 40,
+    marginVertical: 20,
+  },
   utype: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+    backgroundColor: "rgb(255,255,255)",
   },
-  utext:{
+  utext: {
     fontSize: 17,
     fontWeight: "bold",
-  }
+  },
 });
