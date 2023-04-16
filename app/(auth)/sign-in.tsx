@@ -1,16 +1,23 @@
-import { View } from "react-native";
-import { Input, Text } from "@rneui/themed";
+import { CheckBox, Input, Text } from "@rneui/themed";
+import {
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useEffect } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
+
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { color } from "react-native-reanimated";
 import { registerUser } from "../../services/user";
 
 export default function Signin() {
-  const [isRegiser, setIsRegister] = React.useState(false);
+  const [isRegiser, setIsRegister] = React.useState(true);
   const [mail, setMail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
@@ -22,6 +29,7 @@ export default function Signin() {
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
+  const [isSeller, setIsSeller] = React.useState(0);
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
@@ -30,12 +38,10 @@ export default function Signin() {
       return;
     }
     createUserWithEmailAndPassword(mail, password).then((user) => {
-      if(!user) return;
-      registerUser(mail,true); 
+      if (!user) return;
+      registerUser(mail, isSeller == 1);
       signInWithEmailAndPassword(mail, password);
-
     });
-    
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,8 +58,8 @@ export default function Signin() {
   }, [SignError, userError]);
 
   useEffect(() => {
-      setIsLoading( loading || SignLoading);
-  },[loading,SignLoading]);
+    setIsLoading(loading || SignLoading);
+  }, [loading, SignLoading]);
 
   return (
     <View style={styles.wrapper}>
@@ -64,14 +70,44 @@ export default function Signin() {
         </Card.Title>
         <Card.Divider />
         <View>
-          <Input disabled={isLoading} label="Email" value={mail} onChangeText={setMail} />
-          <Input disabled={isLoading} label="Password" value={password} onChangeText={setPassword} />
+          <Input
+            disabled={isLoading}
+            label="Email"
+            value={mail}
+            onChangeText={setMail}
+          />
+          <Input
+            disabled={isLoading}
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+          />
           {isRegiser && (
-            <Input disabled={isLoading}
-              label="Confirm Password"
-              value={confirm}
-              onChangeText={setConfirm}
-            />
+            <View>
+              <Input
+                disabled={isLoading}
+                label="Confirm Password"
+                value={confirm}
+                onChangeText={setConfirm}
+              />
+              <View style={styles.utype}>
+                <Text style={styles.utext}>You are</Text>
+                <CheckBox
+                  checked={isSeller === 0}
+                  onPress={() => setIsSeller(0)}
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle-o"
+                  title={"Seller"}
+                />
+                <CheckBox
+                  checked={isSeller === 1}
+                  onPress={() => setIsSeller(1)}
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle-o"
+                  title={"Buyer"}
+                />
+              </View>
+            </View>
           )}
           <Text style={styles.error}>{error}</Text>
           <Button
@@ -79,30 +115,48 @@ export default function Signin() {
             onPress={isRegiser ? onRegister : onSignIn}
             title={isRegiser ? "Register" : "Sign In"}
           />
-          <Text style={styles.btnText}>
-            Not a member?{" "}
-            <Text
-              style={styles.textRegister}
-              onPress={() => setIsRegister(!isRegiser)}
-            >
-              {isRegiser ? "Sign In" : "Register"}{" "}
-            </Text>
-          </Text>
         </View>
+
+        <Text style={styles.btnText}>
+          {isRegiser ? "Already a member ?" : "Not a member ?"}{" "}
+          <Text
+            style={styles.textRegister}
+            onPress={() => setIsRegister(!isRegiser)}
+          >
+            {isRegiser ? "Sign In" : "Register"}{" "}
+          </Text>
+        </Text>
       </Card>
     </View>
+
+    // </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  welcomeText: {
-    fontSize: 30,
-    fontWeight: "bold",
-    textAlign: "center",
+  InBack: {
+    backgroundColor: "#DCFFFF",
+    height: 750,
+    width: 460,
+    borderTopLeftRadius: 130,
+    paddingTop: 100,
+    alignItems: "center",
+    paddingRight: 30,
   },
-  error:{
-    color:"red",
-    textAlign:"center",
-    margin: 10
+  welcomeText: {
+    fontSize: 40,
+    fontWeight: "bold",
+    paddingLeft: 30,
+    paddingTop: 60,
+  },
+  Moo: {
+    fontSize: 60,
+    fontWeight: "bold",
+    paddingLeft: 30,
+  },
+  error: {
+    color: "red",
+    textAlign: "center",
+    margin: 10,
   },
   wrapper: {
     flex: 1,
@@ -116,5 +170,31 @@ const styles = StyleSheet.create({
   btnText: {
     textAlign: "center",
     marginTop: 10,
+  },
+  TopText: {
+    fontSize: 40,
+    color: "#3A4F8A",
+    fontWeight: "bold",
+    paddingBottom: 50,
+    textAlign: "center",
+  },
+  FieldStyle: {
+    borderRadius: 100,
+    color: "#101626",
+    paddingHorizontal: 20,
+    width: "78%",
+    backgroundColor: "rgb(220,220,220)",
+    height: 40,
+    marginVertical: 20,
+  },
+  utype: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "rgb(255,255,255)",
+  },
+  utext: {
+    fontSize: 17,
+    fontWeight: "bold",
   },
 });
