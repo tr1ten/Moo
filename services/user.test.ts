@@ -1,6 +1,6 @@
 import {assert,expect} from "chai";
 import { DUMMY_USER } from "./item.test";
-import {fetchSellerCatalog, registerUser} from "./user";
+import {fetchSellerCatalog, getNearbySellerItems, getUser, registerUser} from "./user";
 const fakeIdGenerator = () => Math.floor(Math.random() * 1000000).toString();
 
 describe('test services/user', function() {
@@ -18,5 +18,15 @@ describe('test services/user', function() {
     it('test user catalogue fetch', async function() {
         const catalog = await fetchSellerCatalog(DUMMY_USER);
         expect(catalog).not.null;
+    })
+    it.only('test fetching sellers', async () => {
+        const sellers = await getNearbySellerItems('1');
+        console.log(sellers);
+        expect(sellers).not.null;
+    });
+    it('test user info',async ()=>{
+        const user= await getUser('1');
+        console.log(user,user?.type?.id);
+        expect(user).not.null;
     })
 })
