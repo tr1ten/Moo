@@ -1,7 +1,9 @@
+import { async } from "@firebase/util";
 import { BASE_URL } from "../constants/common";
 
 export type Item = {
     price: number;
+    id?: string;
     capacity: number;
     itemTypeId : number;
     type?: {
@@ -31,4 +33,22 @@ export function addUserItem(item:Item,userId:string){
         console.log("error during adding item",e);
         return null;
     })
+}
+
+export function deleteUserItem(itemId:string){
+    return fetch(BASE_URL+"/item/delete",{
+        method: "post",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            itemId
+        })
+
+    }).then((r)=>r.json()).catch((e)=>{
+        console.log("error during deleting item",e);
+        return null;
+    })
+}
+
+export async function itemInfo(itemId:string):Promise<Item>{
+    return fetch(BASE_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
 }
