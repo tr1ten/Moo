@@ -18,7 +18,6 @@ const Chat: React.FC = (props: any) => {
   const navigation = props.navigation;
 
   useEffect(() => {
-    console.log("everything is perfect");
     const messagesCollection = collection(
       firestore,
       "chat",

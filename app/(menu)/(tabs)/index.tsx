@@ -11,6 +11,9 @@ import { Calendar } from "react-native-calendars";
 import { Dialog } from "@rneui/themed";
 
 import React from "react";
+import { useUser } from "../../../providers/UserProvider";
+import { BUYER } from "../../../constants/common";
+import DisplaySellers from "../../../components/Buyer/DisplaySellers";
 
 export default function TabTwoScreen() {
   const marked = {
@@ -27,6 +30,7 @@ export default function TabTwoScreen() {
     },
   };
   const currdate = getcurrdate();
+  const {user} = useUser();
   function getcurrdate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -69,19 +73,18 @@ export default function TabTwoScreen() {
       </View>
     );
   };
-
+  if(user?.type==BUYER){
+    return (
+      <View>
+        <Text>
+           Welcome UserName!
+        </Text>
+        <DisplaySellers></DisplaySellers>
+      </View>
+    )
+  }
   return (
     <View>
-      {/* <Dialog isVisible={popup} onBackdropPress={() => vis(false)}>
-        <Dialog.Title title="Dis you delivered today's milk" />
-        <Dialog.Button
-          title="YES"
-          onPress={() => {
-            vis(false);
-          }}
-        />
-        <Dialog.Button title="NO" onPress={() => vis(false)} />
-      </Dialog> */}
       <CalenderModal visible={false}></CalenderModal>
       <Calendar
         initialDate="2023-3-1"
