@@ -1,8 +1,10 @@
-import { BASE_URL } from "../constants/common";
 import { User } from "../providers/UserProvider";
+import { async } from "@firebase/util";
+import { API_URL } from "../constants/common";
 
 export type Item = {
     price: number;
+    id?: string;
     capacity: number;
     itemTypeId : number;
     type?: {
@@ -21,7 +23,7 @@ export type Catalog = {
 }
 
 export function addUserItem(item:Item,userId:string){
-    return fetch(BASE_URL+"/item",{
+    return fetch(API_URL+"/item",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(
@@ -36,8 +38,26 @@ export function addUserItem(item:Item,userId:string){
     })
 }
 
+export function deleteUserItem(itemId:string){
+    return fetch(API_URL+"/item/delete",{
+        method: "post",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            itemId
+        })
+
+    }).then((r)=>r.json()).catch((e)=>{
+        console.log("error during deleting item",e);
+        return null;
+    })
+}
+
+export async function itemInfo(itemId:string):Promise<Item>{
+    return fetch(API_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
+}
+
 export function subscribeToItem(quantity: number, itemId: number, userId: string) {
-    return fetch(BASE_URL+"/subscription",{
+    return fetch(API_URL+"/subscription",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(
@@ -54,14 +74,14 @@ export function subscribeToItem(quantity: number, itemId: number, userId: string
 }
 
 export function getAllSubscriptions(userId: string) {
-    return fetch(BASE_URL+"/subscription?userId="+userId).then((r)=>r.json()).catch((e)=>{
+    return fetch(API_URL+"/subscription?userId="+userId).then((r)=>r.json()).catch((e)=>{
         console.log("error during getting subscriptions",e);
         return null;
     });
 }
 
 export function deleteSubscription(subId: number) {
-    return fetch(BASE_URL+"/subscription/",{
+    return fetch(API_URL+"/subscription/",{
         method: "delete",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({subId})
