@@ -25,11 +25,11 @@ export async function fetchSellerCatalog(id:string){
 }
 
 export async function getNearbySellerItems(userId:string){
-    const sellers = await fetch(BASE_URL+`/seller/nearby?userId=${userId}`).then((r)=>r.json()).catch((e)=>{});
+    const sellers = await fetch(API_URL+`/seller/nearby?userId=${userId}`).then((r)=>r.json()).catch((e)=>{});
     return sellers;
 }
 
 export async function getUser(userId:string) {
-    const user = await fetch(BASE_URL+`/user?userId=${userId}`).then((r)=>r.ok && r.json()).catch((e)=>console.log("error while getting user",e));
+    const user = await fetch(API_URL+`/user?userId=${userId}`).then((r)=>r.ok && r.json()).catch((e)=>console.log("error while getting user",e));
     return user;
 }

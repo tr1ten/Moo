@@ -28,7 +28,7 @@ describe('test services/item', function() {
         console.log("item ",res);
         deleteUserItem(res.item.id);
     });
-    it.only('test itemInfo',async function(){
+    it('test itemInfo',async function(){
         const res = await addUserItem(
             {
                 price: 100,
@@ -52,7 +52,7 @@ describe('test services/item', function() {
         console.log("res",res);
         expect(res).not.null;
     });
-    it.only('delete subscription', async function() {
+    it('delete subscription', async function() {
         const res = await deleteSubscription(5);
         console.log("res",res);
         expect(res).not.null;

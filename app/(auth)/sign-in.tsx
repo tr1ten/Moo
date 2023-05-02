@@ -148,7 +148,6 @@ export default function Signin() {
         </Text>
       </Card>
     </View>
-
     // </ScrollView>
   );
 }
