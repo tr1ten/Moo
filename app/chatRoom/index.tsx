@@ -14,18 +14,21 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 const name = "ramlal";
+const [user] = useAuthState(auth);
+const SENDER_ID = user?.uid;
+const RECEIVER_ID = "134";
 const Chat: React.FC = (props: any) => {
   const [messages, setMessages] = React.useState([]);
   const navigation = props.navigation;
 
   useEffect(() => {
     console.log("everything is perfect");
-    const messagesCollection = collection(
-      firestore,
-      "chat",
-      "123456",
-      "message"
-    );
+    let chatId = `${SENDER_ID}_${RECEIVER_ID}`;
+    if (SENDER_ID > RECEIVER_ID) {
+      chatId = `${RECEIVER_ID}_${SENDER_ID}`;
+    }
+
+    const messagesCollection = collection(firestore, "chat", chatId, "message");
     const q = query(messagesCollection, orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -46,14 +49,19 @@ const Chat: React.FC = (props: any) => {
   }, []);
 
   const onSend = React.useCallback((newMessages = []) => {
-    addDoc(collection(firestore, "chat", "123456", "message"), {
+    let chatId = `${SENDER_ID}_${RECEIVER_ID}`;
+    if (SENDER_ID > RECEIVER_ID) {
+      chatId = `${RECEIVER_ID}_${SENDER_ID}`;
+    }
+
+    addDoc(collection(firestore, "chat", chatId, "message"), {
       ...newMessages[0],
       senderid: user?.uid,
       receiverId: user?.providerId,
       createdAt: serverTimestamp(),
     });
   }, []);
-  const [user] = useAuthState(auth);
+
   const { name, area, dues, image } = useSearchParams();
   return (
     <>
