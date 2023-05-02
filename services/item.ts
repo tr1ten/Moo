@@ -1,5 +1,5 @@
 import { async } from "@firebase/util";
-import { BASE_URL } from "../constants/common";
+import { API_URL } from "../constants/common";
 
 export type Item = {
     price: number;
@@ -20,7 +20,7 @@ export type Catalog = {
 }
 
 export function addUserItem(item:Item,userId:string){
-    return fetch(BASE_URL+"/item",{
+    return fetch(API_URL+"/item",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(
@@ -36,7 +36,7 @@ export function addUserItem(item:Item,userId:string){
 }
 
 export function deleteUserItem(itemId:string){
-    return fetch(BASE_URL+"/item/delete",{
+    return fetch(API_URL+"/item/delete",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -50,5 +50,5 @@ export function deleteUserItem(itemId:string){
 }
 
 export async function itemInfo(itemId:string):Promise<Item>{
-    return fetch(BASE_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
+    return fetch(API_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
 }
