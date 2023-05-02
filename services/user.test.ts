@@ -19,7 +19,7 @@ describe('test services/user', function() {
         const catalog = await fetchSellerCatalog(DUMMY_USER);
         expect(catalog).not.null;
     })
-    it.only('test fetching sellers', async () => {
+    it('test fetching sellers', async () => {
         const sellers = await getNearbySellerItems('1');
         console.log(sellers);
         expect(sellers).not.null;

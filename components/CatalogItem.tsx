@@ -5,7 +5,6 @@ import { Avatar, ListItem, Text } from "@rneui/themed";
 import { StyleSheet } from "react-native";
 
 export const CatalogItem = (item: Item) => {
-  console.log(" Catalogue Item ", item);
   return (
     <ListItem>
       <Avatar

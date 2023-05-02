@@ -36,7 +36,6 @@ const AddItemForm = () => {
       itemTypeId: itemsType,
 
     };
-    console.log("Submitting item",item,user.email);
     addUserItem(item,user.email!).then(()=> navigate.replace("/MyCatalogue")).catch(err => console.log(err)).finally(() => setLoading(false));
   }
   return (

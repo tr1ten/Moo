@@ -16,7 +16,6 @@ function DisplaySellers() {
             setLoading(true);
             if(!user?.email) return;
             const items = await getNearbySellerItems(user?.email);
-            console.log("got sellers ",items,user.email);
             setsellerItems(items);
             setLoading(false);
         }
@@ -26,9 +25,11 @@ function DisplaySellers() {
     <View>
         {loading ? <Text>Loading data...</Text> : 
         <ScrollView>
-        {sellerItems.map(
+        {sellerItems ?  sellerItems.map(
             (item,key)=><SellerItem item={item} key={key}/>
-        )}
+        ) : 
+        <Text>No Sellers Found</Text>
+        }
     </ScrollView>
         }
     </View>
