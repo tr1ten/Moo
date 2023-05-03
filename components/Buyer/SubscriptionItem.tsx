@@ -11,7 +11,7 @@ function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:nu
     <ListItem>
     <Avatar
       rounded
-      source={{ uri: sub.item.type?.image }}
+      source={{ uri: sub?.item?.type?.image }}
     />
     <ListItem.Content>
       <ListItem.Title>

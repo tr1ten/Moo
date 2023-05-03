@@ -13,10 +13,14 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
-const name = "ramlal";
+
 const Chat: React.FC = (props: any) => {
   const [messages, setMessages] = React.useState([]);
   const navigation = props.navigation;
+  const [user] = useAuthState(auth);
+  const SENDER_ID = user?.uid;
+  const RECEIVER_ID = "134";
+  const { name, area, dues, image } = useSearchParams();
 
   useEffect(() => {
     const messagesCollection = collection(
@@ -52,8 +56,7 @@ const Chat: React.FC = (props: any) => {
       createdAt: serverTimestamp(),
     });
   }, []);
-  const [user] = useAuthState(auth);
-  const { name, area, dues, image } = useSearchParams();
+
   return (
     <>
       <Stack.Screen options={{ title: `${name}` }}></Stack.Screen>
