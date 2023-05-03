@@ -6,11 +6,14 @@ import { Icon, Slider } from 'react-native-elements';
 import { auth } from '../../firebase/firebaseConfig';
 import { subscribeToItem } from '../../services/item';
 import { ToastAndroid } from 'react-native';
+import { User } from '../../providers/UserProvider';
 
-export type Seller = {
+export type Seller = User & {
     location: string;
     decription: string;
-}
+    userId: string;
+    user:User;
+};
 export type ItemType ={
     id: number;
     label:string;

@@ -92,7 +92,6 @@ export default function TabTwoScreen() {
         markedDates={markedates}
         onDayPress={(day) => {
           setModalVisible(true);
-          console.log("selected day", day);
         }}
       />
     </View>

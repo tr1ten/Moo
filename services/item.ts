@@ -1,6 +1,7 @@
 import { User } from "../providers/UserProvider";
 import { async } from "@firebase/util";
 import { API_URL } from "../constants/common";
+import { Seller } from "../components/Buyer/SellerItem";
 
 export type Item = {
     price: number;
@@ -18,7 +19,7 @@ export type Item = {
 }
 export type Catalog = {
     id: number;
-    seller: User;
+    seller: Seller;
     items: Item[];
 }
 

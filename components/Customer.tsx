@@ -3,20 +3,20 @@ import React, { useState } from 'react'
 import { ListItem } from '@rneui/themed';
 import { Avatar } from '@rneui/base';
 import { useTranslation } from "react-i18next"
-function Customer(prop: { data: {
-  image: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; dues: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; area: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; 
-}; }){
+import { User } from '../providers/UserProvider';
+import { Seller } from './Buyer/SellerItem';
+function Customer(prop: { data: User  }){
     const {t} = useTranslation();
     return (
       <ListItem bottomDivider>
 
         <Avatar
           rounded
-          source={{ uri:prop.data.image }}
+          source={{ uri:prop.data?.image ?? "https://cdn-icons-png.flaticon.com/512/9763/9763805.png" }}
         />
         <ListItem.Content>
-          <ListItem.Title>{prop.data.name}</ListItem.Title>
-          <ListItem.Subtitle>{prop.data.area}</ListItem.Subtitle>
+          <ListItem.Title>{ prop.data.id ??  "Shubh"}</ListItem.Title>
+          <ListItem.Subtitle>{prop.data.location}</ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
     )
