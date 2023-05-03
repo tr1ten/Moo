@@ -79,3 +79,4 @@ dist/
 android/
 
 *.lock
+.env
