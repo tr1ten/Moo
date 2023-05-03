@@ -1,16 +1,21 @@
 import { StyleSheet } from "react-native";
 import { Text, View, Image, Modal, Pressable, Alert } from "react-native";
-
 import { useState, useEffect } from "react";
 import { Button } from "@rneui/themed";
 import { useThemeMode } from "@rneui/themed";
 import { useTheme } from "@rneui/themed";
-//import { Text } from '@rneui/themed';
 import { useFCM } from "../../../services/push_notification";
 import { Calendar } from "react-native-calendars";
 import { Dialog } from "@rneui/themed";
-
+import MyComponent from "../../RenderGraph";
 import React from "react";
+import Scroller from "../../horizontalScroller"
+import ProductScroller from "../../MyProductScroller"
+import TopScroller from "../../TopCarousal"
+import { ScrollView } from "react-native-gesture-handler";
+import * as Font from 'expo-font'
+
+
 
 export default function TabTwoScreen() {
   const marked = {
@@ -38,6 +43,23 @@ export default function TabTwoScreen() {
   const [popup, vis] = useState(true);
   const [markedates, changemdates] = useState(marked);
   const [modalVisible, setModalVisible] = useState(false);
+
+  // const [fontLoaded, setFontLoaded] = useState(false);
+
+  // const fetchFonts = () => {
+  //   return Font.loadAsync({
+  //     'Greetings': require('../../../assets/fonts/SpaceMono-Regular.ttf'),
+  //   });
+  // };
+
+  // const loadFonts = async () => {
+  //   await fetchFonts();
+  //   setFontLoaded(true);
+  // };
+
+  // if (!fontLoaded) {
+  //   return null;
+  // }
 
   const CalenderModal = ({ visible }) => {
     //setModalVisible(visible);
@@ -70,8 +92,11 @@ export default function TabTwoScreen() {
     );
   };
 
+  
+
   return (
-    <View>
+    
+    <ScrollView style={{backgroundColor:"#fcfbf5"}}>
       {/* <Dialog isVisible={popup} onBackdropPress={() => vis(false)}>
         <Dialog.Title title="Dis you delivered today's milk" />
         <Dialog.Button
@@ -82,6 +107,12 @@ export default function TabTwoScreen() {
         />
         <Dialog.Button title="NO" onPress={() => vis(false)} />
       </Dialog> */}
+      <Text style={{fontSize:30,fontFamily:'Arial',color:'#84aac4',paddingLeft:15,paddingBottom:20,paddingTop:20,fontWeight:'bold'}}>Greetings Jai 👋!</Text>
+      <TopScroller/>
+      <Scroller/>
+      <MyComponent text="Weekly Sales"/>
+      <MyComponent text="Weekly Expenses"/>
+      <ProductScroller/>
       <CalenderModal visible={false}></CalenderModal>
       <Calendar
         initialDate="2023-3-1"
@@ -92,7 +123,7 @@ export default function TabTwoScreen() {
           console.log("selected day", day);
         }}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -137,5 +168,18 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  item: {
+    marginRight: 20,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    resizeMode: 'cover',
+  },
+  title: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
