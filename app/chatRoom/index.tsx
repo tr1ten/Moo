@@ -23,13 +23,12 @@ const Chat: React.FC = (props: any) => {
   const { name, area, dues, image } = useSearchParams();
 
   useEffect(() => {
-    console.log("everything is perfect");
-    let chatId = `${SENDER_ID}_${RECEIVER_ID}`;
-    if (SENDER_ID > RECEIVER_ID) {
-      chatId = `${RECEIVER_ID}_${SENDER_ID}`;
-    }
-
-    const messagesCollection = collection(firestore, "chat", chatId, "message");
+    const messagesCollection = collection(
+      firestore,
+      "chat",
+      "123456",
+      "message"
+    );
     const q = query(messagesCollection, orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -50,12 +49,7 @@ const Chat: React.FC = (props: any) => {
   }, []);
 
   const onSend = React.useCallback((newMessages = []) => {
-    let chatId = `${SENDER_ID}_${RECEIVER_ID}`;
-    if (SENDER_ID > RECEIVER_ID) {
-      chatId = `${RECEIVER_ID}_${SENDER_ID}`;
-    }
-
-    addDoc(collection(firestore, "chat", chatId, "message"), {
+    addDoc(collection(firestore, "chat", "123456", "message"), {
       ...newMessages[0],
       senderid: user?.uid,
       receiverId: user?.providerId,

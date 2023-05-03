@@ -14,10 +14,12 @@ import { Button, Card } from "@rneui/base";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { color } from "react-native-reanimated";
-import { registerUser } from "../../services/user";
+import { getUser, registerUser } from "../../services/user";
+import { useUser } from "../../providers/UserProvider";
 
 export default function Signin() {
   const [isRegiser, setIsRegister] = React.useState(true);
+  const {user:dUser, setUser} = useUser();
   const [mail, setMail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
@@ -37,16 +39,34 @@ export default function Signin() {
       setError("Passwords do not match!");
       return;
     }
-    createUserWithEmailAndPassword(mail, password).then((user) => {
+    createUserWithEmailAndPassword(mail, password).then(async (user) => {
       if (!user) return;
-      registerUser(mail, isSeller == 1);
-      signInWithEmailAndPassword(mail, password);
+      await registerUser(mail, isSeller == 1);
+      await signInWithEmailAndPassword(mail, password);
+      const usr = await getUser(mail);
+      setUser({
+        id: mail,
+        location: usr.location,
+        type: usr?.type?.id,
+      })
     });
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // improve
+    const user = await getUser(mail);
+    if(!user) {
+      setError("This user not registered with db");
+      return;
+    }
     await signInWithEmailAndPassword(mail, password);
+    setUser({
+      id: mail,
+      location: user.location,
+      type: user?.type?.id,
+    })
+    
+
   };
   useEffect(() => {
     if (userError) {
@@ -93,15 +113,15 @@ export default function Signin() {
               <View style={styles.utype}>
                 <Text style={styles.utext}>You are</Text>
                 <CheckBox
-                  checked={isSeller === 0}
-                  onPress={() => setIsSeller(0)}
+                  checked={isSeller === 1}
+                  onPress={() => setIsSeller(1)}
                   checkedIcon="dot-circle-o"
                   uncheckedIcon="circle-o"
                   title={"Seller"}
                 />
                 <CheckBox
-                  checked={isSeller === 1}
-                  onPress={() => setIsSeller(1)}
+                  checked={isSeller === 0}
+                  onPress={() => setIsSeller(0)}
                   checkedIcon="dot-circle-o"
                   uncheckedIcon="circle-o"
                   title={"Buyer"}
@@ -128,7 +148,6 @@ export default function Signin() {
         </Text>
       </Card>
     </View>
-
     // </ScrollView>
   );
 }
