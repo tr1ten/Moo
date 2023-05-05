@@ -1,4 +1,4 @@
-import {StyleSheet, Text,FlatList, TouchableOpacity, View,Image} from 'react-native';
+import {StyleSheet, Text,FlatList, TouchableOpacity, View,Image, RefreshControl} from 'react-native';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
 import Customer from '../../../components/Customer'
@@ -6,23 +6,37 @@ import {Stack,Tabs} from 'expo-router';
 import { Link, useRouter,Navigator } from 'expo-router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/firebaseConfig';
-import { getAllSubscriptions } from '../../../services/item';
+import { SubscriptionStatus, getAllSubscriptions } from '../../../services/item';
+import { BuyerSubscription } from './MySubscriptions';
+import { User } from '../../../providers/UserProvider';
+
+export type SellerSubscription = BuyerSubscription & {
+   buyer: {
+      user: User;
+   }
+
+}
 function MyCustomer(){
   const router=useRouter();
-  const [custs,setCusts] = useState();
+  const [custs,setCusts] = useState<SellerSubscription[]>([]);
   const [user] = useAuthState(auth);
-  useEffect(()=>{
+  const [loading,setLoading] = useState<boolean>(false);
+  const updateSubs = async () => {
     if(!user?.email) return;
     getAllSubscriptions(user?.email).then((data)=>{
-        if(!data) return;
-        setCusts(data.map((sub:any)=>{
-            return sub.buyer?.user;
-        }))
-    })
+      if(!data) return;
+      setCusts(data.filter((e:SellerSubscription)=>e.status!=SubscriptionStatus.CANCELLED));
+  })
+  }
+  useEffect(()=>{
+    updateSubs();
   },[])
   return (
     <>
       <FlatList
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={()=>updateSubs()} />
+          }
           data={custs}
           renderItem={({item}) =>
             <TouchableOpacity onPress={()=>{
@@ -31,7 +45,7 @@ function MyCustomer(){
               router.setParams(item as any);
             }
             }>
-              <Customer data={item} />
+              <Customer data={item} onRefresh={updateSubs} />
             </TouchableOpacity>
             
           }

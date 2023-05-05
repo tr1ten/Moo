@@ -9,11 +9,26 @@ import TabHeader from '../../../components/TabHeader';
 import { useUser } from '../../../providers/UserProvider';
 import React from 'react';
 import { BUYER } from '../../../constants/common';
+import { Badge } from 'react-native-elements';
+import { getAllSubscriptions } from '../../../services/item';
+import { SellerSubscription } from './MyCustomers';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../../firebase/firebaseConfig';
 
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const {user} = useUser();
+  const [newSubs, setNewSubs] = React.useState(0);
+  React.useEffect(() => {
+    if(!user?.id) return;
+    getAllSubscriptions(user?.id).then((data)=>{
+      // count subs having status pending
+      if(!data) return;
+      const count = data.filter((item:SellerSubscription)=>item.status==='pending').length;
+      setNewSubs(count);
+    });
+  }, [user] );
   if(user?.type==BUYER){
     return (
       <Tabs screenOptions={{
@@ -34,6 +49,7 @@ export default function TabLayout() {
       </Tabs>
     )
   }
+
   return (
     <Tabs screenOptions={{
       tabBarShowLabel:false,
@@ -44,7 +60,12 @@ export default function TabLayout() {
       } />,
     }}>
       <Tabs.Screen name="index" options={{title:"Home", tabBarIcon: ({color})=><Entypo name="home" size={24} color={color} /> }}/>
-      <Tabs.Screen name="MyCustomers" options={{title:"My Customers", tabBarIcon: ({color})=><Ionicons name="people" size={24} color={color} /> }}/>
+      <Tabs.Screen name="MyCustomers" options={{title:"My Customers", tabBarIcon: ({color})=>{
+        return <>
+        {newSubs ? <Badge status="primary" value={newSubs} containerStyle={{ position: 'relative',bottom:-10,right:-10}}/> : null}
+        <Ionicons name="people" size={24} color={color} /> 
+        </>;
+      }}}/>
       <Tabs.Screen name="MySubscriptions" options={{
            href:null}}/>
       <Tabs.Screen name="chat" options={{title:"Chat", tabBarIcon: ({color})=><Entypo name="chat" size={24} color={color} /> }}/>

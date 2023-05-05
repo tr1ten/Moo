@@ -11,7 +11,6 @@ import { ScreenHeight } from '@rneui/base';
 import { ScreenContainer } from 'react-native-screens';
 import { ScrollView } from 'react-native-gesture-handler';
 export default function CustomerLayout(){
-   
     let arrlst=[
         {
             date:'2023-03-21',
@@ -41,7 +40,6 @@ export default function CustomerLayout(){
             date:'2023-03-21',
             due:101023
         },
-        
     ]
     const {name,area,dues,image,eggs,milk}=useSearchParams()
     return (
@@ -86,7 +84,7 @@ export default function CustomerLayout(){
             <View style={{flex:10}}>
                 <View style={styles.container2}>
                     <View style={styles.child}>
-                        <Text style={styles.text3}>Payments History</Text>
+                        <Text >Payments History</Text>
                     </View>
                 </View>
                 <FlatList style={{flex:1}}

@@ -91,3 +91,19 @@ export function deleteSubscription(subId: number) {
         return null;
     });
 }
+
+export enum SubscriptionStatus {
+    PENDING = "pending",
+    ACTIVE = "active",
+    CANCELLED = "cancelled",
+}
+export function changeSubscriptionStatus(id:string,status:SubscriptionStatus){
+    return fetch(API_URL+"/subscription/status",{
+        method: "post",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id,status})
+    }).then((r)=>r.json()).catch((e)=>{
+        console.log("error during changing subscription status",e);
+        return null;
+    });
+}
