@@ -14,7 +14,6 @@ function MyCustomer(){
   useEffect(()=>{
     if(!user?.email) return;
     getAllSubscriptions(user?.email).then((data)=>{
-        console.log("here your buyers",data);
         if(!data) return;
         setCusts(data.map((sub:any)=>{
             return sub.buyer?.user;

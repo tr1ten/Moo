@@ -5,8 +5,10 @@ import { Avatar } from '@rneui/base';
 import { useTranslation } from "react-i18next"
 import { User } from '../providers/UserProvider';
 import { Seller } from './Buyer/SellerItem';
+import { useRouter } from 'expo-router';
 function Customer(prop: { data: User  }){
     const {t} = useTranslation();
+    const router = useRouter();
     return (
       <ListItem bottomDivider>
 
@@ -17,7 +19,18 @@ function Customer(prop: { data: User  }){
         <ListItem.Content>
           <ListItem.Title>{ prop.data.id ??  "Shubh"}</ListItem.Title>
           <ListItem.Subtitle>{prop.data.location}</ListItem.Subtitle>
+          <ListItem.Subtitle> Paid: XX</ListItem.Subtitle>
         </ListItem.Content>
+        <ListItem.Chevron 
+          name='message'
+          size={24}
+          onPress={
+            () => {
+                router.push("/chatRoom");
+                router.setParams(prop.data as any);
+              }          
+          }
+        />
       </ListItem>
     )
   }
