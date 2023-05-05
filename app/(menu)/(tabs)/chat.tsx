@@ -18,6 +18,13 @@ import { BUYER } from "../../../constants/common";
 import { BuyerSubscription } from "./MySubscriptions";
 import { ListItem } from "@rneui/base";
 import { Avatar } from "react-native-elements";
+function unique(arr: any[]) {
+  // using json
+  return Array.from(new Set(arr.map((item) => JSON.stringify(item)))).map(
+    (item) => JSON.parse(item)
+  );
+
+}
 function MyCustomer() {
   const router = useRouter();
   const [users,setUsers] = useState<User[]>();
@@ -28,13 +35,9 @@ function MyCustomer() {
     getAllSubscriptions(mus?.email).then((data) => {
       if(!data) return;
       if(user?.type===BUYER){
-          setUsers(data.map((item:BuyerSubscription)=>{
-            return item.item.catalogue?.seller?.user;
-          }))
+          setUsers(unique(data.map((item:BuyerSubscription) => item.item.catalogue?.seller.user)));
       }else{
-        setUsers(data.map((item:any)=>{
-          return item.buyer.user;
-        }))
+        setUsers(unique(data.map((item:any) => item.buyer.user)));
       }
     })
   },[]);
