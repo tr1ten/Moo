@@ -18,6 +18,7 @@ import { BUYER } from "../../../constants/common";
 import { BuyerSubscription } from "./MySubscriptions";
 import { ListItem } from "@rneui/base";
 import { Avatar } from "react-native-elements";
+import ChatUser from "../../../components/Chat/ChatUser";
 function unique(arr: any[]) {
   // using json
   return Array.from(new Set(arr.map((item) => JSON.stringify(item)))).map(
@@ -51,7 +52,7 @@ function MyCustomer() {
             router.setParams(item as any);
           }}
         >
-          {ChatUser(item)}
+          {<ChatUser {...item} />}
         </TouchableOpacity>
       )}
       keyExtractor={(item, i) => `${i}`}
@@ -60,17 +61,3 @@ function MyCustomer() {
 }
 
 export default MyCustomer;
-
-function ChatUser(item: User) {
-  return <ListItem>
-    <Avatar rounded source={{
-      uri: item?.image ?? "https://cdn-icons-png.flaticon.com/512/9763/9763805.png"
-
-    }} />
-    <ListItem.Content>
-      <ListItem.Title>{item?.id ?? "Shubh"}</ListItem.Title>
-      <ListItem.Subtitle>{item?.location}</ListItem.Subtitle>
-    </ListItem.Content>
-  </ListItem>;
-}
-
