@@ -1,12 +1,13 @@
 import { CheckBox, Input, Text } from "@rneui/themed";
 import {
   ImageBackground,
+  Keyboard,
   SafeAreaView,
   ScrollView,
   TextInput,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
@@ -17,10 +18,13 @@ import { color } from "react-native-reanimated";
 import { getUser, registerUser } from "../../services/user";
 import { useUser } from "../../providers/UserProvider";
 
+
 export default function Signin() {
   const [isRegiser, setIsRegister] = React.useState(true);
   const {user:dUser, setUser} = useUser();
   const [mail, setMail] = React.useState("");
+  const [Name, setName] = React.useState("");
+  const [Location, setLocation] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
 
@@ -65,7 +69,7 @@ export default function Signin() {
       location: user.location,
       type: user?.type?.id,
     })
-    
+
 
   };
   useEffect(() => {
@@ -78,104 +82,131 @@ export default function Signin() {
   }, [SignError, userError]);
 
   useEffect(() => {
-    setIsLoading(loading || SignLoading);
-  }, [loading, SignLoading]);
+      setIsLoading( loading || SignLoading);
+  },[loading,SignLoading]);
 
+
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const handleFocus = () => {
+    scrollViewRef.current?.setNativeProps({ scrollEnabled: true });
+  };
+
+  const handleBlur = () => {
+    scrollViewRef.current?.setNativeProps({ scrollEnabled: false });
+  }; 
+  
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+  
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.welcomeText}>Welcome To Moo!</Text>
-      <Card>
-        <Card.Title>
-          {isRegiser ? <Text>Register</Text> : <Text>Sign In</Text>}
-        </Card.Title>
-        <Card.Divider />
-        <View>
-          <Input
-            disabled={isLoading}
-            label="Email"
-            value={mail}
-            onChangeText={setMail}
-          />
-          <Input
-            disabled={isLoading}
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-          />
-          {isRegiser && (
-            <View>
-              <Input
-                disabled={isLoading}
-                label="Confirm Password"
-                value={confirm}
-                onChangeText={setConfirm}
-              />
-              <View style={styles.utype}>
-                <Text style={styles.utext}>You are</Text>
-                <CheckBox
-                  checked={isSeller === 1}
-                  onPress={() => setIsSeller(1)}
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle-o"
-                  title={"Seller"}
-                />
-                <CheckBox
-                  checked={isSeller === 0}
-                  onPress={() => setIsSeller(0)}
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle-o"
-                  title={"Buyer"}
-                />
-              </View>
-            </View>
-          )}
-          <Text style={styles.error}>{error}</Text>
-          <Button
-            loading={isLoading}
-            onPress={isRegiser ? onRegister : onSignIn}
-            title={isRegiser ? "Register" : "Sign In"}
-          />
-        </View>
+    <View style={{ flex: 1 }}>
+    <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+            flex: 1,
+            backgroundColor:'#607A00',
+        }}
+        contentContainerStyle={{
+            flexGrow: 1,
+        }} 
+        automaticallyAdjustKeyboardInsets={true}
+        ref={scrollViewRef}
+        scrollEnabled={false}
+        keyboardShouldPersistTaps="handled"
+    >
+      <ImageBackground 
+                source={require("../../assets/images/cow.jpg")} 
+                style={{
+                    width:"100%",
+                    height:"50%",
+                    position:'absolute',
+                    top:0
+                }}
+                imageStyle={{
+                    resizeMode: "cover",
+                }}
+      />
+      <Text style={styles.welcomeText}>Welcome To</Text>
+      <Text style={styles.Moo}>Moo!</Text>
+      <View style={styles.InBack}>        
+        {isRegiser ? <Text style={styles.TopText}>Create a{"\n"}new account</Text> : <Text style={styles.TopText}>Login To Your{"\n"}Account</Text>}  
+        {isRegiser && (<TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Full Name" value={Name} onChangeText={setName} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />)}
+        <TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Email" value={mail} onChangeText={setMail} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />
+        {isRegiser && (<TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="City" value={Location} onChangeText={setLocation} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />)}
+        <TextInput secureTextEntry={true} style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Password" value={password} onChangeText={setPassword} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />
+        {isRegiser && (<TextInput secureTextEntry={true} style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Confirm Password" value={confirm} onChangeText={setConfirm} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />)}
+        {isRegiser && (
+            <View style={styles.utype}>
+              <Text 
+                style={styles.utext}
+              >You are</Text>
+              <CheckBox
+                checked={isSeller === 0}
 
-        <Text style={styles.btnText}>
-          {isRegiser ? "Already a member ?" : "Not a member ?"}{" "}
-          <Text
-            style={styles.textRegister}
-            onPress={() => setIsRegister(!isRegiser)}
-          >
-            {isRegiser ? "Sign In" : "Register"}{" "}
-          </Text>
+                onPress={() => setIsSeller(0)}
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                title={"Seller"}
+              />
+              <CheckBox
+                checked={isSeller === 1}
+                onPress={() => setIsSeller(1)}
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                title={"Buyer"}
+              />
+            </View>
+        )}
+        <Text style={styles.error}>{error}</Text>
+            <Button
+              loading={isLoading}
+              onPress={isRegiser ? onRegister : onSignIn}
+              title={isRegiser ? "Register" : "Sign In"}
+            />
+            <Text style={styles.btnText}>
+              {isRegiser?"Already a member ?":"Not a member ?"}{" "}
+            <Text style={styles.textRegister} onPress={() => setIsRegister(!isRegiser)}>
+                {isRegiser ? "Sign In" : "Register"}{" "}
+            </Text>
         </Text>
-      </Card>
+      </View>
+    </ScrollView>
     </View>
-    // </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  InBack: {
-    backgroundColor: "#DCFFFF",
-    height: 750,
-    width: 460,
-    borderTopLeftRadius: 130,
-    paddingTop: 100,
-    alignItems: "center",
-    paddingRight: 30,
+  InBack:{
+    backgroundColor:"#DCFFFF",
+    height:750,
+    width:460,
+    borderTopLeftRadius:130,
+    paddingTop:20,
+    alignItems:'center',
+    paddingRight:40,
   },
   welcomeText: {
     fontSize: 40,
     fontWeight: "bold",
-    paddingLeft: 30,
-    paddingTop: 60,
+    paddingLeft:30,
+    paddingTop:60
   },
-  Moo: {
+  Moo:{
     fontSize: 60,
     fontWeight: "bold",
-    paddingLeft: 30,
+    paddingLeft:30,
   },
-  error: {
-    color: "red",
-    textAlign: "center",
-    margin: 10,
+  error:{
+    color:"red",
+    textAlign:"center",
+    margin: 10
   },
   wrapper: {
     flex: 1,
@@ -190,30 +221,33 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
-  TopText: {
-    fontSize: 40,
-    color: "#3A4F8A",
-    fontWeight: "bold",
-    paddingBottom: 50,
-    textAlign: "center",
+  TopText:{
+    fontSize:40,
+    color:"#3A4F8A",
+    fontWeight:"bold",
+    paddingBottom:10,
+    textAlign:'center',
   },
-  FieldStyle: {
-    borderRadius: 100,
-    color: "#101626",
-    paddingHorizontal: 20,
-    width: "78%",
-    backgroundColor: "rgb(220,220,220)",
-    height: 40,
-    marginVertical: 20,
+  FieldStyle:{
+    borderRadius:100,
+    color:'#101626',
+    paddingHorizontal:20,
+    width:"78%",
+    backgroundColor:'rgb(220,220,220)',
+    height:40,
+    marginVertical:10,
   },
   utype: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "rgb(255,255,255)",
+    backgroundColor:"#DCFFFF",
   },
-  utext: {
+  utext:{
     fontSize: 17,
     fontWeight: "bold",
+    backgroundColor:"#DCFFFF",
   },
 });
+
+
