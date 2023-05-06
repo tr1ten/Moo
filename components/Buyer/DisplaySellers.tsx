@@ -24,13 +24,12 @@ function DisplaySellers() {
   return (
     <View>
         {loading ? <Text>Loading data...</Text> : 
-        <ScrollView>
-        {sellerItems ?  sellerItems.map(
-            (item,key)=><SellerItem item={item} key={key}/>
-        ) : 
-        <Text>No Sellers Found</Text>
-        }
-    </ScrollView>
+        <FlatList
+            contentContainerStyle={{ paddingBottom: 50 }}
+            data={sellerItems}
+            renderItem={ ({item}) =><SellerItem item={item} />}
+            numColumns={2}
+         />
         }
     </View>
   )

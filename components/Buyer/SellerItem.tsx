@@ -5,7 +5,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Icon, Slider } from 'react-native-elements';
 import { auth } from '../../firebase/firebaseConfig';
 import { subscribeToItem } from '../../services/item';
-import { ToastAndroid } from 'react-native';
+import { ToastAndroid, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { color } from 'react-native-reanimated';
+import { Pressable } from 'react-native';
+import { Test } from 'mocha';
 
 export type Seller = {
     location: string;
@@ -46,73 +50,137 @@ function SellerItem({item}:{item:Item}) {
     }
   };
   return (
-    <ListItem>
-    <Avatar
-      rounded
-      source={{ uri: item.type?.image }}
-    />
-    <ListItem.Content>
-      <ListItem.Title>
-       {item.type?.label}
-      </ListItem.Title>
-      
-      <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.seller?.decription ?? "Rajesh"}
-      </ListItem.Subtitle>
-      <ListItem.Subtitle>
-          <Text style={{fontWeight:"bold"}}> Price</Text> ₹ {item.price} / Ltr
-      </ListItem.Subtitle>
-    </ListItem.Content>
-    <Button
-      onPress={onToggle}
-    >Get Now</Button>
-    <Dialog
-      isVisible={visible}
-      onBackdropPress={onToggle}
-      overlayStyle={
-        {
-          backgroundColor: 'white',
+    <View>
+      <View style={style.container}>
+          <Avatar
+            size={60}
+            avatarStyle={{justifyContent:'center'}}
+            source={{ uri: item.type?.image }}
+          />
+        <View style={style.bottom}>
+          <View>
+            <Text style={style.t1}>
+                {item.type?.label}
+            </Text>
+            <Text style={style.t2}>
+              seller {item.seller?.decription ?? "Rajesh"}
+            </Text>
+            <Text style={style.t3}>
+              ₹ {item.price} / kg 
+            </Text>  
+          </View>    
+          <View>
+              <Pressable onPress={()=>onToggle()}>
+                <View style={style.get}>
+                  <Text style={style.t4}>Get now</Text>
+                </View>
+              </Pressable> 
+          </View>  
+      </View>
+    </View>
+      <Dialog
+        isVisible={visible}
+        onBackdropPress={onToggle}
+        overlayStyle={
+          {
+            backgroundColor: 'white',
+          }
         }
-      }
-    >
-      <Dialog.Title title={item.type.label} />
-      <Text>
-          Quantity : {quantity}
-      </Text>
-      <Text>
-         Approx Cost : {quantity*item.price} Rs
-      </Text>
-      
-      <Slider
-        value={quantity}
-        onValueChange={setQuantity}
-        maximumValue={item.capacity}
-        minimumValue={1}
-        step={1}
-        trackStyle={{ height: 10, backgroundColor: 'transparent' }}
-        thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
-        thumbProps={{
-          children: (
-            <Icon
-              name="favorite"
-              // type="font-awesome"
-              size={12}
-              reverse
-              containerStyle={{ bottom: 12, right: 12 }}
-              color="red"
-            />
-          ),
-        }}
-      />
-      <Dialog.Actions>
-        <Dialog.Button title={<Text>Confirm</Text>} onPress={onSubmit} />
-        <Dialog.Button title={<Text>Cancel</Text>} onPress={onToggle} />
-      </Dialog.Actions>
+      >
+        <Dialog.Title title={item.type.label} />
+        <Text>
+            Quantity : {quantity}
+        </Text>
+        <Text>
+          Approx Cost : {quantity*item.price} Rs
+        </Text>
+        
+        <Slider
+          value={quantity}
+          onValueChange={setQuantity}
+          maximumValue={item.capacity}
+          minimumValue={1}
+          step={1}
+          trackStyle={{ height: 10, backgroundColor: 'transparent' }}
+          thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
+          thumbProps={{
+            children: (
+              <Icon
+                name="favorite"
+                // type="font-awesome"
+                size={12}
+                reverse
+                containerStyle={{ bottom: 12, right: 12 }}
+                color="red"
+              />
+            ),
+          }}
+        />
+        <Dialog.Actions>
+          <Dialog.Button title={<Text>Confirm</Text>} onPress={onSubmit} />
+          <Dialog.Button title={<Text>Cancel</Text>} onPress={onToggle} />
+        </Dialog.Actions>
 
-    </Dialog>
-  </ListItem>
+      </Dialog>
+  </View>
   )
 }
 
-
+const style=StyleSheet.create({
+  container:{
+    padding:10,
+    paddingBottom:15,
+    flexDirection:'column',
+    backgroundColor:"white",
+    borderRadius:20,
+    height:150,
+    width:150,
+    margin:10,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity:  0.17,
+    shadowRadius: 3.05,
+    elevation: 4,
+    justifyContent:'space-between'
+    },
+  bottom:{
+    
+    flexDirection:'row',
+    alignItems:'flex-end',
+    justifyContent:'space-between'
+  }
+  ,
+  t1:{
+    fontSize:15,
+    fontWeight:'900',
+  }
+  ,
+  t2:{
+    fontSize:12,
+    color:'grey',
+    fontStyle:'italic'
+  }
+  ,
+  t3:{
+    fontSize:15,
+    color:'green',
+    fontStyle:'normal'
+  },
+  t4:{
+    fontWeight:'900',
+    fontSize:12,
+    color:'white',
+    fontStyle:'normal'
+  },
+  get:{
+    alignItems:'center',
+    padding:5,
+    backgroundColor:'red',
+    justifyContent:'center',
+    borderRadius:50
+  }
+})
 export default SellerItem

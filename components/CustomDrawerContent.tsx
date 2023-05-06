@@ -5,53 +5,126 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { View } from "react-native";
+import { TouchableOpacity,Text,View,Image ,StyleSheet, Pressable} from "react-native";
 import Profile from "./Profile";
 import { auth } from "../firebase/firebaseConfig";
 import React from "react";
+import { Icon } from '@rneui/themed';
+import { useFonts } from "expo-font";
+import { Positions } from "react-native-calendars/src/expandableCalendar";
 
 export default function CustomDrawerConternt(props: any) {
   const navigation = props.navigation;
+  const [fontsLoaded] = useFonts({
+    'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
+  });
   return (
     <DrawerContentScrollView
       contentContainerStyle={{
         justifyContent: "space-between",
-        flex: 1,
       }}
       {...props}
     >
       <Profile {...props} />
+      <View style={style.welcome}>
+        <Text style={style.welcometext}>HELLO PRATHAM</Text>
+      </View>
       <DrawerItemList {...props} />
-      <View>
-        <DrawerItem
-          label="My Products"
-          icon={() => <FontAwesome5 name="archive" size={24} color="black" />}
-          onPress={() => navigation.navigate("MyCatalogue")}
-        />
-        <DrawerItem
-          label="My Customers"
-          icon={() => <FontAwesome5 name="user" size={24} color="black" />}
-          onPress={() => navigation.navigate("mycustomers")}
-        />
+      <View style={style.box}>
+        <Pressable  onPress={() => navigation.navigate("MyCatalogue")}>
+            <Item
+              name="My Products"
+              iname="bag"
+            />
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate("mycustomers")}>
+          <Item
+            name="My Customers"
+            iname="user"
+          />
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate("changepassword")}>
+          <Item
+            name="Change Password"
+            iname="key"
+          />
+        </Pressable>  
+        <Pressable onPress={() => navigation.navigate("Setting")}>
+          <Item
+            name="Setting"
+            iname="settings"
+          />
+        </Pressable>
+        <Pressable onPress={() => auth.signOut()}>
+          <Item
+            name="SignOut"
+            iname="logout"
+          
+          />
+        </Pressable>
 
-        <DrawerItem
-          label="Change Password"
-          icon={() => <MaterialIcons name="security" size={24} color="black" />}
-          onPress={() => navigation.navigate("changepassword")}
-        />
-        <DrawerItem
-          label="Setting"
-          icon={() => <FontAwesome5 name="cog" size={24} color="black" />}
-          onPress={() => navigation.navigate("Setting")}
-        />
-        <DrawerItem
-          label="SignOut"
-          icon={() => (
-            <FontAwesome5 name="sign-out-alt" size={24} color="black" />
-          )}
-          onPress={() => auth.signOut()}
+      </View>
+      <View style={style.footer}>
+        <Image
+          style={style.footerimage}
+          
+          source={require('./../assets/images/splash.png')}
         />
       </View>
     </DrawerContentScrollView>
+    
   );
 }
+function Item(props :any){
+  return (
+    <TouchableOpacity>
+      <View style={style.item}>
+        <Icon size={20} name={props.iname} type="simple-line-icon"/>
+        <Text style={style.text}>{props.name}</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const style=StyleSheet.create({
+item:{
+  height:50,
+  flexDirection:"row",
+  justifyContent:'flex-start',
+  alignItems:'center',
+  gap:15,
+  padding:10,
+  paddingLeft:20,
+  borderRadius:100,
+  margin:5
+}
+,box:{
+  padding:10
+}
+,text:{
+  fontWeight:'400',
+  fontSize:15,
+  fontFamily:'sans'
+}
+,welcome:{
+  alignItems:'center',
+  justifyContent:'center',
+  paddingTop:20
+}
+,welcometext:{
+  fontSize:20,
+  fontWeight:'500',
+  fontFamily:'sans'
+}
+,footerimage:{
+  justifyContent:"center",
+  height:200,
+  width:250
+}
+,footer:{
+  flexDirection:'row',
+  justifyContent:'flex-start',
+  alignItems:'center',
+ 
+}
+})
