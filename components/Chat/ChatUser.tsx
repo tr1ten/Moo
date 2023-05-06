@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { ListItem, Avatar } from 'react-native-elements';
+import { ListItem, Avatar } from '@rneui/themed';
 import { auth, firestore } from '../../firebase/firebaseConfig';
 import { User } from '../../providers/UserProvider';
-import { Text } from 'react-native-elements';
+import { Text } from '@rneui/themed';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 function ChatUser(item: User) {
     const [user] = useAuthState(auth);

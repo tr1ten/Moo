@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Text } from "react-native-elements";
+import { Text } from "@rneui/themed";
 import {
   Item,
   SubscriptionStatus,
@@ -13,6 +13,7 @@ import { FlatList } from "react-native-gesture-handler";
 import SubscriptionItem from "../../../components/Buyer/SubscriptionItem";
 import { ToastAndroid } from "react-native";
 import { RefreshControl } from "react-native";
+import Placeholder from "../../../components/Placeholder";
 export type BuyerSubscription = {
   id: number;
   quantity: number;
@@ -48,6 +49,9 @@ function MySubscriptions() {
   useEffect(() => {
     updateSubs();
   }, []);
+  if(!subscriptions || !subscriptions.length){
+    return <Placeholder title="You have no subscriptions!" />
+  }
   return (
     <FlatList
     refreshControl={

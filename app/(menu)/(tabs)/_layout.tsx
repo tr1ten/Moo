@@ -9,7 +9,7 @@ import TabHeader from '../../../components/TabHeader';
 import { useUser } from '../../../providers/UserProvider';
 import React from 'react';
 import { BUYER } from '../../../constants/common';
-import { Badge } from 'react-native-elements';
+import { Badge } from '@rneui/themed';
 import { getAllSubscriptions } from '../../../services/item';
 import { SellerSubscription } from './MyCustomers';
 import { useAuthState } from 'react-firebase-hooks/auth';

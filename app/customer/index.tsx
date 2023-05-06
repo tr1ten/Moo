@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { useSearchParams } from 'expo-router';
 import React,{useState} from 'react';
 import { StyleSheet } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import { Avatar } from '@rneui/themed';
 import { FlipInEasyX } from 'react-native-reanimated';
 import { ListItemContent } from '@rneui/base/dist/ListItem/ListItem.Content';
 import { ScreenHeight } from '@rneui/base';

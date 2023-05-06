@@ -7,7 +7,7 @@ import { User } from '../providers/UserProvider';
 import { Seller } from './Buyer/SellerItem';
 import { useRouter } from 'expo-router';
 import { SellerSubscription } from '../app/(menu)/(tabs)/MyCustomers';
-import { Badge, ButtonGroup } from 'react-native-elements';
+import { Badge, ButtonGroup } from '@rneui/themed';
 import { SubscriptionStatus, changeSubscriptionStatus } from '../services/item';
 import { todayString } from 'react-native-calendars/src/expandableCalendar/commons';
 

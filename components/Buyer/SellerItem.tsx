@@ -2,7 +2,7 @@ import { Dialog } from '@rneui/base';
 import { Avatar, Button, Card, ListItem ,Text} from '@rneui/themed'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Icon, Slider } from 'react-native-elements';
+import { Icon, Slider } from '@rneui/themed';
 import { auth } from '../../firebase/firebaseConfig';
 import { Catalog, subscribeToItem } from '../../services/item';
 import { ToastAndroid } from 'react-native';

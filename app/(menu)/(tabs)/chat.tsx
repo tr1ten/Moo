@@ -17,8 +17,9 @@ import { auth } from "../../../firebase/firebaseConfig";
 import { BUYER } from "../../../constants/common";
 import { BuyerSubscription } from "./MySubscriptions";
 import { ListItem } from "@rneui/base";
-import { Avatar } from "react-native-elements";
+import { Avatar } from "@rneui/themed";
 import ChatUser from "../../../components/Chat/ChatUser";
+import Placeholder from "../../../components/Placeholder";
 function unique(arr: any[]) {
   // using json
   return Array.from(new Set(arr.map((item) => JSON.stringify(item)))).map(
@@ -42,6 +43,9 @@ function MyCustomer() {
       }
     })
   },[]);
+  if (!users || !users.length) {
+    return <Placeholder title="No Chats available!" />;
+  }
   return (
     <FlatList
       data={users}
