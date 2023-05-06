@@ -24,7 +24,7 @@ import {
 const MyComponent=(props:any)=>{
     return(
         <View>
-          <Text style={{paddingTop:10,paddingLeft:15,fontSize:30,color:"#0d2b42",fontWeight:'800',fontFamily:"Arial"}}>
+          <Text style={{paddingTop:10,paddingLeft:15,fontSize:30,color:"#0d2b42",fontWeight:'800'}}>
             {props.text}
           </Text>
           <LinearGradient

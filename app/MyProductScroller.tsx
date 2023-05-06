@@ -22,7 +22,7 @@ const MyComponent = (props:any) => {
   );
   return (
     <>
-    <Text style={{paddingTop:30,paddingLeft:15,fontSize:30,color:"#0d2b42",fontWeight:'800',fontFamily:"Arial"}}>My Products</Text>
+    <Text style={{paddingTop:30,paddingLeft:15,fontSize:30,color:"#0d2b42",fontWeight:'800'}}>My Products</Text>
     <LinearGradient
         colors={['#fcfbf5', '#e3e2de']}
         start={[0.5, 0]}

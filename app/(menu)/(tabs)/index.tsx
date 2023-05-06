@@ -118,7 +118,7 @@ export default function TabTwoScreen() {
         />
         <Dialog.Button title="NO" onPress={() => vis(false)} />
       </Dialog> */}
-      <Text style={{fontSize:30,fontFamily:'Arial',color:'#84aac4',paddingLeft:15,paddingBottom:20,paddingTop:20,fontWeight:'bold'}}>Greetings Jai 👋!</Text>
+      <Text style={{fontSize:30,color:'#84aac4',paddingLeft:15,paddingBottom:20,paddingTop:20,fontWeight:'bold'}}>Greetings Jai 👋!</Text>
       <TopScroller/>
       <Scroller/>
       <MyComponent text="Weekly Sales"/>
