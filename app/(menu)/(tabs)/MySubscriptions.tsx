@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Text } from "react-native-elements";
 import {
   Item,
+  SubscriptionStatus,
   deleteSubscription,
   getAllSubscriptions,
 } from "../../../services/item";
@@ -17,6 +18,7 @@ export type BuyerSubscription = {
   quantity: number;
   createdAt: Date;
   item: Item;
+  status: SubscriptionStatus
 };
 function MySubscriptions() {
   const [subscriptions, setSubs] = useState<BuyerSubscription[]>([]);
@@ -44,7 +46,6 @@ function MySubscriptions() {
 
   };
   useEffect(() => {
-    
     updateSubs();
   }, []);
   return (
