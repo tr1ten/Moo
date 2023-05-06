@@ -1,12 +1,14 @@
 import { API_URL } from "../constants/common";
 
-export async function registerUser(id:string,isSeller:boolean){
+export async function registerUser(id:string,isSeller:boolean,name:string,location:string){
     const typeId = isSeller ? 1 : 2;
     const user = await fetch(API_URL+"/user",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             typeId,
+            name,
+            location,
             id
         })
     }).then((r)=>r.json()).catch((e)=>{

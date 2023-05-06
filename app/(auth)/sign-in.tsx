@@ -39,19 +39,26 @@ export default function Signin() {
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
+    if(!Name || !Location || !mail || !password || !confirm) {
+      setError("Please fill all fields");
+      return;
+    }
     if (password != confirm) {
       setError("Passwords do not match!");
       return;
     }
     createUserWithEmailAndPassword(mail, password).then(async (user) => {
       if (!user) return;
-      await registerUser(mail, isSeller == 1);
+      await registerUser(mail, isSeller == 1,Name,Location);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
       setUser({
         id: mail,
         location: usr.location,
+        name: usr.name,
         type: usr?.type?.id,
+        image: usr.image,
+        
       })
     });
   };
@@ -68,6 +75,9 @@ export default function Signin() {
       id: mail,
       location: user.location,
       type: user?.type?.id,
+      name: user.name,
+      image: user.image,
+
     })
 
 

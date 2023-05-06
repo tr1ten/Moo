@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 export type User = {
     id: string,
     location: string,
-    type: number
+    type: number;
+    name: string,
+    image?: string,
 }
 
 const UserContext = React.createContext<{
