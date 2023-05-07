@@ -14,6 +14,7 @@ import SubscriptionItem from "../../../components/Buyer/SubscriptionItem";
 import { ToastAndroid } from "react-native";
 import { RefreshControl } from "react-native";
 import Placeholder from "../../../components/Placeholder";
+import { useIsFocused } from "@react-navigation/native";
 export type BuyerSubscription = {
   id: number;
   quantity: number;
@@ -46,9 +47,11 @@ function MySubscriptions() {
     setLoading(false);
 
   };
+  const isFocused = useIsFocused();
+  
   useEffect(() => {
-    updateSubs();
-  }, []);
+    if(isFocused) {updateSubs();}
+  }, [isFocused]);
   if(!subscriptions || !subscriptions.length){
     return <Placeholder title="You have no subscriptions!" />
   }

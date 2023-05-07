@@ -53,7 +53,7 @@ function Customer(prop: { data: SellerSubscription,onRefresh:()=>void }){
           source={{ uri:prop.data?.buyer?.user?.image ?? "https://cdn-icons-png.flaticon.com/512/9763/9763805.png" }}
         />
         <ListItem.Content>
-          <ListItem.Title>{ prop.data.buyer.user.id}
+          <ListItem.Title>{ prop.data.buyer.user.name ?? prop.data.buyer.user.id}
           {prop.data.status=="pending" && 
             <Badge value={t("Pending")} status="warning" 
             badgeStyle={{

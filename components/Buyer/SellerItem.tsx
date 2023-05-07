@@ -60,7 +60,7 @@ function SellerItem({item}:{item:Item}) {
       </ListItem.Title>
       
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.catalogue?.seller.user?.id}
+      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.catalogue?.seller.user?.name ?? item.catalogue?.seller.user?.id}
       </ListItem.Subtitle>
       <ListItem.Subtitle>
           <Text style={{fontWeight:"bold"}}> Price</Text> ₹ {item.price} / Ltr
