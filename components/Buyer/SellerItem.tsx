@@ -2,15 +2,18 @@ import { Dialog } from '@rneui/base';
 import { Avatar, Button, Card, ListItem ,Text} from '@rneui/themed'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Icon, Slider } from 'react-native-elements';
+import { Icon, Slider } from '@rneui/themed';
 import { auth } from '../../firebase/firebaseConfig';
-import { subscribeToItem } from '../../services/item';
+import { Catalog, subscribeToItem } from '../../services/item';
 import { ToastAndroid } from 'react-native';
+import { User } from '../../providers/UserProvider';
 
-export type Seller = {
+export type Seller = User & {
     location: string;
     decription: string;
-}
+    userId: string;
+    user:User;
+};
 export type ItemType ={
     id: number;
     label:string;
@@ -22,7 +25,7 @@ export type Item = {
     type: ItemType;
     capacity: number;
     price: number;
-    seller: Seller
+    catalogue: Catalog
 }
 
 function SellerItem({item}:{item:Item}) {
@@ -57,7 +60,7 @@ function SellerItem({item}:{item:Item}) {
       </ListItem.Title>
       
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.seller?.decription ?? "Rajesh"}
+      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.catalogue?.seller.user?.id}
       </ListItem.Subtitle>
       <ListItem.Subtitle>
           <Text style={{fontWeight:"bold"}}> Price</Text> ₹ {item.price} / Ltr
