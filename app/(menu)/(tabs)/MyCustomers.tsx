@@ -9,6 +9,7 @@ import { auth } from '../../../firebase/firebaseConfig';
 import { SubscriptionStatus, getAllSubscriptions } from '../../../services/item';
 import { BuyerSubscription } from './MySubscriptions';
 import { User } from '../../../providers/UserProvider';
+import Placeholder from '../../../components/Placeholder';
 
 export type SellerSubscription = BuyerSubscription & {
    buyer: {
@@ -30,7 +31,10 @@ function MyCustomer(){
   }
   useEffect(()=>{
     updateSubs();
-  },[])
+  },[]);
+  if(!custs || !custs.length){
+    return <Placeholder title="No Customers available!" />
+  }
   return (
     <>
       <FlatList
