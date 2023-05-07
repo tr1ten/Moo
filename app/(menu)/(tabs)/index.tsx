@@ -44,25 +44,8 @@ export default function TabTwoScreen() {
   const [markedates, changemdates] = useState(marked);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // const [fontLoaded, setFontLoaded] = useState(false);
-
-  // const fetchFonts = () => {
-  //   return Font.loadAsync({
-  //     'Greetings': require('../../../assets/fonts/SpaceMono-Regular.ttf'),
-  //   });
-  // };
-
-  // const loadFonts = async () => {
-  //   await fetchFonts();
-  //   setFontLoaded(true);
-  // };
-
-  // if (!fontLoaded) {
-  //   return null;
-  // }
 
   const CalenderModal = ({ visible }) => {
-    //setModalVisible(visible);
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -101,16 +84,6 @@ export default function TabTwoScreen() {
   }
   return (
     <ScrollView style={{ backgroundColor: "#fcfbf5" }}>
-      {/* <Dialog isVisible={popup} onBackdropPress={() => vis(false)}>
-        <Dialog.Title title="Dis you delivered today's milk" />
-        <Dialog.Button
-          title="YES"
-          onPress={() => {
-            vis(false);
-          }}
-        />
-        <Dialog.Button title="NO" onPress={() => vis(false)} />
-      </Dialog> */}
       <Text
         style={{
           fontSize: 30,
@@ -133,11 +106,9 @@ export default function TabTwoScreen() {
         markedDates={markedates}
         onDayPress={(day) => {
           setModalVisible(true);
-          // console.log("selected day", day);
         }}
       />
       <MyComponent text="Weekly Sales" />
-      {/* <MyComponent text="Weekly Expenses"/> */}
       <ProductScroller />
     </ScrollView>
   );
