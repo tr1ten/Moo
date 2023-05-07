@@ -4,7 +4,7 @@ import { Pressable, useColorScheme } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, useIsFocused } from '@react-navigation/native';
 import TabHeader from '../../../components/TabHeader';
 import { useUser } from '../../../providers/UserProvider';
 import React from 'react';
@@ -31,7 +31,9 @@ export default function TabLayout() {
   }, [user] );
   if(user?.type==BUYER){
     return (
-      <Tabs screenOptions={{
+      <Tabs 
+
+      screenOptions={{
         tabBarShowLabel:false,
         header: ({ navigation,route }) => <TabHeader title={
           route.name === 'index' ? 'Home' : route.name === 'MySubscriptions' ? 'My Subscriptions' : 'Chat'
@@ -51,7 +53,15 @@ export default function TabLayout() {
   }
 
   return (
-    <Tabs screenOptions={{
+    <Tabs 
+    screenListeners={{
+      tabPress: (e) => {
+        if(e.target && e.target?.toLowerCase().indexOf('mycustomers')>-1){
+            setNewSubs(0);
+          }
+      }
+    }}
+    screenOptions={{
       tabBarShowLabel:false,
       header: ({ navigation,route }) => <TabHeader title={
         route.name === 'index' ? 'Home' : route.name === 'MyCustomers' ? 'My Customers' : 'Chat'
@@ -60,9 +70,14 @@ export default function TabLayout() {
       } />,
     }}>
       <Tabs.Screen name="index" options={{title:"Home", tabBarIcon: ({color})=><Entypo name="home" size={24} color={color} /> }}/>
-      <Tabs.Screen name="MyCustomers" options={{title:"My Customers", tabBarIcon: ({color})=>{
+      <Tabs.Screen 
+      name="MyCustomers" 
+      options={{
+        
+        tabBarBadge:newSubs>0?newSubs:undefined,
+        tabBarBadgeStyle:{backgroundColor:'red'},
+        title:"My Customers", tabBarIcon: ({color})=>{
         return <>
-        {newSubs ? <Badge status="primary" value={newSubs} containerStyle={{ position: 'relative',bottom:-10,right:-10}}/> : null}
         <Ionicons name="people" size={24} color={color} /> 
         </>;
       }}}/>

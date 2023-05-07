@@ -10,6 +10,7 @@ import { SubscriptionStatus, getAllSubscriptions } from '../../../services/item'
 import { BuyerSubscription } from './MySubscriptions';
 import { User } from '../../../providers/UserProvider';
 import Placeholder from '../../../components/Placeholder';
+import { useIsFocused } from '@react-navigation/native';
 
 export type SellerSubscription = BuyerSubscription & {
    buyer: {
@@ -29,9 +30,10 @@ function MyCustomer(){
       setCusts(data.filter((e:SellerSubscription)=>e.status!=SubscriptionStatus.CANCELLED));
   })
   }
+  const isFocused = useIsFocused();
   useEffect(()=>{
     updateSubs();
-  },[]);
+  },[isFocused]);
   if(!custs || !custs.length){
     return <Placeholder title="No Customers available!" />
   }

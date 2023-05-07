@@ -28,7 +28,7 @@ export type Item = {
     catalogue: Catalog
 }
 
-function SellerItem({item}:{item:Item}) {
+function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
   const [visible, setVisible] = useState(false);
   const [user] = useAuthState(auth);
   const onToggle = () => setVisible(!visible);
@@ -46,6 +46,8 @@ function SellerItem({item}:{item:Item}) {
     }
     finally{
       setVisible(false);
+      onRefresh();
+      
     }
   };
   return (
@@ -60,7 +62,7 @@ function SellerItem({item}:{item:Item}) {
       </ListItem.Title>
       
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.catalogue?.seller.user?.id}
+      <Text style={{fontWeight:"bold"}}> Sold By</Text>  {item.catalogue?.seller.user?.name ?? item.catalogue?.seller.user?.id}
       </ListItem.Subtitle>
       <ListItem.Subtitle>
           <Text style={{fontWeight:"bold"}}> Price</Text> ₹ {item.price} / Ltr

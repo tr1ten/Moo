@@ -20,6 +20,7 @@ import { ListItem } from "@rneui/base";
 import { Avatar } from "@rneui/themed";
 import ChatUser from "../../../components/Chat/ChatUser";
 import Placeholder from "../../../components/Placeholder";
+import { useIsFocused } from "@react-navigation/native";
 function unique(arr: any[]) {
   // using json
   return Array.from(new Set(arr.map((item) => JSON.stringify(item)))).map(
@@ -32,6 +33,8 @@ function MyCustomer() {
   const [users,setUsers] = useState<User[]>();
   const [mus] = useAuthState(auth);
   const {user} = useUser();
+  const isFocused = useIsFocused();
+  
   useEffect(() => {
     if(!mus?.email) return;
     getAllSubscriptions(mus?.email).then((data) => {
@@ -42,7 +45,7 @@ function MyCustomer() {
         setUsers(unique(data.map((item:any) => item.buyer.user)));
       }
     })
-  },[]);
+  },[isFocused]);
   if (!users || !users.length) {
     return <Placeholder title="No Chats available!" />;
   }
