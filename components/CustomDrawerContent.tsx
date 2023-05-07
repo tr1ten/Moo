@@ -25,7 +25,9 @@ export default function CustomDrawerConternt(props: any) {
       }}
       {...props}
     >
+      
       <Profile {...props} />
+      
       <View style={style.welcome}>
         <Text style={style.welcometext}>HELLO PRATHAM</Text>
       </View>
@@ -77,12 +79,10 @@ export default function CustomDrawerConternt(props: any) {
 }
 function Item(props :any){
   return (
-    <TouchableOpacity>
       <View style={style.item}>
         <Icon size={20} name={props.iname} type="simple-line-icon"/>
         <Text style={style.text}>{props.name}</Text>
       </View>
-    </TouchableOpacity>
   )
 }
 
@@ -127,4 +127,5 @@ item:{
   alignItems:'center',
  
 }
+
 })
