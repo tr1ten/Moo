@@ -12,30 +12,26 @@ import React from "react";
 import { useUser } from "../../../providers/UserProvider";
 import { BUYER } from "../../../constants/common";
 import DisplaySellers from "../../../components/Buyer/DisplaySellers";
-import Scroller from "../../horizontalScroller"
-import ProductScroller from "../../MyProductScroller"
-import TopScroller from "../../TopCarousal"
+import Scroller from "../../horizontalScroller";
+import ProductScroller from "../../MyProductScroller";
+import TopScroller from "../../TopCarousal";
 import { ScrollView } from "react-native-gesture-handler";
-import * as Font from 'expo-font'
-
-
+import * as Font from "expo-font";
 
 export default function TabTwoScreen() {
   const marked = {
-    "2023-03-20": { marked: true },
-    "2023-03-1": {
-      selected: true,
-      selectedColor: "white",
-      selectedTextColor: "red",
+    // "2023-03-21": { marked: true },
+    "2023-05-21": {
+      selectedDotColor: "yellow",
     },
-    "2023-03-18": {
+    "2023-05-28": {
       marked: true,
       selected: true,
       selectedTextColor: "green",
     },
   };
   const currdate = getcurrdate();
-  const {user} = useUser();
+  const { user } = useUser();
   function getcurrdate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -95,19 +91,16 @@ export default function TabTwoScreen() {
       </View>
     );
   };
-  if(user?.type==BUYER){
+  if (user?.type == BUYER) {
     return (
       <View>
-        <Text>
-           Welcome UserName!
-        </Text>
+        <Text>Welcome UserName!</Text>
         <DisplaySellers></DisplaySellers>
       </View>
-    )
+    );
   }
   return (
-    
-    <ScrollView style={{backgroundColor:"#fcfbf5"}}>
+    <ScrollView style={{ backgroundColor: "#fcfbf5" }}>
       {/* <Dialog isVisible={popup} onBackdropPress={() => vis(false)}>
         <Dialog.Title title="Dis you delivered today's milk" />
         <Dialog.Button
@@ -118,22 +111,34 @@ export default function TabTwoScreen() {
         />
         <Dialog.Button title="NO" onPress={() => vis(false)} />
       </Dialog> */}
-      <Text style={{fontSize:30,color:'#84aac4',paddingLeft:15,paddingBottom:20,paddingTop:20,fontWeight:'bold'}}>Greetings Jai 👋!</Text>
-      <TopScroller/>
-      <Scroller/>
-      <MyComponent text="Weekly Sales"/>
-      <MyComponent text="Weekly Expenses"/>
-      <ProductScroller/>
+      <Text
+        style={{
+          fontSize: 30,
+          color: "#84aac4",
+          paddingLeft: 15,
+          paddingBottom: 20,
+          paddingTop: 20,
+          fontWeight: "bold",
+        }}
+      >
+        Greetings Jai 👋!
+      </Text>
+
+      <TopScroller />
+      <Scroller />
       <CalenderModal visible={false}></CalenderModal>
       <Calendar
-        initialDate="2023-3-1"
+        initialDate="2023-5-1"
         disableAllTouchEventsForDisabledDays={true}
         markedDates={markedates}
         onDayPress={(day) => {
           setModalVisible(true);
-          console.log("selected day", day);
+          // console.log("selected day", day);
         }}
       />
+      <MyComponent text="Weekly Sales" />
+      {/* <MyComponent text="Weekly Expenses"/> */}
+      <ProductScroller />
     </ScrollView>
   );
 }
@@ -186,11 +191,11 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   title: {
     marginTop: 10,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
