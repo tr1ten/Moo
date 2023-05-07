@@ -19,7 +19,7 @@ function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:nu
       </ListItem.Title>
       
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Seller:</Text>  {sub.item.catalogue?.seller.user.id}
+      <Text style={{fontWeight:"bold"}}> Seller:</Text>  {sub.item.catalogue?.seller.user.name ?? sub.item.catalogue?.seller.user.id}
       </ListItem.Subtitle>
       <ListItem.Subtitle>
       <Text style={{fontWeight:"bold"}}> Qty:</Text>  {sub.quantity}
