@@ -3,30 +3,45 @@ import SalesStat from "../../app/SalesStat";
 import ProductScroller from "../../app/MyProductScroller";
 import TopScroller from "../../app/TopCarousal";
 import { Calendar } from "react-native-calendars";
-import WeeklySales from "../../app/RenderGraph";
+import MonthlySales from "../../app/MonthlySales";
 import { View, Modal, Alert, Pressable } from "react-native";
 import { useUser } from "../../providers/UserProvider";
 import { Text } from "@rneui/themed";
 import { StyleSheet } from "@bacons/react-views";
 import { SubscriptionStatus, getAllSubscriptions } from "../../services/item";
 import { SellerSubscription } from "../../app/(menu)/(tabs)/MyCustomers";
+import { useIsFocused } from "@react-navigation/native";
+import { MarkedDates } from "react-native-calendars/src/types";
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      strokeWidth: 2, // optional
+    },
+  ],
+};
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
 
+  "Oct",
+  "Nov",
+  "Dec",
+]
 export type Stat = {
     ratings: number,
     revenue: number,
     subscribers:number,
 }
 function SellerHome() {
-  const marked = {
-    "2023-05-21": {
-      selectedDotColor: "yellow",
-    },
-    "2023-05-28": {
-      marked: true,
-      selected: true,
-      selectedTextColor: "green",
-    },
-  };
   const currdate = getcurrdate();
   function getcurrdate() {
     const today = new Date();
@@ -36,9 +51,10 @@ function SellerHome() {
     const curr = yyyy + "-" + mm + "-" + dd;
     return curr;
   }
-  const [markedates, changemdates] = useState(marked);
+  const [markedates, setMarkedDates] = useState<MarkedDates>();
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [monthlySales, setMonthlySales] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
+  
   const CalenderModal = () => {
     return (
       <View style={styles.centeredView}>
@@ -73,6 +89,7 @@ function SellerHome() {
     revenue: 0,
     subscribers:0,
   });
+  const isFocused = useIsFocused();
   const {user} = useUser();
   useEffect(() =>  {
     if(!user?.id) return;
@@ -80,14 +97,37 @@ function SellerHome() {
         // count the number of subscribers
         const stats = {
           ratings: 3,
-          revenue: data.reduce((acc, curr) => acc + curr.status==SubscriptionStatus.ACTIVE ? (curr.item.price*curr.quantity) : 0, 0),
-          subscribers: data.reduce((acc, curr) => acc + curr.status==SubscriptionStatus.ACTIVE ? 1 : 0, 0),
+          revenue: data.reduce((acc, curr) => acc + (curr.status==SubscriptionStatus.ACTIVE ? (curr.item.price*curr.quantity) : 0), 0),
+          subscribers: data.reduce((acc, curr) => acc +( curr.status==SubscriptionStatus.ACTIVE ? 1 : 0), 0),
         }
         setStats(stats);
+        // monthly sales
+        const monthlySales = data.reduce((acc, curr) => {
+          const month = new Date(curr.createdAt).getMonth();
+          acc[month] += curr.status==SubscriptionStatus.ACTIVE ? (curr.item.price*curr.quantity) : 0;
+          return acc;
+        }
+        , [0,0,0,0,0,0,0,0,0,0,0,0]);
+        setMonthlySales(monthlySales);
+      });
+      setMarkedDates({
         
+        [getcurrdate()]: {
+          selected: true,
+        },
+        "2021-05-09": {
+          textColor: "green",
+          
+        },
+        "2021-05-08": {
+          textColor: "red",
+          color: "green",
+          marked: true,
+          
+        }
       })
-  }, [user])
-  
+      
+  }, [user,isFocused])
   return (
     <>
       <TopScroller />
@@ -101,7 +141,22 @@ function SellerHome() {
           setModalVisible(true);
         }}
       />
-      <WeeklySales text="Weekly Sales" />
+      <MonthlySales text="Your Sales" data={
+        {
+          // show last 3 months from current month
+          labels: (new Array(3).fill(0).map((_, i) => {
+            const month = new Date().getMonth() - i;
+            return MONTHS[month < 0 ? 12 + month : month];
+          })).reverse(),
+          datasets: [{
+            data:(new Array(3).fill(0).map((_, i) => {
+              const month = new Date().getMonth() - i;
+              return monthlySales[month < 0 ? 12 + month : month];
+            })).reverse(),
+            strokeWidth: 2
+          }]
+        }
+      }/>
       <ProductScroller />
     </>
   );

@@ -51,7 +51,7 @@ const ProductScoller = (props: any) => {
           fontWeight: "800",
         }}
       >
-        My Products
+        Your Products
       </Text>
       <LinearGradient
         colors={["#EBF0F7", "#e3e2de"]}

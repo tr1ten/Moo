@@ -3,24 +3,11 @@ import React from "react";
 import { Dimensions, Text, View } from "react-native";
 import {
   LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
 } from "react-native-chart-kit";
 
-const line = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-      strokeWidth: 2, // optional
-    },
-  ],
-};
 
-const WeeklySales = (props: any) => {
+
+const MonthlySales = ({text,data}: any) => {
   return (
     <View>
       <Text
@@ -32,7 +19,7 @@ const WeeklySales = (props: any) => {
           fontWeight: "800",
         }}
       >
-        {props.text}
+        {text}
       </Text>
       <LinearGradient
         colors={["#fcfbf5", "#e3e2de"]}
@@ -40,7 +27,7 @@ const WeeklySales = (props: any) => {
         end={[0.5, 1]}
       >
         <LineChart
-          data={line}
+          data={data}
           width={Dimensions.get("window").width - 20} // from react-native
           height={220}
           yAxisLabel={"$"}
@@ -70,4 +57,4 @@ const WeeklySales = (props: any) => {
   );
 };
 
-export default WeeklySales;
+export default MonthlySales;

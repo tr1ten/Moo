@@ -18,11 +18,10 @@ import SellerHome from "../../../components/Seller/SellerHome";
 export default function TabTwoScreen() {
   const { user } = useUser();
   if(!user) return;
-  console.log("user type ",user);
   if (user?.type == BUYER) {
     return (
       <View>
-        <Text>Welcome UserName!</Text>
+        <Text>Welcome {user.name}</Text>
         <DisplaySellers></DisplaySellers>
       </View>
     );

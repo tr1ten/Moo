@@ -28,11 +28,15 @@ const SalesStat = ({stats}:Props) => {
       </View>
     </View>
   );
-  let ratingStars = "";
-  while (stats?.ratings) {
-    ratingStars +="⭐"
-    stats.ratings--;
-  }
+  const [ratingStars, setRatingStars] = useState<string>("");
+  useEffect(() => {
+    if(!stats) return;
+    let rs = "";
+    for (let i = 0; i < stats?.ratings; i++) {
+      rs += "⭐";
+    }
+    setRatingStars(rs);
+  },[stats])
   return (
     <>
       <Text
