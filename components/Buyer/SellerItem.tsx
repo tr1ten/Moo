@@ -10,7 +10,7 @@ import { StyleSheet } from 'react-native';
 import { color } from 'react-native-reanimated';
 import { Pressable } from 'react-native';
 import { Test } from 'mocha';
-
+import { useFonts } from 'expo-font';
 export type Seller = {
     location: string;
     decription: string;
@@ -30,6 +30,9 @@ export type Item = {
 }
 
 function SellerItem({item}:{item:Item}) {
+  const [fontsLoaded] = useFonts({
+    'sans': require('./../../assets/fonts/ProductSans-Regular.ttf'),
+  });
   const [visible, setVisible] = useState(false);
   const [user] = useAuthState(auth);
   const onToggle = () => setVisible(!visible);
@@ -52,11 +55,14 @@ function SellerItem({item}:{item:Item}) {
   return (
     <View>
       <View style={style.container}>
+          
+        <View style={{marginLeft:10,marginTop:10}}>
           <Avatar
-            size={60}
+            size={120}
             avatarStyle={{justifyContent:'center'}}
             source={{ uri: item.type?.image }}
           />
+        </View>
         <View style={style.bottom}>
           <View>
             <Text style={style.t1}>
@@ -69,14 +75,15 @@ function SellerItem({item}:{item:Item}) {
               ₹ {item.price} / kg 
             </Text>  
           </View>    
-          <View>
-              <Pressable onPress={()=>onToggle()}>
-                <View style={style.get}>
-                  <Text style={style.t4}>Get now</Text>
-                </View>
-              </Pressable> 
-          </View>  
+          
       </View>
+      <View style={style.get}>
+          <Pressable onPress={()=>onToggle()}>
+            <View >
+              <Text style={style.t4}>Add Item</Text>
+            </View>
+          </Pressable> 
+      </View>  
     </View>
       <Dialog
         isVisible={visible}
@@ -128,59 +135,59 @@ function SellerItem({item}:{item:Item}) {
 
 const style=StyleSheet.create({
   container:{
-    padding:10,
-    paddingBottom:15,
+    paddingBottom:0,
     flexDirection:'column',
     backgroundColor:"white",
-    borderRadius:20,
-    height:150,
+    borderRadius:10,
     width:150,
     margin:10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity:  0.17,
-    shadowRadius: 3.05,
-    elevation: 4,
+    gap:5,
     justifyContent:'space-between'
     },
   bottom:{
-    
-    flexDirection:'row',
-    alignItems:'flex-end',
+    marginLeft:10,
+    gap:5,
+    flexDirection:'column',
+    alignItems:'flex-start',
     justifyContent:'space-between'
   }
   ,
   t1:{
+    fontFamily:'sans',
     fontSize:15,
     fontWeight:'900',
   }
   ,
   t2:{
+    fontFamily:'sans',
     fontSize:12,
     color:'grey',
     fontStyle:'italic'
   }
   ,
   t3:{
+    fontFamily:'sans',
     fontSize:15,
     color:'green',
     fontStyle:'normal'
   },
   t4:{
+    fontFamily:'sans',
     fontWeight:'900',
-    fontSize:12,
-    color:'white',
+    fontSize:15,
+    color:"black",
     fontStyle:'normal'
   },
   get:{
+    padding:3,
+    borderTopLeftRadius:0,
+    borderTopRightRadius:0,
+    borderRadius:10,
+    borderWidth:1,
+    borderColor:'black',
     alignItems:'center',
-    padding:5,
-    backgroundColor:'red',
+    width:150,
     justifyContent:'center',
-    borderRadius:50
   }
 })
 export default SellerItem

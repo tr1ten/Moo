@@ -14,6 +14,7 @@ import { BUYER } from '../../../constants/common';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const {user} = useUser();
+
   if(user?.type==BUYER){
     return (
       <Tabs screenOptions={{
