@@ -5,13 +5,17 @@ import { Button } from "@rneui/themed";
 import { useThemeMode } from "@rneui/themed";
 import { useTheme } from "@rneui/themed";
 import { useFCM } from "../services/push_notification";
-import { Calendar } from "react-native-calendars";
 import { Dialog } from "@rneui/themed";
 import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
+import { number } from "yargs";
+import { Stat } from "../components/Seller/SellerHome";
 
-const MyComponent = (props: any) => {
+type Props = {
+  stats: Stat | undefined
+}
+const SalesStat = ({stats}:Props) => {
   const CarouselItem = ({ title, image }: any) => (
     <View style={{ paddingLeft: 10 }}>
       <View style={styles.img}>
@@ -24,6 +28,11 @@ const MyComponent = (props: any) => {
       </View>
     </View>
   );
+  let ratingStars = "";
+  while (stats?.ratings) {
+    ratingStars +="⭐"
+    stats.ratings--;
+  }
   return (
     <>
       <Text
@@ -49,18 +58,17 @@ const MyComponent = (props: any) => {
           showsHorizontalScrollIndicator={false}
         >
           <CarouselItem
-            title="Last Month Sales"
-            // image={require('../assets/images/cow.jpg')}
-            image="1540 Lit."
+            title="Revenue"
+            image={`₹ ${stats?.revenue}`}
           />
           <CarouselItem
-            title="Last Month Profit"
-            image="$ 4500"
+            title="Current Subscribers"
+            image={stats?.subscribers}
             // image={require('../assets/images/cow.jpg')}
           />
           <CarouselItem
             title="Coustmer Review"
-            image="⭐⭐⭐⭐⭐"
+            image={ratingStars}
             // image={require('../assets/images/cow.jpg')}
           />
         </ScrollView>
@@ -69,7 +77,7 @@ const MyComponent = (props: any) => {
   );
 };
 
-export default MyComponent;
+export default SalesStat;
 
 const styles = StyleSheet.create({
   img: {

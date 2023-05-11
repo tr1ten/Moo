@@ -10,34 +10,36 @@ import { Dialog } from "@rneui/themed";
 import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
+import { Badge } from "@rneui/base";
+import { relative } from "path";
+import { useIsFocused } from "@react-navigation/core";
+import { useRouter } from "expo-router";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/firebaseConfig";
+import { Catalog } from "../services/item";
+import { fetchSellerCatalog } from "../services/user";
+import CarouselItem from "../components/Seller/CarouselItem";
 
-const MyComponent = (props: any) => {
-  const CarouselItem = ({ title, image }: any) => (
-    <View style={{ marginRight: 20 }}>
-      <View style={styles.img}>
-        <View>
-          <Text
-            style={{
-              paddingBottom: 5,
-              paddingRight: 10,
-              fontWeight: "700",
-              color: "#ced6d6",
-              fontSize: 15,
-            }}
-          >
-            {title}
-          </Text>
-        </View>
-        <View>
-          <Image
-            source={image}
-            resizeMode="cover"
-            style={{ height: 50, width: 50 }}
-          />
-        </View>
-      </View>
-    </View>
-  );
+const ProductScoller = (props: any) => {
+  const [user] = useAuthState(auth);
+  const [catalogue, setCatalogue] = React.useState<Catalog>();
+  const navigate = useRouter();
+  const [refresh, setRefresh] = React.useState(false);
+  const onRefresh = () => {
+    setRefresh(true);
+    if (!user) return;
+    fetchSellerCatalog(user.email!).then((catalog) => setCatalogue(catalog));
+    setRefresh(false);
+  }
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    onRefresh();
+  }, [user]);
+  React.useEffect(() => {
+    if (isFocused) {
+      onRefresh();
+    }
+  },[isFocused]);
   return (
     <>
       <Text
@@ -62,42 +64,20 @@ const MyComponent = (props: any) => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <CarouselItem
-            title="Eggs"
-            image={require("../assets/images/EggsCrousal.png")}
-          />
-          <CarouselItem
-            title="Cow Milk"
-            image={require("../assets/images/cowCrousal.png")}
-          />
-          <CarouselItem
-            title="Banana"
-            image={require("../assets/images/bananaCrousal.png")}
-          />
+          {catalogue ? 
+          catalogue.items.map((item,i)=><CarouselItem
+          capacity={item.capacity}
+          key={i}
+          title={item.type?.label}
+          image={item.type?.image}
+        /> )
+          : 
+          <Text>No Items yet</Text>
+          }
         </ScrollView>
       </LinearGradient>
     </>
   );
 };
 
-export default MyComponent;
-
-const styles = StyleSheet.create({
-  img: {
-    width: 160,
-    height: 70,
-    paddingLeft: 10,
-    paddingTop: 10,
-    borderRadius: 20,
-    overflow: "hidden",
-    backgroundColor: "#4B6385",
-    fontWeight: "700",
-    color: "#ced6d6",
-    flexDirection: "row",
-  },
-  title: {
-    marginTop: 10,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
+export default ProductScoller;

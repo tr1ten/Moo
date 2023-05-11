@@ -44,10 +44,12 @@ export default function Signin() {
       await registerUser(mail, isSeller == 1);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
+      console.log("register user ",usr);
       setUser({
         id: mail,
         location: usr.location,
         type: usr?.type?.id,
+        name:usr.name,
       })
     });
   };
@@ -59,11 +61,13 @@ export default function Signin() {
       setError("This user not registered with db");
       return;
     }
+    console.log("recieved user name ",user);
     await signInWithEmailAndPassword(mail, password);
     setUser({
       id: mail,
       location: user.location,
       type: user?.type?.id,
+      name:user.name,
     })
     
 

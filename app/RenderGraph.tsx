@@ -20,7 +20,7 @@ const line = {
   ],
 };
 
-const MyComponent = (props: any) => {
+const WeeklySales = (props: any) => {
   return (
     <View>
       <Text
@@ -70,4 +70,4 @@ const MyComponent = (props: any) => {
   );
 };
 
-export default MyComponent;
+export default WeeklySales;
