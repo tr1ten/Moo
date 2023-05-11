@@ -25,17 +25,24 @@ export default function Signin() {
   const [confirm, setConfirm] = React.useState("");
 
   const [error, setError] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [signInWithEmailAndPassword, signUser, SignLoading, SignError] =
     useSignInWithEmailAndPassword(auth);
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
   const [isSeller, setIsSeller] = React.useState(0);
+  function validate(){
+      if(!mail || !password) return false;
+      if(isRegiser || !Name) return false;
+      // check mail
+      if(RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(mail)) return false;
+      return true;
+  }
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
-    if(!Name || !mail || !password || !confirm) {
+    if(!validate()) {
       setError("Please fill all fields");
       return;
     }
@@ -59,6 +66,11 @@ export default function Signin() {
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (error) setError("");
+    if(!validate()) {
+      setError("Please fill all fields");
+      return;
+    }
     // improve
     const user = await getUser(mail);
     if(!user) {
@@ -210,6 +222,9 @@ export default function Signin() {
         <Text style={styles.error}>{error}</Text>
             <Button
               loading={isLoading}
+              loadingStyle={{
+                width: 100,
+              }}
               onPress={isRegiser ? onRegister : onSignIn as any}
               title={isRegiser ? "Register" : "Sign In"}
             />
@@ -271,7 +286,7 @@ const styles = StyleSheet.create({
     textAlign:'center',
   },
   FieldStyle:{
-    paddingHorizontal:20,
+    padding:20,
     borderRadius:20,
     width:"80%",
     backgroundColor:'white',
