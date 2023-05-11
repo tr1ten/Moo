@@ -1,11 +1,7 @@
-import { View, Text, Image, StyleSheet, Share,Pressable } from "react-native";
-import { Avatar, Badge, Icon, withBadge } from "@rneui/themed";
-// import Share from "react-native-share";
-
+import { View, Text, StyleSheet,Pressable } from "react-native";
+import { Avatar } from "@rneui/themed";
 import React from "react";
-import { Link, useRouter, Navigator } from "expo-router";
-import { async } from "@firebase/util";
-import { ScreenWidth } from "@rneui/base";
+import {  useRouter } from "expo-router";
 import { useUser } from "../providers/UserProvider";
 
 const Profile = (props: any) => {

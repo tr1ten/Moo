@@ -20,6 +20,8 @@ export default function TabTwoScreen() {
   const [fontsLoaded] = useFonts({
     'sans': require('./../../../assets/fonts/ProductSans-Bold.ttf'),
   });
+  if (!fontsLoaded) { return <Text>Loading...</Text> } 
+  else
   {
     return (
       <View>
@@ -76,8 +78,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   welcome:{
-
-    fontSize:20,
-    fontWeight:'800'
+    fontSize:25,
+    fontFamily:'sans',
+    fontWeight:'800',
+    margin:10,
+    color:'#0d2b42',
   }
 });

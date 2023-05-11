@@ -18,6 +18,7 @@ export default function CustomDrawerConternt(props: any) {
   const [fontsLoaded] = useFonts({
     'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
   });
+  if(!fontsLoaded) return <Text>Loading...</Text>
   return (
     <DrawerContentScrollView
       contentContainerStyle={{

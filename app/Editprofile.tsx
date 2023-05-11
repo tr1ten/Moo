@@ -14,7 +14,7 @@ function Editprofile() {
   const [name, setname] = React.useState("FIRST");
   const [loc, setloc] = React.useState("MARS");
   const [img, setimg] = React.useState("https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740");
-
+  if(!fontsLoaded){ return <Text>Loading...</Text>;}
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
