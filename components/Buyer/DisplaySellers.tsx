@@ -17,7 +17,7 @@ function DisplaySellers() {
         if(!user?.email) return;
         const items = await getNearbySellerItems(user?.email);
         setsellerItems(items);
-        setLoading(false);
+        if(setLoading) setLoading(false);
     }
     useEffect(() => {
         // fetch sellers
@@ -27,7 +27,7 @@ function DisplaySellers() {
     <View>
         {loading ? <Text>Loading data...</Text> : 
         <ScrollView>
-        {sellerItems ?  sellerItems.map(
+        {!!sellerItems ?  sellerItems.map(
             (item,key)=><SellerItem onRefresh={fetchSeller} item={item} key={key}/>
         ) : 
         <Text>No Sellers Found</Text>

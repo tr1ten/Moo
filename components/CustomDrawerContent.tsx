@@ -37,7 +37,7 @@ export default function CustomDrawerConternt(props: any) {
         <DrawerItem
           label="Change Password"
           icon={() => <MaterialIcons name="security" size={24} color="black" />}
-          onPress={() => navigation.navigate("changepassword")}
+          onPress={() => navigation.navigate("ChangePassword")}
         />
         <DrawerItem
           label="Setting"
