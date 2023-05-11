@@ -2,29 +2,25 @@ import { CheckBox, Input, Text } from "@rneui/themed";
 import {
   ImageBackground,
   Keyboard,
-  SafeAreaView,
   ScrollView,
-  TextInput,
   View,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
-
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { color } from "react-native-reanimated";
 import { getUser, registerUser } from "../../services/user";
 import { useUser } from "../../providers/UserProvider";
-
+import * as Location from 'expo-location';
 
 export default function Signin() {
   const [isRegiser, setIsRegister] = React.useState(true);
   const {user:dUser, setUser} = useUser();
   const [mail, setMail] = React.useState("");
   const [Name, setName] = React.useState("");
-  const [Location, setLocation] = React.useState("");
+  const [location, setLocation] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
 
@@ -39,7 +35,7 @@ export default function Signin() {
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
-    if(!Name || !Location || !mail || !password || !confirm) {
+    if(!Name || !mail || !password || !confirm) {
       setError("Please fill all fields");
       return;
     }
@@ -49,7 +45,7 @@ export default function Signin() {
     }
     createUserWithEmailAndPassword(mail, password).then(async (user) => {
       if (!user) return;
-      await registerUser(mail, isSeller == 1,Name,Location);
+      await registerUser(mail, isSeller == 1,Name,location);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
       setUser({
@@ -58,7 +54,6 @@ export default function Signin() {
         name: usr.name,
         type: usr?.type?.id,
         image: usr.image,
-        
       })
     });
   };
@@ -77,12 +72,12 @@ export default function Signin() {
       type: user?.type?.id,
       name: user.name,
       image: user.image,
-
     })
 
 
   };
   useEffect(() => {
+    Location.requestForegroundPermissionsAsync()
     if (userError) {
       setError(userError.message);
     }
@@ -115,7 +110,18 @@ export default function Signin() {
       keyboardDidHideListener.remove();
     };
   }, []);
-  
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setError("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location.coords.latitude + "," + location.coords.longitude);
+    })();
+  },[]);
   return (
     <View style={{ flex: 1 }}>
     <ScrollView
@@ -147,12 +153,32 @@ export default function Signin() {
       <Text style={styles.welcomeText}>Welcome To</Text>
       <Text style={styles.Moo}>Moo!</Text>
       <View style={styles.InBack}>        
-        {isRegiser ? <Text style={styles.TopText}>Create a{"\n"}new account</Text> : <Text style={styles.TopText}>Login To Your{"\n"}Account</Text>}  
-        {isRegiser && (<TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Full Name" value={Name} onChangeText={setName} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />)}
-        <TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Email" value={mail} onChangeText={setMail} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />
-        {isRegiser && (<TextInput style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="City" value={Location} onChangeText={setLocation} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />)}
-        <TextInput secureTextEntry={true} style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Password" value={password} onChangeText={setPassword} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />
-        {isRegiser && (<TextInput secureTextEntry={true} style={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="Confirm Password" value={confirm} onChangeText={setConfirm} placeholderTextColor='#101626' onFocus={handleFocus} onBlur={handleBlur} />)}
+        {isRegiser ? <Text style={styles.TopText}>Sign-Up</Text> : <Text style={styles.TopText}>Sign-In</Text>}  
+        {isRegiser && (<Input
+        inputContainerStyle={{
+          borderBottomWidth:0,
+        }}
+        leftIcon={{ type: "font-awesome", name: "user",size:17,color:'#101626'  }}
+        
+        containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="name" value={Name} onChangeText={setName} onFocus={handleFocus} onBlur={handleBlur} />)}
+        <Input
+        inputContainerStyle={{
+          borderBottomWidth:0,
+        }}
+        leftIcon={{ type: "font-awesome", name: "envelope",size:17,color:'#101626'  }}
+        containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="email" value={mail} onChangeText={setMail} onFocus={handleFocus} onBlur={handleBlur} />
+        <Input 
+        inputContainerStyle={{
+          borderBottomWidth:0,
+        }}
+        leftIcon={{ type: "font-awesome", name: "lock",size:17,color:'#101626'  }}
+        secureTextEntry={true} containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="password" value={password} onChangeText={setPassword} onFocus={handleFocus} onBlur={handleBlur} />
+        {isRegiser && (<Input
+          inputContainerStyle={{
+            borderBottomWidth:0,
+          }}
+          leftIcon={{ type: "font-awesome", name: "lock",size:17,color:'#101626'  }}
+        secureTextEntry={true} containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="confirm password" value={confirm} onChangeText={setConfirm} onFocus={handleFocus} onBlur={handleBlur} />)}
         {isRegiser && (
             <View style={styles.utype}>
               <Text 
@@ -165,6 +191,9 @@ export default function Signin() {
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
                 title={"Seller"}
+                containerStyle={{
+                  backgroundColor: "transparent",
+                }}
               />
               <CheckBox
                 checked={isSeller === 1}
@@ -172,13 +201,16 @@ export default function Signin() {
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
                 title={"Buyer"}
+                containerStyle={{
+                  backgroundColor: "transparent",
+                }}
               />
             </View>
         )}
         <Text style={styles.error}>{error}</Text>
             <Button
               loading={isLoading}
-              onPress={isRegiser ? onRegister : onSignIn}
+              onPress={isRegiser ? onRegister : onSignIn as any}
               title={isRegiser ? "Register" : "Sign In"}
             />
             <Text style={styles.btnText}>
@@ -239,11 +271,10 @@ const styles = StyleSheet.create({
     textAlign:'center',
   },
   FieldStyle:{
-    borderRadius:100,
-    color:'#101626',
     paddingHorizontal:20,
-    width:"78%",
-    backgroundColor:'rgb(220,220,220)',
+    borderRadius:20,
+    width:"80%",
+    backgroundColor:'white',
     height:40,
     marginVertical:10,
   },
