@@ -18,13 +18,15 @@ const Chat: React.FC = (props: any) => {
   const [messages, setMessages] = React.useState([]);
   const navigation = props.navigation;
   const [user] = useAuthState(auth);
-  const SENDER_ID = user?.uid;
-  const RECEIVER_ID = "134";
-  const { name, area, dues, image } = useSearchParams();
-
+  const SENDER_ID = user?.email;
+  let RECEIVER_ID:string;
+  let chatId:string;
+  const item = useSearchParams();
+  
   useEffect(() => {
-    console.log("everything is perfect");
-    let chatId = `${SENDER_ID}_${RECEIVER_ID}`;
+    RECEIVER_ID = item.id ?? "123";
+    chatId = `${SENDER_ID}_${RECEIVER_ID}`;
+    
     if (SENDER_ID > RECEIVER_ID) {
       chatId = `${RECEIVER_ID}_${SENDER_ID}`;
     }
@@ -50,11 +52,6 @@ const Chat: React.FC = (props: any) => {
   }, []);
 
   const onSend = React.useCallback((newMessages = []) => {
-    let chatId = `${SENDER_ID}_${RECEIVER_ID}`;
-    if (SENDER_ID > RECEIVER_ID) {
-      chatId = `${RECEIVER_ID}_${SENDER_ID}`;
-    }
-
     addDoc(collection(firestore, "chat", chatId, "message"), {
       ...newMessages[0],
       senderid: user?.uid,
@@ -65,7 +62,7 @@ const Chat: React.FC = (props: any) => {
 
   return (
     <>
-      <Stack.Screen options={{ title: `${name}` }}></Stack.Screen>
+      <Stack.Screen options={{ title: `${item.userId ?? item.id}` }}></Stack.Screen>
       <GiftedChat
         messages={messages}
         onSend={onSend}

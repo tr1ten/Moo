@@ -6,27 +6,29 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase/firebaseConfig';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import SellerItem, { Item } from './SellerItem';
+import { useIsFocused } from '@react-navigation/native';
 function DisplaySellers() {
     const [sellerItems, setsellerItems] = React.useState<Item[]>([]);
     const [loading, setLoading] = React.useState(false);
     const [user] = useAuthState(auth);
+    const isFocused = useIsFocused();
+    const fetchSeller = async () => {
+        setLoading(true);
+        if(!user?.email) return;
+        const items = await getNearbySellerItems(user?.email);
+        setsellerItems(items);
+        if(setLoading) setLoading(false);
+    }
     useEffect(() => {
         // fetch sellers
-        const fetchSeller = async () => {
-            setLoading(true);
-            if(!user?.email) return;
-            const items = await getNearbySellerItems(user?.email);
-            setsellerItems(items);
-            setLoading(false);
-        }
         fetchSeller();
-    },[]);
+    },[isFocused]);
   return (
     <View>
         {loading ? <Text>Loading data...</Text> : 
         <ScrollView>
-        {sellerItems ?  sellerItems.map(
-            (item,key)=><SellerItem item={item} key={key}/>
+        {!!sellerItems ?  sellerItems.map(
+            (item,key)=><SellerItem onRefresh={fetchSeller} item={item} key={key}/>
         ) : 
         <Text>No Sellers Found</Text>
         }
@@ -36,4 +38,4 @@ function DisplaySellers() {
   )
 }
 
-export default DisplaySellers
+export default DisplaySellers;

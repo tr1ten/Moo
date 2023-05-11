@@ -4,6 +4,8 @@ export type User = {
     id: string,
     location: string,
     type: number
+    image?: string,
+    name?: string,
 }
 
 const UserContext = React.createContext<{

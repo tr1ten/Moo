@@ -31,13 +31,13 @@ export default function CustomDrawerConternt(props: any) {
         <DrawerItem
           label="My Customers"
           icon={() => <FontAwesome5 name="user" size={24} color="black" />}
-          onPress={() => navigation.navigate("mycustomers")}
+          onPress={() => navigation.navigate("MyCustomers")}
         />
 
         <DrawerItem
           label="Change Password"
           icon={() => <MaterialIcons name="security" size={24} color="black" />}
-          onPress={() => navigation.navigate("changepassword")}
+          onPress={() => navigation.navigate("ChangePassword")}
         />
         <DrawerItem
           label="Setting"
