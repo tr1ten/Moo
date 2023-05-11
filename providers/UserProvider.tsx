@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 export type User = {
     id: string,
     location: string,
-    type: number;
-    name: string,
+    type: number
     image?: string,
+    name?: string,
 }
 
 const UserContext = React.createContext<{
@@ -35,6 +35,7 @@ export function Provider(props:any){
     },[]);
     useEffect(()=>{
         if(user){AsyncStorage.setItem('@user',JSON.stringify(user));}
+        console.log("User changed",user);
     },
     [user]);
     return (

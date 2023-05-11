@@ -31,12 +31,12 @@ export default function Signin() {
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const [isSeller, setIsSeller] = React.useState(0);
+  const [isSeller, setIsSeller] = React.useState(false);
   function validate(){
       if(!mail || !password) return false;
-      if(isRegiser || !Name) return false;
+      if(isRegiser && !Name) return false;
       // check mail
-      if(RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(mail)) return false;
+      if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(mail)) return false;
       return true;
   }
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +52,7 @@ export default function Signin() {
     }
     createUserWithEmailAndPassword(mail, password).then(async (user) => {
       if (!user) return;
-      await registerUser(mail, isSeller == 1,Name,location);
+      await registerUser(mail, isSeller,Name,location);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
       setUser({
@@ -197,9 +197,9 @@ export default function Signin() {
                 style={styles.utext}
               >You are</Text>
               <CheckBox
-                checked={isSeller === 0}
+                checked={isSeller}
 
-                onPress={() => setIsSeller(0)}
+                onPress={() => setIsSeller(true)}
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
                 title={"Seller"}
@@ -208,8 +208,8 @@ export default function Signin() {
                 }}
               />
               <CheckBox
-                checked={isSeller === 1}
-                onPress={() => setIsSeller(1)}
+                checked={!isSeller}
+                onPress={() => setIsSeller(false)}
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
                 title={"Buyer"}
