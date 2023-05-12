@@ -94,6 +94,7 @@ function SellerHome() {
   useEffect(() =>  {
     if(!user?.id) return;
       getAllSubscriptions(user?.id).then((data:SellerSubscription[])=>{
+        if(!data) return;
         // count the number of subscribers
         const stats = {
           ratings: 3,

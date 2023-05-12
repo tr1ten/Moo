@@ -24,7 +24,7 @@ export default function TabLayout() {
     if(!user?.id) return;
     getAllSubscriptions(user?.id).then((data)=>{
       // count subs having status pending
-      if(!data) return;
+      if(!data && !(data instanceof Array)) return;
       const count = data.filter((item:SellerSubscription)=>item.status==='pending').length;
       setNewSubs(count);
     });
