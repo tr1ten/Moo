@@ -22,7 +22,7 @@ const Chat: React.FC = (props: User) => {
   let RECEIVER_ID:string;
   let chatId:string;
   const item:User = (useSearchParams() as any);
-  console.log("item is", item);
+  // console.log("item is", item);
   useEffect(() => {
     RECEIVER_ID = item.id ?? "123";
     chatId = `${SENDER_ID}_${RECEIVER_ID}`;

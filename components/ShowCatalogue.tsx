@@ -1,10 +1,10 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { deleteUserItem, Item } from "../services/item";
 import { FlatList } from "react-native-gesture-handler";
 import { CatalogItem } from "./CatalogItem";
-import { useRoute } from "@react-navigation/native";
-import { useNavigation, useRouter } from "expo-router";
+import {  useRouter } from "expo-router";
+import { Text } from "@rneui/themed";
 import { RefreshControl } from "react-native";
 type Props = {
   ditems: Item[];
