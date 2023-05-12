@@ -8,8 +8,11 @@ import TabHeader from '../../../components/TabHeader';
 import { useUser } from '../../../providers/UserProvider';
 import React from 'react';
 import { BUYER } from '../../../constants/common';
+import { Badge } from '@rneui/themed';
 import { getAllSubscriptions } from '../../../services/item';
 import { SellerSubscription } from './MyCustomers';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../../firebase/firebaseConfig';
 
 
 export default function TabLayout() {
@@ -18,11 +21,9 @@ export default function TabLayout() {
   const [newSubs, setNewSubs] = React.useState(0);
   React.useEffect(() => {
     if(!user?.id) return;
-    if(user?.type===BUYER) return;
     getAllSubscriptions(user?.id).then((data)=>{
       // count subs having status pending
-      console.log("subs ",data);
-      if(!data || !(data instanceof Array)) return;
+      if(!data && !(data instanceof Array)) return;
       const count = data.filter((item:SellerSubscription)=>item.status==='pending').length;
       setNewSubs(count);
     });

@@ -16,24 +16,24 @@ function DisplaySellers() {
         setLoading(true);
         if(!user?.email) return;
         const items = await getNearbySellerItems(user?.email);
-        if(!items || !(items instanceof Array)) return;
         setsellerItems(items);
-        setLoading(false);
+        if(setLoading) setLoading(false);
     }
     useEffect(() => {
         // fetch sellers
         fetchSeller();
     },[isFocused]);
+if(loading) return <Text>Loading data...</Text>;
   return (
     <View>
-        {loading ? <Text>Loading data...</Text> : 
-        <ScrollView>
-        {!!sellerItems ?  sellerItems.map(
-            (item,key)=><SellerItem onRefresh={()=>fetchSeller()} item={item} key={key}/>
-        ) : 
+        {sellerItems ?   <FlatList
+        contentContainerStyle={{ paddingBottom: 50 }}
+        data={sellerItems}
+        renderItem={ ({item}) =><SellerItem onRefresh={fetchSeller} item={item} />}
+        numColumns={2}
+     />
+        : 
         <Text>No Sellers Found</Text>
-        }
-    </ScrollView>
         }
     </View>
   )
