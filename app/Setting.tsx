@@ -48,7 +48,7 @@ const Page: React.FC<PageProps> = () => {
 
   const handleSendFeedback = () => {
     // Code for sending feedback
-    console.log("yes");
+    // console.log("yes");
   };
 
   const handleReportBug = () => {
@@ -169,7 +169,7 @@ const OptionButton: React.FC<OptionButtonProps> = ({
       onPress={onPress}
       activeOpacity={0.7} // Adjust the opacity as desired for the press effect
     >
-      <FontAwesome name={icon} size={24} color="black" />
+      <FontAwesome name={icon as any} size={24} color="black" />
       <Text style={styles.optionButtonText}>{title}</Text>
     </TouchableOpacity>
   );

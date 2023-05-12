@@ -14,7 +14,7 @@ export async function fetchAPI(url:string, options?:any) {
 export async function uploadImageAsync(uri:string) {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
+    const blob:any = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
         resolve(xhr.response);

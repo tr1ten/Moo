@@ -31,7 +31,7 @@ function MySubscriptions() {
       deleteSubscription(id);
     } catch (e) {
       ToastAndroid.show("Failed to cancel Subscription...", ToastAndroid.SHORT);
-      console.log("cancel subs ", e);
+      // console.log("cancel subs ", e);
       return;
     }
     ToastAndroid.show("Subscription Cancelled!", ToastAndroid.SHORT);

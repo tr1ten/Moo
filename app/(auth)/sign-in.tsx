@@ -55,13 +55,14 @@ export default function Signin() {
       await registerUser(mail, isSeller,Name,location);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
-      console.log("register user ",usr);
+      // console.log("register user ",usr);
       setUser({
         id: mail,
         location: usr.location,
         name: usr.name,
         type: usr?.type?.id,
         image: usr.image,
+        bio: usr.bio,
       })
     });
   };
@@ -86,6 +87,7 @@ export default function Signin() {
       type: user?.type?.id,
       name: user.name,
       image: user.image,
+      bio: user.bio,
     })
 
 
@@ -285,8 +287,9 @@ const styles = StyleSheet.create({
     textAlign:'center',
   },
   FieldStyle:{
-    padding:20,
-    borderRadius:20,
+    // borderRadius:20,
+    borderBottomColor: '#3A4F8A',
+    borderBottomWidth: 1,
     width:"80%",
     backgroundColor:'white',
     height:40,
