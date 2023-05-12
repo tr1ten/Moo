@@ -55,6 +55,7 @@ export default function Signin() {
       await registerUser(mail, isSeller,Name,location);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
+      console.log("register user ",usr);
       setUser({
         id: mail,
         location: usr.location,
@@ -77,6 +78,7 @@ export default function Signin() {
       setError("This user not registered with db");
       return;
     }
+    console.log("recieved user name ",user);
     await signInWithEmailAndPassword(mail, password);
     setUser({
       id: mail,
