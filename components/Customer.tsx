@@ -67,6 +67,15 @@ function Customer(prop: { data: SellerSubscription,onRefresh:()=>void }){
             
              </ListItem.Subtitle>
              <ListItem.Subtitle> 
+            <Text style={{fontWeight:"bold"}}> Item:  </Text>
+            {prop.data.item.type?.label}
+            
+             </ListItem.Subtitle>
+             <ListItem.Subtitle> 
+            <Text style={{fontWeight:"bold"}}> Quantity:  </Text>
+            {prop.data.quantity}
+             </ListItem.Subtitle>
+             <ListItem.Subtitle> 
             <Text style={{fontWeight:"bold"}}> Dated:  </Text>
             {new Date(prop.data.createdAt).toLocaleDateString()}
             
@@ -95,7 +104,7 @@ function Customer(prop: { data: SellerSubscription,onRefresh:()=>void }){
           onPress={
             () => {
                 router.push("/chatRoom");
-                router.setParams(prop.data as any);
+                router.setParams(prop.data.buyer.user as any);
               }          
           }
         />

@@ -1,23 +1,15 @@
 import {
-  StyleSheet,
-  Text,
   FlatList,
   TouchableOpacity,
-  View,
-  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import Customer from "../../../components/Customer";
-import { Link, useRouter, Navigator } from "expo-router";
+import { useRouter } from "expo-router";
 import { User, useUser } from "../../../providers/UserProvider";
 import { getAllSubscriptions } from "../../../services/item";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase/firebaseConfig";
 import { BUYER } from "../../../constants/common";
 import { BuyerSubscription } from "./MySubscriptions";
-import { ListItem } from "@rneui/base";
-import { Avatar } from "@rneui/themed";
 import ChatUser from "../../../components/Chat/ChatUser";
 import Placeholder from "../../../components/Placeholder";
 import { useIsFocused } from "@react-navigation/native";
@@ -38,11 +30,11 @@ function MyCustomer() {
   useEffect(() => {
     if(!mus?.email) return;
     getAllSubscriptions(mus?.email).then((data) => {
-      if(!data) return;
+      if(!data || !(data instanceof Array)) return;
       if(user?.type===BUYER){
           setUsers(unique(data.map((item:BuyerSubscription) => item.item.catalogue?.seller.user)));
       }else{
-        setUsers(unique(data.map((item:any) => item.buyer.user)));
+        setUsers(unique(data.map((item:any) => item.buyer?.user)));
       }
     })
   },[isFocused]);
