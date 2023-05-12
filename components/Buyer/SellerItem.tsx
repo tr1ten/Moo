@@ -4,13 +4,14 @@ import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Icon, Slider } from '@rneui/themed';
 import { auth } from '../../firebase/firebaseConfig';
-import { subscribeToItem } from '../../services/item';
+import { Catalog, subscribeToItem } from '../../services/item';
 import { ToastAndroid, View } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { color } from 'react-native-reanimated';
 import { Pressable } from 'react-native';
 import { Test } from 'mocha';
 import { useFonts } from 'expo-font';
+import { User } from 'react-native-gifted-chat';
 export type Seller = {
     location: string;
     decription: string;
@@ -32,9 +33,6 @@ export type Item = {
 }
 
 function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
-  const [fontsLoaded] = useFonts({
-    'sans': require('./../../assets/fonts/ProductSans-Regular.ttf'),
-  });
   const [visible, setVisible] = useState(false);
   const [user] = useAuthState(auth);
   const onToggle = () => setVisible(!visible);
@@ -59,7 +57,6 @@ function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
   return (
     <View>
       <View style={style.container}>
-          
         <View style={{marginLeft:10,marginTop:10}}>
           <Avatar
             size={120}
@@ -73,7 +70,7 @@ function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
                 {item.type?.label}
             </Text>
             <Text style={style.t2}>
-              seller {item.seller?.decription ?? "Rajesh"}
+              seller {item.catalogue.seller?.decription ?? "Rajesh"}
             </Text>
             <Text style={style.t3}>
               ₹ {item.price} / kg 
