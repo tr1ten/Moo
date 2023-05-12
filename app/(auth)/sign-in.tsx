@@ -78,7 +78,7 @@ export default function Signin() {
       setError("This user not registered with db");
       return;
     }
-    console.log("recieved user name ",user);
+    // console.log("recieved user name ",user);
     await signInWithEmailAndPassword(mail, password);
     setUser({
       id: mail,
@@ -224,9 +224,6 @@ export default function Signin() {
         <Text style={styles.error}>{error}</Text>
             <Button
               loading={isLoading}
-              loadingStyle={{
-                width: 100,
-              }}
               onPress={isRegiser ? onRegister : onSignIn as any}
               title={isRegiser ? "Register" : "Sign In"}
             />
