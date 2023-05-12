@@ -45,14 +45,14 @@ function MyCustomer(){
           }
           data={custs}
           renderItem={({item}) =>
-            <TouchableOpacity onPress={()=>{
+            // <TouchableOpacity onPress={()=>{
 
-              router.push("/customer")
-              router.setParams(item as any);
-            }
-            }>
+            //   // router.push("/customer")
+            //   // router.setParams(item as any);
+            // }
+            // }>
               <Customer data={item} onRefresh={updateSubs} />
-            </TouchableOpacity>
+            // </TouchableOpacity>
             
           }
           keyExtractor={(item,i) =>`${i}`}
