@@ -70,7 +70,7 @@ function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
                 {item.type?.label}
             </Text>
             <Text style={style.t2}>
-              seller {item.catalogue.seller?.decription ?? "Rajesh"}
+              Seller {item.catalogue.seller.user.name ?? "Rajesh"}
             </Text>
             <Text style={style.t3}>
               ₹ {item.price} / kg 
@@ -114,8 +114,8 @@ function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
           thumbProps={{
             children: (
               <Icon
-                name="favorite"
-                // type="font-awesome"
+                name="blood-drop"
+                type="fontisto"
                 size={12}
                 reverse
                 containerStyle={{ bottom: 12, right: 12 }}
@@ -143,8 +143,8 @@ const style=StyleSheet.create({
     width:150,
     margin:10,
     gap:5,
-    justifyContent:'space-between'
-    },
+    justifyContent:'space-between',
+  },
   bottom:{
     marginLeft:10,
     gap:5,

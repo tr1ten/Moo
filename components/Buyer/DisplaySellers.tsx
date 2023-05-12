@@ -25,7 +25,11 @@ function DisplaySellers() {
     },[isFocused]);
 if(loading) return <Text>Loading data...</Text>;
   return (
-    <View>
+    <View
+    style={{
+      paddingLeft: 10,
+    }}
+    >
         {sellerItems ?   <FlatList
         contentContainerStyle={{ paddingBottom: 50 }}
         data={sellerItems}
