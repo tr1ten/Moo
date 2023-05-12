@@ -30,11 +30,11 @@ function MyCustomer() {
   useEffect(() => {
     if(!mus?.email) return;
     getAllSubscriptions(mus?.email).then((data) => {
-      if(!data) return;
+      if(!data || !(data instanceof Array)) return;
       if(user?.type===BUYER){
           setUsers(unique(data.map((item:BuyerSubscription) => item.item.catalogue?.seller.user)));
       }else{
-        setUsers(unique(data.map((item:any) => item.buyer.user)));
+        setUsers(unique(data.map((item:any) => item.buyer?.user)));
       }
     })
   },[isFocused]);
