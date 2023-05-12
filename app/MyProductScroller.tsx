@@ -28,7 +28,7 @@ const ProductScoller = (props: any) => {
   const onRefresh = () => {
     setRefresh(true);
     if (!user) return;
-    fetchSellerCatalog(user.email!).then((catalog) => setCatalogue(catalog));
+    fetchSellerCatalog(user.email!).then((catalog) => catalog && setCatalogue(catalog));
     setRefresh(false);
   }
   const isFocused = useIsFocused();
