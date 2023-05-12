@@ -1,6 +1,7 @@
 import { User } from "../providers/UserProvider";
 import { async } from "@firebase/util";
 import { API_URL } from "../constants/common";
+import { Seller } from "../components/Buyer/SellerItem";
 
 export type Item = {
     price: number;
@@ -18,7 +19,7 @@ export type Item = {
 }
 export type Catalog = {
     id: number;
-    seller: User;
+    seller: Seller;
     items: Item[];
 }
 
@@ -87,6 +88,22 @@ export function deleteSubscription(subId: number) {
         body: JSON.stringify({subId})
     }).then((r)=>r.json()).catch((e)=>{
         console.log("error during deleting subscription",e);
+        return null;
+    });
+}
+
+export enum SubscriptionStatus {
+    PENDING = "pending",
+    ACTIVE = "active",
+    CANCELLED = "cancelled",
+}
+export function changeSubscriptionStatus(id:string,status:SubscriptionStatus){
+    return fetch(API_URL+"/subscription/status",{
+        method: "post",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id,status})
+    }).then((r)=>r.json()).catch((e)=>{
+        console.log("error during changing subscription status",e);
         return null;
     });
 }

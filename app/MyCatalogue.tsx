@@ -8,6 +8,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import ShowCatalogue from "../components/ShowCatalogue";
 import { Catalog, Item } from "../services/item";
+import { useIsFocused } from "@react-navigation/native";
 const MyCatalogue = () => {
   const [user] = useAuthState(auth);
   const [catalogue, setCatalogue] = React.useState<Catalog>();
@@ -19,9 +20,15 @@ const MyCatalogue = () => {
     fetchSellerCatalog(user.email!).then((catalog) => setCatalogue(catalog));
     setRefresh(false);
   }
+  const isFocused = useIsFocused();
   React.useEffect(() => {
     onRefresh();
   }, [user]);
+  React.useEffect(() => {
+    if (isFocused) {
+      onRefresh();
+    }
+  },[isFocused]);
 
   return (
     <View

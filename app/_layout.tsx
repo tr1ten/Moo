@@ -70,6 +70,10 @@ function RootLayoutNav() {
               headerTitle: "My Catalogue",
             }}
             />
+          <Stack.Screen name="ChangePassword" options={{
+              headerTitle: "Change Password",
+            }}
+            />
           </Stack>
           </UserProvider>
         </LanguageProvider>

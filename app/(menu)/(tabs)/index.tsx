@@ -14,15 +14,66 @@ import React from "react";
 import { useUser } from "../../../providers/UserProvider";
 import { BUYER } from "../../../constants/common";
 import DisplaySellers from "../../../components/Buyer/DisplaySellers";
-import { useFonts } from "expo-font";
+
 export default function TabTwoScreen() {
+  const marked = {
+    "2023-03-20": { marked: true },
+    "2023-03-1": {
+      selected: true,
+      selectedColor: "white",
+      selectedTextColor: "red",
+    },
+    "2023-03-18": {
+      marked: true,
+      selected: true,
+      selectedTextColor: "green",
+    },
+  };
+  const currdate = getcurrdate();
   const {user} = useUser();
-  const [fontsLoaded] = useFonts({
-    'sans': require('./../../../assets/fonts/ProductSans-Bold.ttf'),
-  });
-  if (!fontsLoaded) { return <Text>Loading...</Text> } 
-  else
-  {
+  function getcurrdate() {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = today.getFullYear();
+    const curr = yyyy + "-" + mm + "-" + dd;
+    return curr;
+  }
+  const [popup, vis] = useState(true);
+  const [markedates, changemdates] = useState(marked);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const CalenderModal = ({ visible }) => {
+    //setModalVisible(visible);
+    return (
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                This will give overview of all the transaction on this day
+              </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  };
+  if(user?.type==BUYER){
     return (
       <View>
         <Text style={styles.welcome}>
@@ -32,6 +83,19 @@ export default function TabTwoScreen() {
       </View>
     )
   }
+  return (
+    <View>
+      <CalenderModal visible={false}></CalenderModal>
+      <Calendar
+        initialDate="2023-3-1"
+        disableAllTouchEventsForDisabledDays={true}
+        markedDates={markedates}
+        onDayPress={(day) => {
+          setModalVisible(true);
+        }}
+      />
+    </View>
+  );
 
 }
 
@@ -79,7 +143,7 @@ const styles = StyleSheet.create({
   },
   welcome:{
     fontSize:25,
-    fontFamily:'sans',
+//     fontFamily:'sans',
     fontWeight:'800',
     margin:10,
     color:'#0d2b42',

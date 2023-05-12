@@ -40,13 +40,13 @@ export default function CustomDrawerConternt(props: any) {
               iname="bag"
             />
         </Pressable>
-        <Pressable onPress={() => navigation.navigate("mycustomers")}>
+        <Pressable onPress={() => navigation.navigate("MyCustomers")}>
           <Item
             name="My Customers"
             iname="user"
           />
         </Pressable>
-        <Pressable onPress={() => navigation.navigate("changepassword")}>
+        <Pressable onPress={() => navigation.navigate("ChangePassword")}>
           <Item
             name="Change Password"
             iname="key"

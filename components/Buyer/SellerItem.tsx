@@ -2,7 +2,7 @@ import { Dialog } from '@rneui/base';
 import { Avatar, Button, Card, ListItem ,Text} from '@rneui/themed'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Icon, Slider } from 'react-native-elements';
+import { Icon, Slider } from '@rneui/themed';
 import { auth } from '../../firebase/firebaseConfig';
 import { subscribeToItem } from '../../services/item';
 import { ToastAndroid, View } from 'react-native';
@@ -14,7 +14,9 @@ import { useFonts } from 'expo-font';
 export type Seller = {
     location: string;
     decription: string;
-}
+    userId: string;
+    user:User;
+};
 export type ItemType ={
     id: number;
     label:string;
@@ -26,10 +28,10 @@ export type Item = {
     type: ItemType;
     capacity: number;
     price: number;
-    seller: Seller
+    catalogue: Catalog
 }
 
-function SellerItem({item}:{item:Item}) {
+function SellerItem({item,onRefresh}:{item:Item,onRefresh:()=>void}) {
   const [fontsLoaded] = useFonts({
     'sans': require('./../../assets/fonts/ProductSans-Regular.ttf'),
   });
@@ -50,6 +52,8 @@ function SellerItem({item}:{item:Item}) {
     }
     finally{
       setVisible(false);
+      onRefresh();
+      
     }
   };
   return (
@@ -153,26 +157,26 @@ const style=StyleSheet.create({
   }
   ,
   t1:{
-    fontFamily:'sans',
+//     fontFamily:'sans',
     fontSize:15,
     fontWeight:'900',
   }
   ,
   t2:{
-    fontFamily:'sans',
+//     fontFamily:'sans',
     fontSize:12,
     color:'grey',
     fontStyle:'italic'
   }
   ,
   t3:{
-    fontFamily:'sans',
+//     fontFamily:'sans',
     fontSize:15,
     color:'green',
     fontStyle:'normal'
   },
   t4:{
-    fontFamily:'sans',
+//     fontFamily:'sans',
     fontWeight:'900',
     fontSize:15,
     color:"black",

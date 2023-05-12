@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor:'black',
     borderRadius:3,
     fontWeight:'900',
-    fontFamily:'sans',
+// //     fontFamily:'sans',
     padding:10,
     paddingLeft:20,
     paddingRight:20,

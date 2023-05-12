@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     
   },textedit:{
     color:"blue",
-    fontFamily:'sans',
+//     fontFamily:'sans',
     borderBottomWidth:1,
     borderColor:'blue'
   }
