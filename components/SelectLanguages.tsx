@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     width: "60%",
 
     justifyContent: "space-between",
+    marginBottom: 40,
   },
   txt: {
     marginTop: 12,
