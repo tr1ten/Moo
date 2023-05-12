@@ -74,6 +74,10 @@ function RootLayoutNav() {
               headerTitle: "Change Password",
             }}
             />
+            <Stack.Screen name="Editprofile" options={{
+              headerTitle: "Edit Profile",
+            }}
+            />
           </Stack>
           </UserProvider>
         </LanguageProvider>

@@ -6,6 +6,7 @@ export type User = {
     type: number
     image?: string,
     name?: string,
+    bio: string,
 }
 
 const UserContext = React.createContext<{

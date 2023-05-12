@@ -2,6 +2,7 @@ import { User } from "../providers/UserProvider";
 import { async } from "@firebase/util";
 import { API_URL } from "../constants/common";
 import { Seller } from "../components/Buyer/SellerItem";
+import { fetchAPI } from "./utils";
 
 export type Item = {
     price: number;
@@ -24,7 +25,7 @@ export type Catalog = {
 }
 
 export function addUserItem(item:Item,userId:string){
-    return fetch(API_URL+"/item",{
+    return fetchAPI(API_URL+"/item",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(
@@ -40,7 +41,7 @@ export function addUserItem(item:Item,userId:string){
 }
 
 export function deleteUserItem(itemId:string){
-    return fetch(API_URL+"/item/delete",{
+    return fetchAPI(API_URL+"/item/delete",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -54,11 +55,11 @@ export function deleteUserItem(itemId:string){
 }
 
 export async function itemInfo(itemId:string):Promise<Item>{
-    return fetch(API_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
+    return fetchAPI(API_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
 }
 
 export function subscribeToItem(quantity: number, itemId: number, userId: string) {
-    return fetch(API_URL+"/subscription",{
+    return fetchAPI(API_URL+"/subscription",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(
@@ -75,14 +76,14 @@ export function subscribeToItem(quantity: number, itemId: number, userId: string
 }
 
 export function getAllSubscriptions(userId: string) {
-    return fetch(API_URL+"/subscription?userId="+userId).then((r)=>r.json()).catch((e)=>{
+    return fetchAPI(API_URL+"/subscription?userId="+userId).then((r)=>r.json()).catch((e)=>{
         console.log("error during getting subscriptions",e);
         return null;
     });
 }
 
 export function deleteSubscription(subId: number) {
-    return fetch(API_URL+"/subscription/",{
+    return fetchAPI(API_URL+"/subscription/",{
         method: "delete",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({subId})
@@ -98,7 +99,7 @@ export enum SubscriptionStatus {
     CANCELLED = "cancelled",
 }
 export function changeSubscriptionStatus(id:string,status:SubscriptionStatus){
-    return fetch(API_URL+"/subscription/status",{
+    return fetchAPI(API_URL+"/subscription/status",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({id,status})

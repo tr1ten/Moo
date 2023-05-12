@@ -1,62 +1,113 @@
 import { Input, Text, Button } from "@rneui/themed";
 import React from "react";
-import { ToastAndroid, View } from "react-native";
-import SelectLanguages from "../components/SelectLanguages";
-import SelectTheme from "../components/SelectTheme";
+import { TextInput, ToastAndroid, View } from "react-native";
 import { Avatar, Badge, Icon, withBadge } from "@rneui/themed";
 import { StyleSheet, Pressable } from "react-native";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { useFonts } from "expo-font";
 import { sendPasswordResetEmail, signOut } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { useUser } from "../providers/UserProvider";
+import { getUser, updateUser } from "../services/user";
+import {  useRouter } from "expo-router";
+import * as ImagePicker from 'expo-image-picker';
+import { uploadImageAsync } from "../services/utils";
 function Editprofile() {
   const [fontsLoaded] = useFonts({
     sans: require("./../assets/fonts/ProductSans-Bold.ttf"),
   });
-  const [name, setname] = React.useState("FIRST");
-  const { user } = useUser();
-  const [loc, setloc] = React.useState("MARS");
+  const { user,setUser} = useUser();
+  const [name, setname] = React.useState(user?.name);
+  const [bio,setBio] = React.useState(user?.bio);
+  const [loading, setLoading] = React.useState(false);
+  const navigation = useRouter(); 
   const [img, setimg] = React.useState(
-    "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740"
+    user?.image ??
+      "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740"
   );
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
   }
+  const onUpdate = async ()=>{
+    if(!user) return;
+    if(!name) return;
+    setLoading(true);  
+    const firebaseUrl = await uploadImageAsync(img);
+    const res = await updateUser(user?.id,name,bio,firebaseUrl ?? user?.image);
+      if(res){
+        ToastAndroid.show("Updated", ToastAndroid.SHORT);
+        const fs = await getUser(user.id);
+        if(fs) {
+          setUser(fs);
+        }
+        navigation.push("/");
+      }
+      else{
+        ToastAndroid.show("Something went wrong", ToastAndroid.SHORT);
+      }
+      setLoading(false);
+  }
+  const onImageChange = async () => {
+    setLoading(true);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setimg(result.assets[0].uri);
+    }
+    setLoading(false);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
         <View style={styles.c}>
-          <Avatar rounded source={{ uri: img }} size="xlarge" />
-          <Badge
-            status="black"
-            value=" change  "
-            containerStyle={{ position: "absolute", top: 140, left: 220 }}
-            onPress={() => {
-              const options = {};
-              launchImageLibrary(options, (response) => {
-                console.log("reesponse", response);
-              });
-            }}
+          {/* <Avatar 
+          rounded source={{ uri: img }} size="xlarge" 
+          /> */}
+                  <Avatar
+          rounded source={{ uri: img }} size="xlarge" 
+
+          containerStyle={{ backgroundColor: 'blue' }}
+        >
+          <Avatar.Accessory size={40} 
+          iconProps={
+            {
+              name:"camera",
+            }
+          }
+          onPress={onImageChange}
           />
+        </Avatar>
           <View style={styles.cont2}>
             <View style={styles.container1}>
               <Input
                 style={styles.input}
+                defaultValue={user?.name}
                 placeholder="Name"
                 onChangeText={setname}
               />
             </View>
             <View style={styles.container1}>
-              <Input
-                style={styles.input}
-                onChangeText={setloc}
-                placeholder="Location"
+              <TextInput
+                editable
+                multiline
+                numberOfLines={7}
+                placeholder="Bio"
+                defaultValue={user?.bio}
+                onChangeText={setBio}
+                style={styles.text3}
               />
             </View>
-            <Pressable onPress={() => {}}>
+            <Pressable 
+            disabled={loading}
+            
+            onPress={onUpdate}>
               <View style={styles.Button}>
-                <Text style={styles.buttontext}>UPDATE</Text>
+                <Text style={styles.buttontext}>
+                  {loading ? "Saving..." : "Save"}
+                </Text>
               </View>
             </Pressable>
             <Pressable
@@ -146,10 +197,19 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "grey",
   },
+  text3:{
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    width: "100%",
+    color: "black",
+    textAlignVertical: "top",
+
+  },
   cont2: {
     marginLeft: 10,
     marginRight: 10,
-    gap: 30,
+    gap: 15,
   },
   Button: {
     alignItems: "center",
@@ -158,7 +218,9 @@ const styles = StyleSheet.create({
   buttontext: {
     backgroundColor: "black",
     borderRadius: 3,
+    // width:"50%",
     fontWeight: "900",
+    textAlign: "center",
     // //     fontFamily:'sans',
     padding: 10,
     paddingLeft: 20,
