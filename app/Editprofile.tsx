@@ -31,7 +31,8 @@ function Editprofile() {
     if(!user) return;
     if(!name) return;
     setLoading(true);  
-    const res = await updateUser(user?.id,name,bio,img);
+    const firebaseUrl = await uploadImageAsync(img);
+    const res = await updateUser(user?.id,name,bio,firebaseUrl ?? user?.image);
       if(res){
         ToastAndroid.show("Updated", ToastAndroid.SHORT);
         const fs = await getUser(user.id);
@@ -55,16 +56,8 @@ function Editprofile() {
     });
     if (!result.canceled) {
       setimg(result.assets[0].uri);
-      uploadImageAsync(result.assets[0].uri).then((url)=>{
-        if(url){
-          setimg(url);
-        }
-        setLoading(false);
-      });
     }
-    else {
-      setLoading(false);
-    }
+    setLoading(false);
   };
   return (
     <View style={styles.container}>
