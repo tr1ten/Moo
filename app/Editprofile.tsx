@@ -56,8 +56,8 @@ function Editprofile() {
           </View>
         </View>
       </View>
-      <SelectLanguages />
-      <SelectTheme />
+      {/* <SelectLanguages />
+      <SelectTheme /> */}
     </View>
   );
 }
