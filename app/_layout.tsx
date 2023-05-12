@@ -28,7 +28,7 @@ const theme = createTheme({
   components: {
     Text: {
       style: {
-        fontFamily: "System",
+        fontFamily: "sans",
       },
     },
     Button: {

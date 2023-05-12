@@ -113,7 +113,6 @@ item:{
 ,text:{
   fontWeight:'400',
   fontSize:15,
-  fontFamily:'sans'
 }
 ,welcome:{
   alignItems:'center',
@@ -123,7 +122,6 @@ item:{
 ,welcometext:{
   fontSize:20,
   fontWeight:'500',
-  fontFamily:'sans'
 }
 ,footerimage:{
   justifyContent:"center",

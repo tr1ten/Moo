@@ -12,9 +12,6 @@ import {  useRouter } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import { uploadImageAsync } from "../services/utils";
 function Editprofile() {
-  const [fontsLoaded] = useFonts({
-    sans: require("./../assets/fonts/ProductSans-Bold.ttf"),
-  });
   const { user,setUser} = useUser();
   const [name, setname] = React.useState(user?.name);
   const [bio,setBio] = React.useState(user?.bio);
@@ -24,9 +21,6 @@ function Editprofile() {
     user?.image ??
       "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740"
   );
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
-  }
   const onUpdate = async ()=>{
     if(!user) return;
     if(!name) return;
@@ -218,10 +212,8 @@ const styles = StyleSheet.create({
   buttontext: {
     backgroundColor: "black",
     borderRadius: 3,
-    // width:"50%",
     fontWeight: "900",
     textAlign: "center",
-    //  fontFamily:'sans',
     padding: 10,
     paddingLeft: 20,
     paddingRight: 20,

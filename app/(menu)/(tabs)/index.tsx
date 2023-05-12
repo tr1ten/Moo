@@ -1,18 +1,11 @@
 import { StyleSheet } from "react-native";
-import { Text, View, Image, Modal, Pressable, Alert } from "react-native";
-import { useState, useEffect } from "react";
-import { Button } from "@rneui/themed";
-import { useThemeMode } from "@rneui/themed";
-import { useTheme } from "@rneui/themed";
-import { useFCM } from "../../../services/push_notification";
-import { Calendar } from "react-native-calendars";
-import { Dialog } from "@rneui/themed";
+import { View } from "react-native";
+import { Text } from "@rneui/themed";
 import React from "react";
 import { useUser } from "../../../providers/UserProvider";
 import { BUYER } from "../../../constants/common";
 import DisplaySellers from "../../../components/Buyer/DisplaySellers";
 import { ScrollView } from "react-native-gesture-handler";
-import * as Font from "expo-font";
 import SellerHome from "../../../components/Seller/SellerHome";
 
 export default function TabTwoScreen() {

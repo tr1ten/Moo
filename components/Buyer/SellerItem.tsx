@@ -144,24 +144,20 @@ const style = StyleSheet.create({
     justifyContent: "space-between",
   },
   t1: {
-    fontFamily: "sans",
     fontSize: 15,
     fontWeight: "900",
   },
   t2: {
-    fontFamily: "sans",
     fontSize: 12,
     color: "grey",
     fontStyle: "italic",
   },
   t3: {
-    fontFamily: "sans",
     fontSize: 15,
     color: "green",
     fontStyle: "normal",
   },
   t4: {
-    fontFamily: "sans",
     fontWeight: "900",
     fontSize: 15,
     color: "black",
