@@ -14,7 +14,7 @@ const Profile = (props: any) => {
       <View style={styles.container}>
           <Avatar
             rounded
-            source={{ uri: "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740" }}
+            source={{ uri: user?.image ??  "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740" }}
             size={100}
           />
       </View>

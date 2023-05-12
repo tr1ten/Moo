@@ -5,20 +5,23 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { TouchableOpacity,Text,View,Image ,StyleSheet, Pressable} from "react-native";
+import { Text,View,Image ,StyleSheet, Pressable} from "react-native";
 import Profile from "./Profile";
 import { auth } from "../firebase/firebaseConfig";
 import React from "react";
 import { Icon } from '@rneui/themed';
 import { useFonts } from "expo-font";
-import { Positions } from "react-native-calendars/src/expandableCalendar";
+import { useUser } from "../providers/UserProvider";
+import { BUYER, SELLER } from "../constants/common";
 
 export default function CustomDrawerConternt(props: any) {
   const navigation = props.navigation;
   const [fontsLoaded] = useFonts({
     'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
   });
-  if(!fontsLoaded) return <Text>Loading...</Text>
+  const {user} = useUser();
+  if(!fontsLoaded) return <Text>Loading...</Text>;
+  
   return (
     <DrawerContentScrollView
       contentContainerStyle={{
@@ -30,10 +33,11 @@ export default function CustomDrawerConternt(props: any) {
       <Profile {...props} />
       
       <View style={style.welcome}>
-        <Text style={style.welcometext}>HELLO PRATHAM</Text>
+        <Text style={style.welcometext}>HELLO {user?.name ?? user?.id}</Text>
       </View>
       <DrawerItemList {...props} />
       <View style={style.box}>
+        {user?.type==SELLER ? <>
         <Pressable  onPress={() => navigation.navigate("MyCatalogue")}>
             <Item
               name="My Products"
@@ -46,6 +50,15 @@ export default function CustomDrawerConternt(props: any) {
             iname="user"
           />
         </Pressable>
+        </>
+        :  <Pressable onPress={() => navigation.navigate("MySubscriptions")}>
+        <Item
+          name="My Subscriptions"
+          iname="user"
+        />
+      </Pressable>
+          
+        }
         <Pressable onPress={() => navigation.navigate("ChangePassword")}>
           <Item
             name="Change Password"
