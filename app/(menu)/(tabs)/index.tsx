@@ -76,8 +76,8 @@ export default function TabTwoScreen() {
   if(user?.type==BUYER){
     return (
       <View>
-        <Text>
-           Welcome UserName!
+        <Text style={styles.welcome}>
+           Welcome {user.name ?? user.id}
         </Text>
         <DisplaySellers></DisplaySellers>
       </View>
@@ -96,6 +96,7 @@ export default function TabTwoScreen() {
       />
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -140,4 +141,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
+  welcome:{
+    fontSize:25,
+//     fontFamily:'sans',
+    fontWeight:'800',
+    margin:10,
+    color:'#0d2b42',
+  }
 });

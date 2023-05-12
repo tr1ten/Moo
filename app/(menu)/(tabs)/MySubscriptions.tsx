@@ -43,7 +43,7 @@ function MySubscriptions() {
       setLoading(true);
     const res = await getAllSubscriptions(user?.email);
     setSubs(res);
-    // console.log("here your subs", res);
+    // console.log("here your subs", res,user.email);
     setLoading(false);
 
   };
@@ -68,5 +68,4 @@ function MySubscriptions() {
     />
   );
 }
-
 export default MySubscriptions;
