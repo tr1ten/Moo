@@ -18,9 +18,6 @@ function Customer(prop: { data: SellerSubscription,onRefresh:()=>void }){
     function RequestBtn(){
       return (
           <ButtonGroup
-              containerStyle={{
-                  padding:10,
-              }}
               onPress={(i)=>{
                   if(i==0){
                       changeSubscriptionStatus(prop.data.id.toString(),SubscriptionStatus.ACTIVE).then((data)=>{

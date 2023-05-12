@@ -33,13 +33,14 @@ export function Provider(props:any){
             console.log(err);
         });
     },[]);
-    useEffect(()=>{
+    const setUserAsync = (user:User)=>{
+        setUser(user);
         if(user){AsyncStorage.setItem('@user',JSON.stringify(user));}
-    },
-    [user]);
+        
+    }
     return (
         <UserContext.Provider
-            value={{user,setUser}}>
+            value={{user,setUser:setUserAsync}}>
                 {props.children}
             </UserContext.Provider>
     )
