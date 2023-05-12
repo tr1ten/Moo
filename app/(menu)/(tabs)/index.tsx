@@ -22,7 +22,7 @@ export default function TabTwoScreen() {
     return (
       <View>
         <Text style={styles.welcome}>
-           Welcome {user.name ?? user.id}
+           Greetings {user.name ?? user.id} 👋!
         </Text>
         <DisplaySellers></DisplaySellers>
       </View>
@@ -31,14 +31,7 @@ export default function TabTwoScreen() {
   return (
     <ScrollView style={{ backgroundColor: "#fcfbf5" }}>
       <Text
-        style={{
-          fontSize: 30,
-          color: "#84aac4",
-          paddingLeft: 15,
-          paddingBottom: 20,
-          paddingTop: 20,
-          fontWeight: "bold",
-        }}
+        style={styles.welcome}
       >
         Greetings {user?.name ?? "Name"} 👋!
       </Text>
@@ -91,10 +84,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   welcome:{
-    fontSize:25,
-//     fontFamily:'sans',
-    fontWeight:'800',
-    margin:10,
-    color:'#0d2b42',
+    fontSize: 30,
+    color: "#84aac4",
+    paddingLeft: 15,
+    paddingBottom: 20,
+    paddingTop: 20,
+    fontWeight: "bold",
+    fontFamily: "sans",
   }
 });

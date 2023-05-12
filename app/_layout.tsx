@@ -13,6 +13,7 @@ export default function RootLayout() {
   const [user,loading] = useAuthState(auth);
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
     ...FontAwesome.font,
   });
   return (

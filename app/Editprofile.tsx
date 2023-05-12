@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     // width:"50%",
     fontWeight: "900",
     textAlign: "center",
-    // //     fontFamily:'sans',
+    //  fontFamily:'sans',
     padding: 10,
     paddingLeft: 20,
     paddingRight: 20,

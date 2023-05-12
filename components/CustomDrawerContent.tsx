@@ -10,17 +10,12 @@ import Profile from "./Profile";
 import { auth } from "../firebase/firebaseConfig";
 import React from "react";
 import { Icon } from '@rneui/themed';
-import { useFonts } from "expo-font";
 import { useUser } from "../providers/UserProvider";
-import { BUYER, SELLER } from "../constants/common";
+import { SELLER } from "../constants/common";
 
 export default function CustomDrawerConternt(props: any) {
   const navigation = props.navigation;
-  const [fontsLoaded] = useFonts({
-    'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
-  });
   const {user} = useUser();
-  if(!fontsLoaded) return <Text>Loading...</Text>;
   
   return (
     <DrawerContentScrollView
