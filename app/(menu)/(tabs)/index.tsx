@@ -17,7 +17,7 @@ export default function TabTwoScreen() {
         <Text style={styles.welcome}>
            Greetings {user.name ?? user.id} 👋!
         </Text>
-        <DisplaySellers></DisplaySellers>
+        <DisplaySellers />
       </View>
     );
   }
