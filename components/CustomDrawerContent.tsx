@@ -33,7 +33,7 @@ export default function CustomDrawerConternt(props: any) {
       <Profile {...props} />
       
       <View style={style.welcome}>
-        <Text style={style.welcometext}>HELLO {user?.name ?? user?.id}</Text>
+        <Text style={style.welcometext}>{user?.name ?? user?.id}</Text>
       </View>
       <DrawerItemList {...props} />
       <View style={style.box}>

@@ -50,13 +50,12 @@ function Editprofile() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
       quality: 1,
     });
     if (!result.canceled) {
       setimg(result.assets[0].uri);
       uploadImageAsync(result.assets[0].uri).then((url)=>{
-        console.log("result upload ",url);
         if(url){
           setimg(url);
         }
