@@ -69,16 +69,17 @@ const Page: React.FC<PageProps> = () => {
   };
 
   return (
+   <>
+   <Stack.Screen options={{
+    headerStyle: {
+      backgroundColor: theme.mode == "light" ? "#fff" : "#292727",
+    },
+    headerTintColor: theme.mode == "light" ? "#292727" : "#fff",
+   }}  />
     <View
       style={theme.mode == "light" ? styles.container : styles.darkcontainer}
     >
-      {/* <LinearGradient
-        colors={["#00D2FF", "#72C6EF"]}
-        style={styles.container}
-      /> */}
-      {/* <View style={styles.card}>
-        <Text style={styles.cardText}>Settings Card</Text>
-      </View> */}
+      
       <ImageBackground
         source={
           theme.mode == "light"
@@ -126,24 +127,6 @@ const Page: React.FC<PageProps> = () => {
           onPress={handleReportBug}
         />
       </View>
-      <Modal visible={isModalVisible} animationType="slide" transparent>
-        <View style={styles.modalContainer}>
-          <View
-            style={
-              theme.mode == "light"
-                ? styles.modalContent
-                : styles.darkmodalContent
-            }
-          >
-            <Text style={styles.modalTitle}>Change Theme</Text>
-            <Text style={styles.modalText}>Modal content goes here...</Text>
-
-            <SelectTheme />
-            <Button title="Close" onPress={closeModal} />
-          </View>
-        </View>
-      </Modal>
-
       <Modal visible={isModalVisible2} animationType="slide" transparent>
         <View
           style={
@@ -183,6 +166,7 @@ const Page: React.FC<PageProps> = () => {
         </View>
       </Modal>
     </View>
+   </>
   );
 };
 
@@ -348,7 +332,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   darkmodalContainer: {
-    backgroundColor: "#2b2b2a",
+    // backgroundColor: "#2b2b2a",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -358,10 +342,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 8,
-    //alignItems: "center",
     margin: 40,
-    alignItems: "flex-start",
-    zindex: 4,
+
   },
   darkmodalContent: {
     backgroundColor: "#2b2b2a",

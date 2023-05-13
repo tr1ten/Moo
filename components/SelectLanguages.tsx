@@ -75,10 +75,11 @@ const SelectLanguages = () => {
 export default SelectLanguages;
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    // flexDirection: "row",
     zIndex: 100,
     width: "60%",
-
+    padding:10,
+    gap:10,
     justifyContent: "space-between",
     marginBottom: 40,
   },
