@@ -7,17 +7,19 @@ import Animated, {
 } from "react-native-reanimated";
 
 const images: ImageSourcePropType[] = [
-  require("../assets/images/img1.jpg"),
-  require("../assets/images/img2.jpg"),
-  require("../assets/images/cow.jpg"),
+  require("../assets/images/Slice1.png"),
+  require("../assets/images/Slice2.png"),
+  require("../assets/images/Slice3.png"),
 ];
 
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    width: 400,
+    width: "90%",
     height: 200,
     overflow: "hidden",
+    flex:1,
+    alignSelf:'center',
   },
   image: {
     position: "absolute",
@@ -25,6 +27,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     height: "100%",
+    borderRadius:5,
   },
 });
 
