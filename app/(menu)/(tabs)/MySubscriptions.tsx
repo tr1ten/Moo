@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { Text } from "@rneui/themed";
 import {
-  Item,
   SubscriptionStatus,
   deleteSubscription,
   getAllSubscriptions,
@@ -15,6 +14,7 @@ import { ToastAndroid } from "react-native";
 import { RefreshControl } from "react-native";
 import Placeholder from "../../../components/Placeholder";
 import { useIsFocused } from "@react-navigation/native";
+import { Item } from "../../../components/Buyer/SellerItem";
 export type BuyerSubscription = {
   id: number;
   quantity: number;
