@@ -7,9 +7,9 @@ import Animated, {
 } from "react-native-reanimated";
 
 const images: ImageSourcePropType[] = [
-  require("../assets/images/Slice1.png"),
-  require("../assets/images/Slice2.png"),
-  require("../assets/images/Slice3.png"),
+  require("../assets/images/slice1.png"),
+  require("../assets/images/slice2.png"),
+  require("../assets/images/slice3.png"),
 ];
 
 const styles = StyleSheet.create({
