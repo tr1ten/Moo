@@ -22,7 +22,7 @@ import {
 
 import SelectLanguages from "../components/SelectLanguages";
 import SelectTheme from "../components/SelectTheme";
-
+import { useTranslation } from "react-i18next";
 interface PageProps {
   // Add any necessary props
 }
@@ -33,7 +33,7 @@ const Page: React.FC<PageProps> = () => {
   const [isModalVisible3, setModalVisible3] = useState(false);
   const [value, onChangeText] = React.useState("");
   const { theme, updateTheme } = useTheme();
-
+  const { t } = useTranslation();
   const handleChangeTheme = () => {
     // Code for changing the theme
     // const { theme, updateTheme } = useTheme();
@@ -153,18 +153,18 @@ const Page: React.FC<PageProps> = () => {
           }
         >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Change Language</Text>
-            <Text style={styles.modalText}>Modal content goes here...</Text>
+            <Text style={styles.modalTitle}>{t("common:ChanngeL")}</Text>
+            {/* <Text style={styles.modalText}>Modal content goes here...</Text> */}
 
             <SelectLanguages />
-            <Button title="Close" onPress={closeModal} />
+            <Button title={t("common:Close")} onPress={closeModal} />
           </View>
         </View>
       </Modal>
       <Modal visible={isModalVisible3} animationType="slide" transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Report a bug</Text>
+            <Text style={styles.modalTitle}>{t("common:ReportBug")}</Text>
             <Text style={styles.modalText}>
               Our tech team will investigate your issue
             </Text>
