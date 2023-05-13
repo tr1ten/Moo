@@ -9,6 +9,7 @@ import { auth } from "../firebase/firebaseConfig";
 import { View } from "react-native";
 import React from "react";
 import { Provider  as UserProvider} from "../providers/UserProvider";
+import { useTranslation } from "react-i18next";
 export default function RootLayout() {
   const [user,loading] = useAuthState(auth);
   const [loaded, error] = useFonts({
@@ -52,6 +53,7 @@ const theme = createTheme({
 // save button at right side of header
 
 function RootLayoutNav() {
+  const { t } = useTranslation();
   const [user] = useAuthState(auth);
   useProtectedRoute(user);
   return (
@@ -72,11 +74,15 @@ function RootLayoutNav() {
             }}
             />
           <Stack.Screen name="ChangePassword" options={{
-              headerTitle: "Change Password",
+              headerTitle: "Change Password"
             }}
             />
             <Stack.Screen name="Editprofile" options={{
               headerTitle: "Edit Profile",
+            }}
+            />
+            <Stack.Screen name="Setting" options={{
+              headerTitle:t("common:Setting"),
             }}
             />
           </Stack>

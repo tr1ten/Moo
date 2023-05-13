@@ -50,7 +50,7 @@ export default function CustomDrawerConternt(props: any) {
         </>
         :  <Pressable onPress={() => navigation.navigate("MySubscriptions")}>
         <Item
-          name="My Subscriptions"
+          name={t("common:MySubscription")}
           iname="user"
         />
       </Pressable>

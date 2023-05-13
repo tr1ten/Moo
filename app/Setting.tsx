@@ -19,12 +19,13 @@ import {
 } from "@react-navigation/drawer";
 import SelectLanguages from "../components/SelectLanguages";
 import SelectTheme from "../components/SelectTheme";
-
+import { useTranslation } from "react-i18next";
 interface PageProps {
   // Add any necessary props
 }
 
 const Page: React.FC<PageProps> = () => {
+  const { t } = useTranslation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
   const [isModalVisible3, setModalVisible3] = useState(false);
@@ -79,27 +80,27 @@ const Page: React.FC<PageProps> = () => {
 
       <View style={styles.optionsContainer}>
         <OptionButton
-          title="Change Theme"
+          title={t("common:ChangeTheme")}
           icon="paint-brush"
           onPress={handleChangeTheme}
         />
         <OptionButton
-          title="Change Language"
+          title={t("common:ChangeLang")}
           icon="language"
           onPress={handleLanguageChange}
         />
         <OptionButton
-          title="Contact Us"
+          title={t("common:ContactUs")}
           icon="envelope"
           onPress={handleContactUs}
         />
         <OptionButton
-          title="Send Feedback"
+          title={t("common:SendFeed")}
           icon="comments"
           onPress={handleSendFeedback}
         />
         <OptionButton
-          title="Report a Bug"
+          title={t("common:Report")}
           icon="bug"
           onPress={handleReportBug}
         />

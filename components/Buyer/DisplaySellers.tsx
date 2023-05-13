@@ -10,6 +10,7 @@ import SellerItem, { Item } from "./SellerItem";
 import { useIsFocused } from "@react-navigation/native";
 import { Pressable, SafeAreaView, View } from "react-native";
 import { StyleSheet } from "react-native";
+import Placeholder from "../Placeholder";
 function DisplaySellers() {
     const[cat,cncat]=useState({
       "Eggs":true,
@@ -45,14 +46,14 @@ function DisplaySellers() {
     function goat(){
       cncat({...cat,'Goat Milk':!cat["Goat Milk"]})
     }
-if(loading) return <Text>Loading data...</Text>;
+if(loading) return <Placeholder title="Loading..." description="please wait..."></Placeholder>;
   return (
     <>
     <View style={style.category}>
-      <Pressable onPress={()=>eggs()}><Text style={style.cat}>Eggs</Text></Pressable>
-      <Pressable onPress={()=>cow()}><Text style={style.cat}>Cow</Text></Pressable>
-      <Pressable onPress={()=>goat()}><Text style={style.cat}>Goat</Text></Pressable>
-      <Pressable onPress={()=>buffalo()}><Text style={style.cat}>Buffalo</Text></Pressable>
+      <Pressable onPress={()=>eggs()}><Text style={cat['Eggs']!=true?style.cat:style.cat2}>Eggs</Text></Pressable>
+      <Pressable onPress={()=>cow()}><Text style={cat['Cow Milk']!=true?style.cat:style.cat2}>Cow</Text></Pressable>
+      <Pressable onPress={()=>goat()}><Text style={cat['Goat Milk']!=true?style.cat:style.cat2}>Goat</Text></Pressable>
+      <Pressable onPress={()=>buffalo()}><Text style={cat['Buffalo Milk']==true?style.cat:style.cat2}>Buffalo</Text></Pressable>
     </View>
     <SafeAreaView>
         {sellerItems ?   <FlatList
@@ -73,7 +74,7 @@ if(loading) return <Text>Loading data...</Text>;
         numColumns={2}
      />
         : 
-        <Text>No Sellers Found</Text>
+        <Placeholder title="NO Seller Found" ></Placeholder>
         }
     </SafeAreaView>
     </>
@@ -90,10 +91,25 @@ const style=StyleSheet.create({
     padding:5,
     paddingLeft:20,
     paddingRight:20,
-    borderWidth:2,
+    paddingBottom:1,
+    borderWidth:1,
     borderRadius:20,
     fontSize:15,
-    fontWeight:'700'
+    fontWeight:'300',
+    borderColor:'#38352b'
+  }
+  ,cat2:{
+    backgroundColor:"#b8b5ae",
+    color:"#38352b",
+    borderColor:'#38352b',
+    padding:5,
+    paddingLeft:20,
+    paddingBottom:1,
+    paddingRight:20,
+    borderWidth:1,
+    borderRadius:20,
+    fontSize:15,
+    fontWeight:'300'
   }
 })
 export default DisplaySellers;
