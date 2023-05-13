@@ -78,5 +78,5 @@ dist/
 
 android/
 
-*.lock
 .env
+package-lock.json
