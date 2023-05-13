@@ -103,11 +103,11 @@ const Page: React.FC<PageProps> = () => {
           onPress={handleChangeTheme}
           RightSideComponent={<SelectTheme />}
         />
-        <OptionButton2
+        <OptionButton
           title="Change Language"
           icon="language"
           onPress={handleLanguageChange}
-          RightSideComponent={<SelectLanguages />}
+          // RightSideComponent={<SelectLanguages />}
         />
 
         <OptionButton
