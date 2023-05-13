@@ -50,10 +50,10 @@ if(loading) return <Placeholder title="Loading..." description="please wait...">
   return (
     <>
     <View style={style.category}>
-      <Pressable onPress={()=>eggs()}><Text style={cat['Eggs']!=true?style.cat:style.cat2}>Eggs</Text></Pressable>
-      <Pressable onPress={()=>cow()}><Text style={cat['Cow Milk']!=true?style.cat:style.cat2}>Cow</Text></Pressable>
-      <Pressable onPress={()=>goat()}><Text style={cat['Goat Milk']!=true?style.cat:style.cat2}>Goat</Text></Pressable>
-      <Pressable onPress={()=>buffalo()}><Text style={cat['Buffalo Milk']==true?style.cat:style.cat2}>Buffalo</Text></Pressable>
+      <Pressable onPress={()=>eggs()}><Text style={!cat['Eggs']?style.cat:style.cat2}>Eggs</Text></Pressable>
+      <Pressable onPress={()=>cow()}><Text style={!cat['Cow Milk']?style.cat:style.cat2}>Cow</Text></Pressable>
+      <Pressable onPress={()=>goat()}><Text style={!cat['Goat Milk']?style.cat:style.cat2}>Goat</Text></Pressable>
+      <Pressable onPress={()=>buffalo()}><Text style={!cat['Buffalo Milk']?style.cat:style.cat2}>Buffalo</Text></Pressable>
     </View>
     <SafeAreaView>
         {sellerItems ?   <FlatList
