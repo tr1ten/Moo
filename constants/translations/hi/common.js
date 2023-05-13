@@ -1,10 +1,16 @@
 export default {
   Hey: "नमस्ते",
-  languageSelector: "अपनी भाषा का चयन करें",
-  themeSelector: "अपनी भाषा का चयन करें",
-  Dues: "बक़ाया",
-  Area: "इलाका",
-  ChanngeL: "भाषा बदलें",
-  Close: "बंद करना",
-  ReportBug: "रिपोर्ट बग",
+  ContactUs:'हमसे संपर्क करें',
+  SendFeed:"फ़ीडबैक भेजें",
+  Report:"बग की रिपोर्ट करें",
+  ChangeLang: 'भाषा बदलें',
+  ChangeTheme: 'थीम रंग बदलें ',
+  Dues:"बक़ाया",
+  Area:"इलाका",
+  Setting:"सेटिंग",
+  MyProducts:"मेरे उत्पाद",
+  MyCustomer:"मेरे ग्राहक",
+  changepassword:"पासवर्ड बदलें",
+  MySubscription:"मेरे ग्राहक",
+  signout:"साइन आउट"
 };

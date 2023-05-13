@@ -5,26 +5,28 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
+import { ImageBackground } from "react-native";
 import { Text,View,Image ,StyleSheet, Pressable} from "react-native";
 import Profile from "./Profile";
 import { auth } from "../firebase/firebaseConfig";
 import React from "react";
 import { Icon } from '@rneui/themed';
 import { useUser } from "../providers/UserProvider";
-import { SELLER } from "../constants/common";
-
+import { BUYER, SELLER } from "../constants/common";
+import { useTranslation } from "react-i18next";
 export default function CustomDrawerConternt(props: any) {
+  const { t } = useTranslation();
   const navigation = props.navigation;
   const {user} = useUser();
   
   return (
-    <DrawerContentScrollView
+    <ImageBackground imageStyle={{opacity:.5}} source={require("./../assets/images/background.png")} resizeMode="cover" style={style.img} >
+        <DrawerContentScrollView
       contentContainerStyle={{
         justifyContent: "space-between",
       }}
       {...props}
     >
-      
       <Profile {...props} />
       
       <View style={style.welcome}>
@@ -35,20 +37,20 @@ export default function CustomDrawerConternt(props: any) {
         {user?.type==SELLER ? <>
         <Pressable  onPress={() => navigation.navigate("MyCatalogue")}>
             <Item
-              name="My Products"
+              name={t("common:MyProducts")}
               iname="bag"
             />
         </Pressable>
         <Pressable onPress={() => navigation.navigate("MyCustomers")}>
           <Item
-            name="My Customers"
+            name={t("common:MyCustomer")}
             iname="user"
           />
         </Pressable>
         </>
         :  <Pressable onPress={() => navigation.navigate("MySubscriptions")}>
         <Item
-          name="My Subscriptions"
+          name={t("common:MySubscription")}
           iname="user"
         />
       </Pressable>
@@ -56,19 +58,19 @@ export default function CustomDrawerConternt(props: any) {
         }
         <Pressable onPress={() => navigation.navigate("ChangePassword")}>
           <Item
-            name="Change Password"
+            name={t("common:changepassword")}
             iname="key"
           />
         </Pressable>  
         <Pressable onPress={() => navigation.navigate("Setting")}>
           <Item
-            name="Setting"
+            name={t("common:Setting")}
             iname="settings"
           />
         </Pressable>
         <Pressable onPress={() => auth.signOut()}>
           <Item
-            name="SignOut"
+            name={t("common:signout")}
             iname="logout"
           
           />
@@ -79,10 +81,12 @@ export default function CustomDrawerConternt(props: any) {
         <Image
           style={style.footerimage}
           
-          source={require('./../assets/images/splash.png')}
+          source={require('./../assets/images/nobg.png')}
         />
       </View>
     </DrawerContentScrollView>
+      
+    </ImageBackground>
     
   );
 }
@@ -91,6 +95,7 @@ function Item(props :any){
       <View style={style.item}>
         <Icon size={20} name={props.iname} type="simple-line-icon"/>
         <Text style={style.text}>{props.name}</Text>
+        
       </View>
   )
 }
@@ -133,6 +138,9 @@ item:{
   justifyContent:'flex-start',
   alignItems:'center',
  
+},
+img:{
+  height:"100%",
 }
 
 })

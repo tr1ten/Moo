@@ -105,24 +105,24 @@ const Page: React.FC<PageProps> = () => {
           RightSideComponent={<SelectTheme />}
         />
         <OptionButton
-          title="Change Language"
+          title={t("common:ChangeLang")}
           icon="language"
           onPress={handleLanguageChange}
           // RightSideComponent={<SelectLanguages />}
         />
 
         <OptionButton
-          title="Contact Us"
+          title={t("common:ContactUs")}
           icon="envelope"
           onPress={handleContactUs}
         />
         <OptionButton
-          title="Send Feedback"
+          title={t("common:SendFeed")}
           icon="comments"
           onPress={handleSendFeedback}
         />
         <OptionButton
-          title="Report a Bug"
+          title={t("common:Report")}
           icon="bug"
           onPress={handleReportBug}
         />
