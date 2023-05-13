@@ -3,9 +3,7 @@ import { Text } from "@rneui/themed";
 import { getNearbySellerItems } from "../../services/user";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebaseConfig";
-import {
-  FlatList,
-} from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import SellerItem, { Item } from "./SellerItem";
 import { useIsFocused } from "@react-navigation/native";
 import { Pressable, SafeAreaView, View } from "react-native";

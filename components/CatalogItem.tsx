@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import React from "react";
-import { deleteUserItem, Item } from "../services/item";
 import { Avatar, ListItem, Text } from "@rneui/themed";
 import { StyleSheet } from "react-native";
+import { Item } from "./Buyer/SellerItem";
 type Props = {
   item:Item,
   onDeleteItem: (id:string)=>void
