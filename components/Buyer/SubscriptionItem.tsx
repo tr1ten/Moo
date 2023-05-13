@@ -2,8 +2,6 @@ import { Avatar, Badge, Button, ListItem,Text } from '@rneui/themed'
 import React from 'react'
 import { BuyerSubscription } from '../../app/(menu)/(tabs)/MySubscriptions'
 import { deleteSubscription } from '../../services/item'
-import { ToastAndroid } from 'react-native'
-import { Toast } from 'expo-router/src/views/Toast'
 
 function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:number)=>void}) {
     
@@ -19,7 +17,7 @@ function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:nu
       </ListItem.Title>
       
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Seller:</Text>  {sub.item.catalogue?.seller.user.name ?? sub.item.catalogue?.seller.user.id}
+      <Text style={{fontWeight:"bold"}}> Seller:</Text>  {sub.item.catalogue?.seller.user.name ?? "Unknown"}
       </ListItem.Subtitle>
       <ListItem.Subtitle>
       <Text style={{fontWeight:"bold"}}> Qty:</Text>  {sub.quantity}
@@ -43,7 +41,7 @@ function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:nu
       </ListItem.Subtitle>
     </ListItem.Content>
     {
-      sub.status=="active" && <Button
+      sub.status=="active" && <Button 
       onPress={()=>onDelete(sub.id)}
       color={"error"}
       title={"Cancel"} />

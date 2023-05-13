@@ -20,7 +20,8 @@ export type BuyerSubscription = {
   quantity: number;
   createdAt: Date;
   item: Item;
-  status: SubscriptionStatus
+  status: SubscriptionStatus;
+  distance: number;
 };
 function MySubscriptions() {
   const [subscriptions, setSubs] = useState<BuyerSubscription[]>([]);
