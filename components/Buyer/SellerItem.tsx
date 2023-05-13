@@ -11,6 +11,7 @@ import { color } from "react-native-reanimated";
 import { Pressable } from "react-native";
 import { Test } from "mocha";
 import { User } from "react-native-gifted-chat";
+import { TouchableOpacity } from "react-native-gesture-handler";
 export type Seller = {
   location: string;
   decription: string;
@@ -85,16 +86,16 @@ function SellerItem({
                {item.catalogue.seller.user.name ?? "Rajesh"}
             </Text>
             </View>
-            <Text style={style.t3}>₹ {item.price} / kg</Text>
+            <Text style={style.t3}>₹ {item.price} / ltr</Text>
           </View>
         </View>
+          <TouchableOpacity onPress={() => onToggle()}>
         <View style={style.get}>
-          <Pressable onPress={() => onToggle()}>
             <View>
-              <Text style={style.t4}>Add Item</Text>
+              <Text style={style.t4}>Subscribe</Text>
             </View>
-          </Pressable>
         </View>
+          </TouchableOpacity>
       </View>
       <Dialog
         isVisible={visible}
@@ -103,7 +104,16 @@ function SellerItem({
           backgroundColor: "white",
         }}
       >
-        <Dialog.Title title={item.type.label} />
+        <Dialog.Title 
+        titleStyle={{
+          textAlign:"center",
+          padding:10
+        }}
+        title={item.type.label} />
+        <Text> 
+          Available: {item.capacity}
+
+        </Text>
         <Text>Quantity : {quantity}</Text>
         <Text>Approx Cost : {quantity * item.price} Rs</Text>
 
@@ -129,8 +139,17 @@ function SellerItem({
           }}
         />
         <Dialog.Actions>
-          <Dialog.Button title={<Text>Confirm</Text>} onPress={onSubmit} />
-          <Dialog.Button title={<Text>Cancel</Text>} onPress={onToggle} />
+          <Dialog.Button 
+          containerStyle={{
+            backgroundColor: "rgb(14, 164, 228)",
+            
+          }}
+          title={<Text style={{color:"white"}}>Request</Text>} onPress={onSubmit} />
+          <Dialog.Button title={<Text
+          style={{
+            color:"red"
+          }}
+          >Cancel</Text>} onPress={onToggle} />
         </Dialog.Actions>
       </Dialog>
     </View>
