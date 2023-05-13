@@ -11,18 +11,14 @@ import Profile from "./Profile";
 import { auth } from "../firebase/firebaseConfig";
 import React from "react";
 import { Icon } from '@rneui/themed';
-import { useFonts } from "expo-font";
 import { useUser } from "../providers/UserProvider";
 import { BUYER, SELLER } from "../constants/common";
 import { useTranslation } from "react-i18next";
 export default function CustomDrawerConternt(props: any) {
   const { t } = useTranslation();
   const navigation = props.navigation;
-  const [fontsLoaded] = useFonts({
-    'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
-  });
   const {user} = useUser();
-  if(!fontsLoaded) return <Text>Loading...</Text>;
+  
   return (
     <ImageBackground imageStyle={{opacity:.5}} source={require("./../assets/images/background.png")} resizeMode="cover" style={style.img} >
         <DrawerContentScrollView
@@ -34,7 +30,7 @@ export default function CustomDrawerConternt(props: any) {
       <Profile {...props} />
       
       <View style={style.welcome}>
-        <Text style={style.welcometext}>HELLO {user?.name ?? user?.id}</Text>
+        <Text style={style.welcometext}>{user?.name ?? user?.id}</Text>
       </View>
       <DrawerItemList {...props} />
       <View style={style.box}>
@@ -122,7 +118,6 @@ item:{
 ,text:{
   fontWeight:'400',
   fontSize:15,
-  fontFamily:'sans'
 }
 ,welcome:{
   alignItems:'center',
@@ -132,7 +127,6 @@ item:{
 ,welcometext:{
   fontSize:20,
   fontWeight:'500',
-  fontFamily:'sans'
 }
 ,footerimage:{
   justifyContent:"center",

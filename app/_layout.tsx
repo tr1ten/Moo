@@ -13,6 +13,7 @@ export default function RootLayout() {
   const [user,loading] = useAuthState(auth);
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    'sans': require('./../assets/fonts/ProductSans-Regular.ttf'),
     ...FontAwesome.font,
   });
   return (
@@ -27,7 +28,7 @@ const theme = createTheme({
   components: {
     Text: {
       style: {
-        fontFamily: "System",
+        fontFamily: "sans",
       },
     },
     Button: {
@@ -72,6 +73,10 @@ function RootLayoutNav() {
             />
           <Stack.Screen name="ChangePassword" options={{
               headerTitle: "Change Password",
+            }}
+            />
+            <Stack.Screen name="Editprofile" options={{
+              headerTitle: "Edit Profile",
             }}
             />
           </Stack>

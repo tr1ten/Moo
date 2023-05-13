@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { deleteUserItem, Item } from "../services/item";
 import { FlatList } from "react-native-gesture-handler";
 import { CatalogItem } from "./CatalogItem";
-import { useRoute } from "@react-navigation/native";
-import { useNavigation, useRouter } from "expo-router";
+import {  useRouter } from "expo-router";
+import { Text } from "@rneui/themed";
 import { RefreshControl } from "react-native";
+import Placeholder from "./Placeholder";
 type Props = {
   ditems: Item[];
   onRefresh: () => void;
@@ -26,7 +27,7 @@ const ShowCatalogue = ({ ditems, onRefresh, refreshing }: Props) => {
   }, [ditems]);
   return (
     <View>
-      {items.length == 0 && <Text>No items in catalogue :O</Text>}
+      {items.length == 0 && <Placeholder title="No items in catalogue :O" />}
       {items.length > 0 && (
         <FlatList
           refreshControl={

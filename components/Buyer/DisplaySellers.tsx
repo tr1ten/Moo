@@ -1,12 +1,15 @@
-import React, { useEffect,useState } from 'react'
-import { StyleSheet,View ,SafeAreaView, Pressable} from 'react-native'
-import { Text } from '@rneui/themed';
-import { getNearbySellerItems } from '../../services/user';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../firebase/firebaseConfig';
-import {FlatList, ScrollView } from 'react-native-gesture-handler';
-import SellerItem, { Item } from './SellerItem';
-import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import { Text } from "@rneui/themed";
+import { getNearbySellerItems } from "../../services/user";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebaseConfig";
+import {
+  FlatList,
+} from "react-native-gesture-handler";
+import SellerItem, { Item } from "./SellerItem";
+import { useIsFocused } from "@react-navigation/native";
+import { Pressable, SafeAreaView, View } from "react-native";
+import { StyleSheet } from "react-native";
 function DisplaySellers() {
     const[cat,cncat]=useState({
       "Eggs":true,

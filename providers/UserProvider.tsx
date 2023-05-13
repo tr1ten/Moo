@@ -6,6 +6,7 @@ export type User = {
     type: number
     image?: string,
     name?: string,
+    bio: string,
 }
 
 const UserContext = React.createContext<{
@@ -36,7 +37,6 @@ export function Provider(props:any){
     const setUserAsync = (user:User)=>{
         setUser(user);
         if(user){AsyncStorage.setItem('@user',JSON.stringify(user));}
-        
     }
     return (
         <UserContext.Provider

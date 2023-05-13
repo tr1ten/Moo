@@ -13,16 +13,16 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { User, useUser } from "../../providers/UserProvider";
 
-const Chat: React.FC = (props: any) => {
+const Chat: React.FC = (props: User) => {
   const [messages, setMessages] = React.useState([]);
-  const navigation = props.navigation;
-  const [user] = useAuthState(auth);
-  const SENDER_ID = user?.email;
+  const {user} = useUser();
+  const SENDER_ID = user!.id;
   let RECEIVER_ID:string;
   let chatId:string;
-  const item = useSearchParams();
-  
+  const item:User = (useSearchParams() as any);
+  // console.log("item is", item);
   useEffect(() => {
     RECEIVER_ID = item.id ?? "123";
     chatId = `${SENDER_ID}_${RECEIVER_ID}`;
@@ -40,6 +40,11 @@ const Chat: React.FC = (props: any) => {
         const { createdAt } = data;
 
         return {
+          user:{
+            _id: data.senderId,
+            name: data.senderId===user?.id?user?.name:item.name,
+            avatar: data.senderId===user?.id?user?.image:item.image,
+          },
           ...data,
           createdAt: new Date(),
         };
@@ -54,22 +59,22 @@ const Chat: React.FC = (props: any) => {
   const onSend = React.useCallback((newMessages = []) => {
     addDoc(collection(firestore, "chat", chatId, "message"), {
       ...newMessages[0],
-      senderid: user?.uid,
-      receiverId: user?.providerId,
+      senderid: SENDER_ID,
+      receiverId: RECEIVER_ID,
       createdAt: serverTimestamp(),
     });
   }, []);
 
   return (
     <>
-      <Stack.Screen options={{ title: `${item.userId ?? item.id}` }}></Stack.Screen>
+      <Stack.Screen options={{ title: `${item.name}` }}></Stack.Screen>
       <GiftedChat
         messages={messages}
         onSend={onSend}
         user={{
-          _id: user?.uid!,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
+          _id: user!.id,
+          name: user?.name,
+          avatar: user?.image,
         }}
       />
     </>

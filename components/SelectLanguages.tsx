@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
 import { LANGUAGES, translate } from "../constants/DCSLocalize";
 import { StyleSheet } from "react-native";
 import { useLanguage } from "../providers/LanguageProvider";
+import { Text } from "@rneui/themed";
 import { useTranslation } from "react-i18next";
 const SelectLanguages = () => {
   const [open, setOpen] = useState(false);
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
     width: "60%",
 
     justifyContent: "space-between",
+    marginBottom: 40,
   },
   txt: {
     marginTop: 12,

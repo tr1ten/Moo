@@ -1,74 +1,99 @@
 import { CheckBox, Input, Text } from "@rneui/themed";
 import {
   ImageBackground,
-  SafeAreaView,
+  Keyboard,
   ScrollView,
-  TextInput,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "@rneui/base";
-
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { color } from "react-native-reanimated";
 import { getUser, registerUser } from "../../services/user";
 import { useUser } from "../../providers/UserProvider";
+import * as Location from 'expo-location';
 
 export default function Signin() {
   const [isRegiser, setIsRegister] = React.useState(true);
   const {user:dUser, setUser} = useUser();
   const [mail, setMail] = React.useState("");
+  const [Name, setName] = React.useState("");
+  const [location, setLocation] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
 
   const [error, setError] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [signInWithEmailAndPassword, signUser, SignLoading, SignError] =
     useSignInWithEmailAndPassword(auth);
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const [isSeller, setIsSeller] = React.useState(0);
+  const [isSeller, setIsSeller] = React.useState(false);
+  function validate(){
+      if(!mail || !password) return false;
+      if(isRegiser && !Name) return false;
+      // check mail
+      if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(mail)) return false;
+      return true;
+  }
   const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
+    if(!validate()) {
+      setError("Please fill all fields");
+      return;
+    }
     if (password != confirm) {
       setError("Passwords do not match!");
       return;
     }
     createUserWithEmailAndPassword(mail, password).then(async (user) => {
       if (!user) return;
-      await registerUser(mail, isSeller == 1);
+      await registerUser(mail, isSeller,Name,location);
       await signInWithEmailAndPassword(mail, password);
       const usr = await getUser(mail);
+      // console.log("register user ",usr);
       setUser({
         id: mail,
         location: usr.location,
+        name: usr.name,
         type: usr?.type?.id,
+        image: usr.image,
+        bio: usr.bio,
       })
     });
   };
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (error) setError("");
+    if(!validate()) {
+      setError("Please fill all fields");
+      return;
+    }
     // improve
     const user = await getUser(mail);
     if(!user) {
       setError("This user not registered with db");
       return;
     }
+    // console.log("recieved user name ",user);
     await signInWithEmailAndPassword(mail, password);
     setUser({
       id: mail,
       location: user.location,
       type: user?.type?.id,
+      name: user.name,
+      image: user.image,
+      bio: user.bio,
     })
-    
+
 
   };
   useEffect(() => {
+    Location.requestForegroundPermissionsAsync()
     if (userError) {
       setError(userError.message);
     }
@@ -78,104 +103,168 @@ export default function Signin() {
   }, [SignError, userError]);
 
   useEffect(() => {
-    setIsLoading(loading || SignLoading);
-  }, [loading, SignLoading]);
+      setIsLoading( loading || SignLoading);
+  },[loading,SignLoading]);
 
+
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const handleFocus = () => {
+    scrollViewRef.current?.setNativeProps({ scrollEnabled: true });
+  };
+
+  const handleBlur = () => {
+    scrollViewRef.current?.setNativeProps({ scrollEnabled: false });
+  }; 
+  
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setError("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location.coords.latitude + "," + location.coords.longitude);
+    })();
+  },[]);
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.welcomeText}>Welcome To Moo!</Text>
-      <Card>
-        <Card.Title>
-          {isRegiser ? <Text>Register</Text> : <Text>Sign In</Text>}
-        </Card.Title>
-        <Card.Divider />
-        <View>
-          <Input
-            disabled={isLoading}
-            label="Email"
-            value={mail}
-            onChangeText={setMail}
-          />
-          <Input
-            disabled={isLoading}
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-          />
-          {isRegiser && (
-            <View>
-              <Input
-                disabled={isLoading}
-                label="Confirm Password"
-                value={confirm}
-                onChangeText={setConfirm}
-              />
-              <View style={styles.utype}>
-                <Text style={styles.utext}>You are</Text>
-                <CheckBox
-                  checked={isSeller === 1}
-                  onPress={() => setIsSeller(1)}
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle-o"
-                  title={"Seller"}
-                />
-                <CheckBox
-                  checked={isSeller === 0}
-                  onPress={() => setIsSeller(0)}
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle-o"
-                  title={"Buyer"}
-                />
-              </View>
-            </View>
-          )}
-          <Text style={styles.error}>{error}</Text>
-          <Button
-            loading={isLoading}
-            onPress={isRegiser ? onRegister : onSignIn}
-            title={isRegiser ? "Register" : "Sign In"}
-          />
-        </View>
+    <View style={{ flex: 1 }}>
+    <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+            flex: 1,
+            backgroundColor:'#607A00',
+        }}
+        contentContainerStyle={{
+            flexGrow: 1,
+        }} 
+        automaticallyAdjustKeyboardInsets={true}
+        ref={scrollViewRef}
+        scrollEnabled={false}
+        keyboardShouldPersistTaps="handled"
+    >
+      <ImageBackground 
+                source={require("../../assets/images/cow.jpg")} 
+                style={{
+                    width:"100%",
+                    height:"50%",
+                    position:'absolute',
+                    top:0
+                }}
+                imageStyle={{
+                    resizeMode: "cover",
+                }}
+      />
+      <Text style={styles.welcomeText}>Welcome To</Text>
+      <Text style={styles.Moo}>Moo!</Text>
+      <View style={styles.InBack}>        
+        {isRegiser ? <Text style={styles.TopText}>Sign-Up</Text> : <Text style={styles.TopText}>Sign-In</Text>}  
+        {isRegiser && (<Input
+        inputContainerStyle={{
+          borderBottomWidth:0,
+        }}
+        leftIcon={{ type: "font-awesome", name: "user",size:17,color:'#101626'  }}
+        
+        containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="name" value={Name} onChangeText={setName} onFocus={handleFocus} onBlur={handleBlur} />)}
+        <Input
+        inputContainerStyle={{
+          borderBottomWidth:0,
+        }}
+        leftIcon={{ type: "font-awesome", name: "envelope",size:17,color:'#101626'  }}
+        containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="email" value={mail} onChangeText={setMail} onFocus={handleFocus} onBlur={handleBlur} />
+        <Input 
+        inputContainerStyle={{
+          borderBottomWidth:0,
+        }}
+        leftIcon={{ type: "font-awesome", name: "lock",size:17,color:'#101626'  }}
+        secureTextEntry={true} containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="password" value={password} onChangeText={setPassword} onFocus={handleFocus} onBlur={handleBlur} />
+        {isRegiser && (<Input
+          inputContainerStyle={{
+            borderBottomWidth:0,
+          }}
+          leftIcon={{ type: "font-awesome", name: "lock",size:17,color:'#101626'  }}
+        secureTextEntry={true} containerStyle={styles.FieldStyle} editable={!isLoading} selectTextOnFocus={!isLoading} placeholder="confirm password" value={confirm} onChangeText={setConfirm} onFocus={handleFocus} onBlur={handleBlur} />)}
+        {isRegiser && (
+            <View style={styles.utype}>
+              <Text 
+                style={styles.utext}
+              >You are</Text>
+              <CheckBox
+                checked={isSeller}
 
-        <Text style={styles.btnText}>
-          {isRegiser ? "Already a member ?" : "Not a member ?"}{" "}
-          <Text
-            style={styles.textRegister}
-            onPress={() => setIsRegister(!isRegiser)}
-          >
-            {isRegiser ? "Sign In" : "Register"}{" "}
-          </Text>
+                onPress={() => setIsSeller(true)}
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                title={"Seller"}
+                containerStyle={{
+                  backgroundColor: "transparent",
+                }}
+              />
+              <CheckBox
+                checked={!isSeller}
+                onPress={() => setIsSeller(false)}
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                title={"Buyer"}
+                containerStyle={{
+                  backgroundColor: "transparent",
+                }}
+              />
+            </View>
+        )}
+        <Text style={styles.error}>{error}</Text>
+            <Button
+              loading={isLoading}
+              onPress={isRegiser ? onRegister : onSignIn as any}
+              title={isRegiser ? "Register" : "Sign In"}
+            />
+            <Text style={styles.btnText}>
+              {isRegiser?"Already a member ?":"Not a member ?"}{" "}
+            <Text style={styles.textRegister} onPress={() => setIsRegister(!isRegiser)}>
+                {isRegiser ? "Sign In" : "Register"}{" "}
+            </Text>
         </Text>
-      </Card>
+      </View>
+    </ScrollView>
     </View>
-    // </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  InBack: {
-    backgroundColor: "#DCFFFF",
-    height: 750,
-    width: 460,
-    borderTopLeftRadius: 130,
-    paddingTop: 100,
-    alignItems: "center",
-    paddingRight: 30,
+  InBack:{
+    backgroundColor:"#DCFFFF",
+    height:750,
+    width:460,
+    borderTopLeftRadius:130,
+    paddingTop:20,
+    alignItems:'center',
+    paddingRight:40,
   },
   welcomeText: {
     fontSize: 40,
     fontWeight: "bold",
-    paddingLeft: 30,
-    paddingTop: 60,
+    paddingLeft:30,
+    paddingTop:60
   },
-  Moo: {
+  Moo:{
     fontSize: 60,
     fontWeight: "bold",
-    paddingLeft: 30,
+    paddingLeft:30,
   },
-  error: {
-    color: "red",
-    textAlign: "center",
-    margin: 10,
+  error:{
+    color:"red",
+    textAlign:"center",
+    margin: 10
   },
   wrapper: {
     flex: 1,
@@ -190,30 +279,33 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
-  TopText: {
-    fontSize: 40,
-    color: "#3A4F8A",
-    fontWeight: "bold",
-    paddingBottom: 50,
-    textAlign: "center",
+  TopText:{
+    fontSize:40,
+    color:"#3A4F8A",
+    fontWeight:"bold",
+    paddingBottom:10,
+    textAlign:'center',
   },
-  FieldStyle: {
-    borderRadius: 100,
-    color: "#101626",
-    paddingHorizontal: 20,
-    width: "78%",
-    backgroundColor: "rgb(220,220,220)",
-    height: 40,
-    marginVertical: 20,
+  FieldStyle:{
+    // borderRadius:20,
+    borderBottomColor: '#3A4F8A',
+    borderBottomWidth: 1,
+    width:"80%",
+    backgroundColor:'white',
+    height:40,
+    marginVertical:10,
   },
   utype: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "rgb(255,255,255)",
+    backgroundColor:"#DCFFFF",
   },
-  utext: {
+  utext:{
     fontSize: 17,
     fontWeight: "bold",
+    backgroundColor:"#DCFFFF",
   },
 });
+
+

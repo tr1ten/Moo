@@ -1,9 +1,9 @@
 import { useTheme } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { Text } from "@rneui/themed";
 import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
-import { translate } from "../constants/DCSLocalize";
 import { StyleSheet } from "react-native";
 const THEMES = [
   { label: "Light", value: "light" },
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "60%",
     justifyContent: "space-between",
+    marginBottom: 40,
   },
   txt: {
     marginTop: 12,
