@@ -70,9 +70,21 @@ function SellerItem({
         <View style={style.bottom}>
           <View>
             <Text style={style.t1}>{item.type?.label}</Text>
+            <View
+            style={
+              {
+                flexDirection:"row",
+                gap:2,
+                alignItems:"center"
+              }
+            }
+            >
+            <Icon name="account-circle" type="material-community" size={12} />
             <Text style={style.t2}>
-              Seller {item.catalogue.seller.user.name ?? "Rajesh"}
+              
+               {item.catalogue.seller.user.name ?? "Rajesh"}
             </Text>
+            </View>
             <Text style={style.t3}>₹ {item.price} / kg</Text>
           </View>
         </View>

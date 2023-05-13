@@ -2,6 +2,8 @@ import { Avatar, Badge, Button, ListItem,Text } from '@rneui/themed'
 import React from 'react'
 import { BuyerSubscription } from '../../app/(menu)/(tabs)/MySubscriptions'
 import { deleteSubscription } from '../../services/item'
+import { Icon } from '@rneui/base'
+import { View } from 'react-native'
 
 function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:number)=>void}) {
     
@@ -17,14 +19,56 @@ function SubscriptionItem({sub,onDelete}:{sub:BuyerSubscription,onDelete:(arg:nu
       </ListItem.Title>
       
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Seller:</Text>  {sub.item.catalogue?.seller.user.name ?? "Unknown"}
+      <View
+            style={
+              {
+                flexDirection:"row",
+                gap:2,
+                alignItems:"center"
+              }
+            }
+            >
+            <Icon name="account-circle" type="material-community" size={12} />
+            <Text>
+              
+               {sub.item.catalogue?.seller.user.name ?? "Rajesh"}
+            </Text>
+          </View>
       </ListItem.Subtitle>
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Qty:</Text>  {sub.quantity}
+      <View
+            style={
+              {
+                flexDirection:"row",
+                gap:2,
+                alignItems:"center"
+              }
+            }
+            >
+            <Icon name="shopping" type="material-community" size={12} />
+            <Text>
+              
+               {sub.quantity}
+            </Text>
+          </View>
+
       </ListItem.Subtitle>
       <ListItem.Subtitle>
-      <Text style={{fontWeight:"bold"}}> Paid: </Text>  &#8377;
-       {sub.quantity*sub.item.price} 
+      <View
+            style={
+              {
+                flexDirection:"row",
+                gap:2,
+                alignItems:"center"
+              }
+            }
+            >
+            <Icon name="currency-rupee" type="material-community" size={12} />
+            <Text>
+            {sub.quantity*sub.item.price} 
+
+            </Text>
+          </View>
       </ListItem.Subtitle>
       <ListItem.Subtitle>
       <Badge 
