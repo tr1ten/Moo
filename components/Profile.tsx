@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    
   },
   container2: {
     flex: 1,

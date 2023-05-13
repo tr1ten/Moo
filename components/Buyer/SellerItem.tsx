@@ -144,9 +144,9 @@ const style=StyleSheet.create({
     backgroundColor:"white",
     borderRadius:10,
     width:150,
-    margin:10,
     gap:5,
-    justifyContent:'space-between'
+    margin:15,
+    justifyContent:'center'    
     },
   bottom:{
     marginLeft:10,
