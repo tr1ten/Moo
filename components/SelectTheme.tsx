@@ -1,35 +1,43 @@
-import { useTheme } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@rneui/themed";
+import { View, TouchableOpacity } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
 import { Text } from "@rneui/themed";
 import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
+import { translate } from "../constants/DCSLocalize";
 import { StyleSheet } from "react-native";
-const THEMES = [
-  { label: "Light", value: "light" },
-  { label: "Dark", value: "dark" },
-];
+
 const SelectTheme = () => {
-  const [open, setOpen] = useState(false);
   const { theme, updateTheme } = useTheme();
   const [value, setValue] = useState(theme.mode);
+  const { t } = useTranslation();
+
   useEffect(() => {
     updateTheme({ mode: value });
   }, [value]);
-  const [items, setItems] = useState(THEMES);
-  const { t } = useTranslation();
+
+  const handleToggleTheme = () => {
+    const newTheme = value === "light" ? "dark" : "light";
+    setValue(newTheme);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.txt}> {t("common:themeSelector")} </Text>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        onChangeValue={setValue as any}
-        setValue={setValue}
-        setItems={setItems}
-      />
+    <View
+      style={theme.mode == "light" ? styles.container : styles.darkcontainer}
+    >
+      {/* <Text style={styles.txt}> {t("common:themeSelector")} </Text> */}
+      <TouchableOpacity
+        onPress={handleToggleTheme}
+        activeOpacity={0.7}
+        style={styles.toggleButton}
+      >
+        {value === "light" ? (
+          <FontAwesome5 name="moon" size={24} color="black" />
+        ) : (
+          <FontAwesome5 name="sun" size={24} color="yellow" />
+        )}
+      </TouchableOpacity>
     </View>
   );
 };
@@ -41,9 +49,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "60%",
     justifyContent: "space-between",
-    marginBottom: 40,
+  },
+  darkcontainer: {
+    flexDirection: "row",
+    width: "60%",
+    justifyContent: "space-between",
   },
   txt: {
     marginTop: 12,
+  },
+  toggleButton: {
+    backgroundColor: "transparent",
+    paddingHorizontal: 10,
+
+    marginLeft: 70,
   },
 });
