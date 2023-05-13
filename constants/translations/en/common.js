@@ -12,6 +12,13 @@ export default {
     MyCustomer:"My Customers",
     MySubscription:"My Subscriber",
     changepassword:"Change Password",
-    signout:"Sign Out"
-  };
-  
+    signout:"Sign Out",
+  Hey: "Hey",
+  languageSelector: "Select Your Language",
+  themeSelector: "Select Your Theme",
+  Dues: "Dues",
+  Area: "Area",
+  ChanngeL: "Change Language",
+  Close: "Close",
+  ReportBug: "Report a bug",
+};
