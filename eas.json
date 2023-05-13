@@ -15,7 +15,7 @@
         "buildType": "apk"
       },
       "env":{
-        "BASE_URL": "https://api.example.com",
+        "BASE_URL": "https://api.example.com"
       }
     },
     "preview2": {
