@@ -31,7 +31,6 @@ const MONTHS = [
   "July",
   "Aug",
   "Sept",
-
   "Oct",
   "Nov",
   "Dec",
@@ -95,9 +94,20 @@ function SellerHome() {
     if(!user?.id) return;
       getAllSubscriptions(user?.id).then((data:SellerSubscription[])=>{
         if(!data) return;
+        let itemRatingSum = 0;
+        let itemCount = 0;
+        // calculate the average rating
+        data.forEach((item) => {
+          itemRatingSum += item.item.ratings.reduce((acc, curr) => acc + curr.rating, 0);
+          itemCount += item.item.ratings.length;
+        });
+        let avgRating = 0;
+        if (itemCount > 0) {
+          avgRating = itemRatingSum / itemCount;
+        }
         // count the number of subscribers
         const stats = {
-          ratings: 3,
+          ratings: avgRating,
           revenue: data.reduce((acc, curr) => acc + (curr.status==SubscriptionStatus.ACTIVE ? (curr.item.price*curr.quantity) : 0), 0),
           subscribers: data.reduce((acc, curr) => acc +( curr.status==SubscriptionStatus.ACTIVE ? 1 : 0), 0),
         }

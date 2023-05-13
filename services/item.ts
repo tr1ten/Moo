@@ -1,23 +1,9 @@
 import { User } from "../providers/UserProvider";
 import { async } from "@firebase/util";
 import { API_URL } from "../constants/common";
-import { Seller } from "../components/Buyer/SellerItem";
+import { Item, Seller } from "../components/Buyer/SellerItem";
 import { fetchAPI } from "./utils";
 
-export type Item = {
-    price: number;
-    id?: string;
-    capacity: number;
-    itemTypeId : number;
-    type?: {
-        id: number;
-        name: string;
-        description: string;
-        label: string;
-        image: string;
-    },
-    catalogue?: Catalog
-}
 export type Catalog = {
     id: number;
     seller: Seller;
@@ -58,7 +44,7 @@ export async function itemInfo(itemId:string):Promise<Item>{
     return fetchAPI(API_URL+"/item?itemId="+itemId).then((res)=>res.json()).catch(()=>null);
 }
 
-export function subscribeToItem(quantity: number, itemId: number, userId: string) {
+export function subscribeToItem(quantity: number, itemId: string, userId: string) {
     return fetchAPI(API_URL+"/subscription",{
         method: "post",
         headers: {'Content-Type': 'application/json'},
@@ -107,4 +93,15 @@ export function changeSubscriptionStatus(id:string,status:SubscriptionStatus){
         console.log("error during changing subscription status",e);
         return null;
     });
+}
+
+export function changeRating(itemId:string,userId:string,rating:number){
+    return fetchAPI(API_URL+"/rating",{
+        method: "post",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({itemId,userId,rating})
+    }).then((r)=>r.json()).catch((e)=>{
+        console.log("error while updating rating ",e);
+        return null;
+    })
 }
