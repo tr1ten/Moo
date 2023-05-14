@@ -98,6 +98,7 @@ function SellerHome() {
         let itemCount = 0;
         // calculate the average rating
         data.forEach((item) => {
+          if(!item?.item?.ratings) return;
           itemRatingSum += item.item.ratings.reduce((acc, curr) => acc + curr.rating, 0);
           itemCount += item.item.ratings.length;
         });
