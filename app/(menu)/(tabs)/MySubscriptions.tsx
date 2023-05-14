@@ -43,6 +43,7 @@ function MySubscriptions() {
       if (!user?.email) return;
       setLoading(true);
     const res = await getAllSubscriptions(user?.email);
+    if(!res) return;
     setSubs(res);
     // console.log("here your subs", res,user.email);
     setLoading(false);

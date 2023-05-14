@@ -75,7 +75,7 @@ function SellerHome() {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text style={styles.textStyle}>Hide Modal</Text>
+                <Text style={styles.textStyle}>Ok</Text>
               </Pressable>
             </View>
           </View>

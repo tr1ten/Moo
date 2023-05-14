@@ -34,7 +34,7 @@ export default function CustomDrawerConternt(props: any) {
       </View>
       <DrawerItemList {...props} />
       <View style={style.box}>
-        {user?.type==SELLER ? <>
+        {user?.type.id==SELLER ? <>
         <Pressable  onPress={() => navigation.navigate("MyCatalogue")}>
             <Item
               name={t("common:MyProducts")}
