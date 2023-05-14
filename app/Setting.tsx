@@ -90,7 +90,6 @@ const Page: React.FC<PageProps> = () => {
       >
         {/* <Text style={styles.cardText}>Settings Card</Text> */}
       </ImageBackground>
-
       <View
         style={
           theme.mode == "light"
@@ -99,7 +98,7 @@ const Page: React.FC<PageProps> = () => {
         }
       >
         <OptionButton2
-          title="Change Theme"
+          title={t("common:ChangeTheme")}
           icon="paint-brush"
           onPress={handleChangeTheme}
           RightSideComponent={<SelectTheme />}
@@ -136,9 +135,9 @@ const Page: React.FC<PageProps> = () => {
           }
         >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>{t("common:ChanngeL")}</Text>
-            {/* <Text style={styles.modalText}>Modal content goes here...</Text> */}
-
+            <Text style={styles.modalTitle}>
+              {t("common:ChangeLang")}
+              </Text>
             <SelectLanguages />
             <Button title={t("common:Close")} onPress={closeModal} />
           </View>
