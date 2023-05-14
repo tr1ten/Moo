@@ -1,9 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
+type UserType = {
+    id: number,
+    label: string,
+}
 export type User = {
     id: string,
     location: string,
-    type: number
+    type: UserType,
     image?: string,
     name?: string,
     bio: string,
