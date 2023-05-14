@@ -15,7 +15,7 @@
         "buildType": "apk"
       },
       "env":{
-        "BASE_URL": "https://api.example.com"
+        "BASE_URL": "http://34.131.75.77"
       }
     },
     "preview2": {

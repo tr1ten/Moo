@@ -56,7 +56,7 @@ function SellerItem({
   const onToggle = () => setVisible(!visible);
   const [quantity, setQuantity] = useState(1);
   const stars = useMemo(()=>{
-      if(item.ratings.length==0) return 0;
+      if(item.ratings && item.ratings.length==0) return 0;
       const avgRating = item.ratings.reduce((prev,cur)=>prev+cur.rating,0)/item.ratings.length;
      return 2;
   },[])
