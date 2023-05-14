@@ -11,15 +11,18 @@ import {
   ImageBackground,
   TextInput,
 } from "react-native";
+import { useTheme } from "@rneui/themed";
+import { SplashScreen, Stack } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import {
   DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
+
 import SelectLanguages from "../components/SelectLanguages";
 import SelectTheme from "../components/SelectTheme";
-
+import { useTranslation } from "react-i18next";
 interface PageProps {
   // Add any necessary props
 }
@@ -29,11 +32,15 @@ const Page: React.FC<PageProps> = () => {
   const [isModalVisible2, setModalVisible2] = useState(false);
   const [isModalVisible3, setModalVisible3] = useState(false);
   const [value, onChangeText] = React.useState("");
-
+  const { theme, updateTheme } = useTheme();
+  const { t } = useTranslation();
   const handleChangeTheme = () => {
     // Code for changing the theme
-
-    setModalVisible(true);
+    // const { theme, updateTheme } = useTheme();
+    // const [value, setValue] = useState(theme.mode);
+    // const newTheme = value === "light" ? "dark" : "light";
+    // setValue(newTheme);
+    //setModalVisible(true);
   };
 
   const handleLanguageChange = () => {
@@ -62,75 +69,85 @@ const Page: React.FC<PageProps> = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* <LinearGradient
-        colors={["#00D2FF", "#72C6EF"]}
-        style={styles.container}
-      /> */}
-      {/* <View style={styles.card}>
-        <Text style={styles.cardText}>Settings Card</Text>
-      </View> */}
+   <>
+   <Stack.Screen options={{
+    headerStyle: {
+      backgroundColor: theme.mode == "light" ? "#fff" : "#292727",
+    },
+    headerTintColor: theme.mode == "light" ? "#292727" : "#fff",
+   }}  />
+    <View
+      style={theme.mode == "light" ? styles.container : styles.darkcontainer}
+    >
+      
       <ImageBackground
-        source={require("../assets/images/Frame1.png")}
+        source={
+          theme.mode == "light"
+            ? require("../assets/images/Frame1.png")
+            : require("../assets/images/darkFrame1.png")
+        }
         style={styles.card}
       >
         {/* <Text style={styles.cardText}>Settings Card</Text> */}
       </ImageBackground>
 
-      <View style={styles.optionsContainer}>
-        <OptionButton
+      <View
+        style={
+          theme.mode == "light"
+            ? styles.optionsContainer
+            : styles.darkoptionsContainer
+        }
+      >
+        <OptionButton2
           title="Change Theme"
           icon="paint-brush"
           onPress={handleChangeTheme}
+          RightSideComponent={<SelectTheme />}
         />
         <OptionButton
-          title="Change Language"
+          title={t("common:ChangeLang")}
           icon="language"
           onPress={handleLanguageChange}
+          // RightSideComponent={<SelectLanguages />}
         />
+
         <OptionButton
-          title="Contact Us"
+          title={t("common:ContactUs")}
           icon="envelope"
           onPress={handleContactUs}
         />
         <OptionButton
-          title="Send Feedback"
+          title={t("common:SendFeed")}
           icon="comments"
           onPress={handleSendFeedback}
         />
         <OptionButton
-          title="Report a Bug"
+          title={t("common:Report")}
           icon="bug"
           onPress={handleReportBug}
         />
       </View>
-      <Modal visible={isModalVisible} animationType="slide" transparent>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Change Theme</Text>
-            <Text style={styles.modalText}>Modal content goes here...</Text>
-
-            <SelectTheme />
-            <Button title="Close" onPress={closeModal} />
-          </View>
-        </View>
-      </Modal>
-
       <Modal visible={isModalVisible2} animationType="slide" transparent>
-        <View style={styles.modalContainer}>
+        <View
+          style={
+            theme.mode == "light"
+              ? styles.modalContainer
+              : styles.darkmodalContainer
+          }
+        >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Change Language</Text>
-            <Text style={styles.modalText}>Modal content goes here...</Text>
+            <Text style={styles.modalTitle}>{t("common:ChanngeL")}</Text>
+            {/* <Text style={styles.modalText}>Modal content goes here...</Text> */}
 
             <SelectLanguages />
-            <Button title="Close" onPress={closeModal} />
+            <Button title={t("common:Close")} onPress={closeModal} />
           </View>
         </View>
       </Modal>
       <Modal visible={isModalVisible3} animationType="slide" transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Report a bug</Text>
+            <Text style={styles.modalTitle}>{t("common:ReportBug")}</Text>
             <Text style={styles.modalText}>
               Our tech team will investigate your issue
             </Text>
@@ -149,12 +166,14 @@ const Page: React.FC<PageProps> = () => {
         </View>
       </Modal>
     </View>
+   </>
   );
 };
 
 interface OptionButtonProps {
   title: string;
   icon: string;
+  //color:string,
   onPress: () => void;
 }
 
@@ -162,15 +181,71 @@ const OptionButton: React.FC<OptionButtonProps> = ({
   title,
   icon,
   onPress,
+  //color
 }) => {
+  const { theme, updateTheme } = useTheme();
+  const iconColor = theme.mode === "light" ? "black" : "white";
+  <Stack.Screen
+    name="Setting"
+    options={{
+      headerTitle: "Setting",
+      headerStyle: {
+        backgroundColor: theme.mode == "light" ? "black" : "white",
+      },
+    }}
+  />;
+
   return (
     <TouchableOpacity
       style={styles.optionButton}
       onPress={onPress}
       activeOpacity={0.7} // Adjust the opacity as desired for the press effect
     >
-      <FontAwesome name={icon as any} size={24} color="black" />
-      <Text style={styles.optionButtonText}>{title}</Text>
+      <FontAwesome name={icon} size={24} color={iconColor} />
+      <Text
+        style={
+          theme.mode == "light"
+            ? styles.optionButtonText
+            : styles.darkoptionButtonText
+        }
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+interface OptionButton2Props {
+  title: string;
+  icon: string;
+  onPress: () => void;
+  RightSideComponent: React.ReactNode;
+}
+
+const OptionButton2: React.FC<OptionButton2Props> = ({
+  title,
+  icon,
+  onPress,
+  RightSideComponent,
+}) => {
+  const { theme, updateTheme } = useTheme();
+  const iconColor = theme.mode === "light" ? "black" : "white";
+  return (
+    <TouchableOpacity
+      style={styles.optionButton}
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
+      <FontAwesome name={icon} size={24} color={iconColor} />
+      <Text
+        style={
+          theme.mode == "light"
+            ? styles.optionButtonText
+            : styles.darkoptionButtonText
+        }
+      >
+        {title}
+      </Text>
+      {RightSideComponent}
     </TouchableOpacity>
   );
 };
@@ -182,6 +257,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#dfe0f5",
     // backgroundColor: linearGradient("")
     paddingBottom: 40,
+  },
+  darkcontainer: {
+    flex: 1,
+    padding: 0,
+
+    // backgroundColor: linearGradient("")
+    paddingBottom: 40,
+    backgroundColor: "#525250",
   },
   card: {
     backgroundColor: "blue",
@@ -212,6 +295,20 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#fff",
   },
+  darkoptionsContainer: {
+    marginTop: -70,
+    borderRadius: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    zIndex: 4,
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    // marginLeft: 30,
+    padding: 20,
+    backgroundColor: "#292727",
+  },
   optionButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -223,20 +320,42 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 16,
   },
+  darkoptionButtonText: {
+    marginLeft: 20,
+    fontSize: 16,
+    color: "white",
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
+  darkmodalContainer: {
+    // backgroundColor: "#2b2b2a",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   modalContent: {
     backgroundColor: "white",
+    padding: 20,
+    borderRadius: 8,
+    margin: 40,
+
+  },
+  darkmodalContent: {
+    backgroundColor: "#2b2b2a",
     padding: 20,
     borderRadius: 8,
     //alignItems: "center",
     margin: 40,
     alignItems: "flex-start",
     zindex: 4,
+  },
+  modal: {
+    backgroundColor: "#2b2b2a",
   },
   modalTitle: {
     fontSize: 20,

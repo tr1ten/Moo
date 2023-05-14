@@ -35,6 +35,7 @@ const SalesStat = ({stats}:Props) => {
     for (let i = 0; i < stats?.ratings; i++) {
       rs += "⭐";
     }
+    if(rs.length === 0) rs = "UnRated";
     setRatingStars(rs);
   },[stats])
   return (
@@ -71,7 +72,7 @@ const SalesStat = ({stats}:Props) => {
             // image={require('../assets/images/cow.jpg')}
           />
           <CarouselItem
-            title="Coustmer Review"
+            title="Avg. Customer Review"
             image={ratingStars}
             // image={require('../assets/images/cow.jpg')}
           />

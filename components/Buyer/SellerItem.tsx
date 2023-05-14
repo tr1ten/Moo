@@ -1,6 +1,6 @@
 import { Dialog } from "@rneui/base";
 import { Avatar, Button, Card, ListItem, Text } from "@rneui/themed";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Icon, Slider } from "@rneui/themed";
 import { auth } from "../../firebase/firebaseConfig";
@@ -11,24 +11,37 @@ import { color } from "react-native-reanimated";
 import { Pressable } from "react-native";
 import { Test } from "mocha";
 import { User } from "react-native-gifted-chat";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Rating } from "react-native-elements";
 export type Seller = {
+  rating: number;
   location: string;
   decription: string;
   userId: string;
   user: User;
 };
+type Rating = {
+  id: number;
+  rating: number;
+  buyer:{
+    userId: string,
+  }
+};
+
 export type ItemType = {
   id: number;
   label: string;
   description: string;
   image: string;
+  unit: string;
 };
 export type Item = {
-  id: number;
+  id: string;
   type: ItemType;
   capacity: number;
   price: number;
   catalogue: Catalog;
+  ratings: Rating[];
 };
 
 function SellerItem({
@@ -42,8 +55,13 @@ function SellerItem({
   const [user] = useAuthState(auth);
   const onToggle = () => setVisible(!visible);
   const [quantity, setQuantity] = useState(1);
+  const stars = useMemo(()=>{
+      if(item.ratings && item.ratings.length==0) return 0;
+      const avgRating = item.ratings.reduce((prev,cur)=>prev+cur.rating,0)/item.ratings.length;
+     return 2;
+  },[])
+  
   const onSubmit = async () => {
-    // console.log("Subscribing ",item.id, " By ",user?.email);
     if (!user?.email) {
       return;
     }
@@ -70,19 +88,31 @@ function SellerItem({
         <View style={style.bottom}>
           <View>
             <Text style={style.t1}>{item.type?.label}</Text>
-            <Text style={style.t2}>
-              Seller {item.catalogue.seller.user.name ?? "Rajesh"}
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 2,
+                alignItems: "center",
+              }}
+            >
+              <Icon name="account-circle" type="material-community" size={12} />
+              <Text style={style.t2}>
+                {item.catalogue.seller.user.name ?? "Rajesh"}
+              </Text>
+            </View>
+              <Rating imageSize={16} readonly startingValue={stars} />
+            <Text style={style.t3}>
+              ₹ {item.price} / {item.type.unit}
             </Text>
-            <Text style={style.t3}>₹ {item.price} / kg</Text>
           </View>
         </View>
-        <View style={style.get}>
-          <Pressable onPress={() => onToggle()}>
+        <TouchableOpacity onPress={() => onToggle()}>
+          <View style={style.get}>
             <View>
-              <Text style={style.t4}>Add Item</Text>
+              <Text style={style.t4}>Subscribe</Text>
             </View>
-          </Pressable>
-        </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <Dialog
         isVisible={visible}
@@ -91,7 +121,14 @@ function SellerItem({
           backgroundColor: "white",
         }}
       >
-        <Dialog.Title title={item.type.label} />
+        <Dialog.Title
+          titleStyle={{
+            textAlign: "center",
+            padding: 10,
+          }}
+          title={item.type.label}
+        />
+        <Text>Available: {item.capacity}</Text>
         <Text>Quantity : {quantity}</Text>
         <Text>Approx Cost : {quantity * item.price} Rs</Text>
 
@@ -117,8 +154,25 @@ function SellerItem({
           }}
         />
         <Dialog.Actions>
-          <Dialog.Button title={<Text>Confirm</Text>} onPress={onSubmit} />
-          <Dialog.Button title={<Text>Cancel</Text>} onPress={onToggle} />
+          <Dialog.Button
+            containerStyle={{
+              backgroundColor: "rgb(14, 164, 228)",
+            }}
+            title={<Text style={{ color: "white" }}>Request</Text>}
+            onPress={onSubmit}
+          />
+          <Dialog.Button
+            title={
+              <Text
+                style={{
+                  color: "red",
+                }}
+              >
+                Cancel
+              </Text>
+            }
+            onPress={onToggle}
+          />
         </Dialog.Actions>
       </Dialog>
     </View>
