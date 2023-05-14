@@ -36,6 +36,7 @@ function SubscriptionItem({
     
   }
   useEffect(()=>{
+    if(!sub.item || !sub.item.ratings) return;
     const rating = (sub.item.ratings.find((e)=>e.buyer.userId===user?.id));
     if(rating){
         setRat(rating.rating);
