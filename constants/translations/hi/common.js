@@ -12,5 +12,12 @@ export default {
   MyCustomer:"मेरे ग्राहक",
   changepassword:"पासवर्ड बदलें",
   MySubscription:"मेरे ग्राहक",
-  signout:"साइन आउट"
+  signout:"साइन आउट",
+  languageSelector: "अपनी भाषा का चयन करें",
+  themeSelector: "अपनी भाषा का चयन करें",
+  Dues: "बक़ाया",
+  Area: "इलाका",
+  ChanngeL: "भाषा बदलें",
+  Close: "बंद करना",
+  ReportBug: "रिपोर्ट बग"
 };

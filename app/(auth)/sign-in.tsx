@@ -60,7 +60,7 @@ export default function Signin() {
         id: mail,
         location: usr.location,
         name: usr.name,
-        type: usr?.type?.id,
+        type: usr?.type,
         image: usr.image,
         bio: usr.bio,
       })
@@ -84,7 +84,7 @@ export default function Signin() {
     setUser({
       id: mail,
       location: user.location,
-      type: user?.type?.id,
+      type: user?.type,
       name: user.name,
       image: user.image,
       bio: user.bio,

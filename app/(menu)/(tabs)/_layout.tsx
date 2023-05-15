@@ -28,7 +28,7 @@ export default function TabLayout() {
       setNewSubs(count);
     });
   }, [user] );
-  if(user?.type==BUYER){
+  if(user?.type.id==BUYER){
     return (
       <Tabs 
 

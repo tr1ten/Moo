@@ -15,6 +15,7 @@ import Placeholder from "../../../components/Placeholder";
 import { useIsFocused } from "@react-navigation/native";
 function unique(arr: any[]) {
   // using json
+  if(!arr || !(arr instanceof Array)) return [];
   return Array.from(new Set(arr.map((item) => JSON.stringify(item)))).map(
     (item) => JSON.parse(item)
   );
@@ -31,7 +32,7 @@ function MyCustomer() {
     if(!mus?.email) return;
     getAllSubscriptions(mus?.email).then((data) => {
       if(!data || !(data instanceof Array)) return;
-      if(user?.type===BUYER){
+      if(user?.type.id===BUYER){
           setUsers(unique(data.map((item:BuyerSubscription) => item.item.catalogue?.seller.user)));
       }else{
         setUsers(unique(data.map((item:any) => item.buyer?.user)));

@@ -11,7 +11,7 @@ import SellerHome from "../../../components/Seller/SellerHome";
 export default function TabTwoScreen() {
   const { user } = useUser();
   if(!user) return;
-  if (user?.type == BUYER) {
+  if (user?.type.id == BUYER) {
     return (
       <View>
         <Text style={styles.welcome}>
