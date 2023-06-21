@@ -4,10 +4,17 @@ This is the GitHub repository for the React Native project "Moo - Your Doorstep 
 
 ## What is Moo?
 
-Moo is a React Native project developed to address the challenges faced by local milkmen and consumers in the dairy industry. It aims to provide a user-friendly solution that allows consumers to easily find reliable milk suppliers and enables sellers to expand their business by connecting with customers in new locations. With features such as multilingual support, privacy protection, rating systems, and automatic bill generation, Moo simplifies communication, boosts small and large-scale dairy businesses, and enhances the overall milk purchasing experience.
+Moo is a React Native project developed to address the challenges faced by local milkmen and consumers in the dairy industry. It aims to provide a user-friendly solution that allows consumers to easily find reliable milk suppliers and enables sellers to expand their business by connecting with customers in new locations.
 
+## Features
+* **Multilingual Support:** Moo supports multiple languages including English, Hindi. Users can easily switch between languages in the app settings.
 
+* **Privacy Protection:** Moo allows users to hide their phone numbers from sellers. Instead, sellers can contact users through the in-app chat feature.
 
+* **Rating System:** Moo allows users to rate sellers based on their experience. This helps other users find reliable sellers and encourages sellers to provide the best service possible.
+
+* **Automatic Bill Generation:** Moo automatically generates bills for users based on their subscription plan and sends them to the user's email address.
+* **Dark Mode Support**
 
 ## Installation Instructions:
 
@@ -40,19 +47,11 @@ You can find the backend code for Moo at the following GitHub repository:
 
 ## Screenshots:
 
-![Screenshot 1](screenshots/Screenshot_1.png)
+![Screenshot 1](screenshots/ScreenshotDemo.png)
 *Buyer's home page*
-
-![Screenshot 2](screenshots/Screenshot_2.png)
 *Buyer's subscription tab*
-
-![Screenshot 3](screenshots/Screenshot_3.png)
 *Profile Section*
-
-![Screenshot 3](screenshots/Screenshot_4.png)
 *Regional Support & Dark mode*
-
-![Screenshot 3](screenshots/Screenshot_5.png)
 *Seller Home*
 
 
